@@ -42,13 +42,13 @@ class Listeners {
 	public function add(listener : Function) : Void {
 		if(listener == null) 
 			throw new IllegalArgumentException("listener cannot be null.");
-		listeners[listeners.length] = listener;
+		listeners.push(listener);
 	}
 
 	public function remove(listener : Function) : Void {
 		if(listener == null) 
 			throw new IllegalArgumentException("listener cannot be null.");
-		listeners.splice(listeners.indexOf(listener), 1);
+		listeners.remove(listener);
 	}
 
 
