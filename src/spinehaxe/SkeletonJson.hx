@@ -63,6 +63,7 @@ class SkeletonJson {
 	static public inline var TIMELINE_COLOR:String = "color";
 	public var attachmentLoader:AttachmentLoader;
 	public var scale:Float;
+	public static var parsedJson:Map<String, JsonNode> = new Map();
 	public function new(attachmentLoader:AttachmentLoader = null) {
 		scale = 1;
 		this.attachmentLoader = attachmentLoader;
@@ -72,19 +73,11 @@ class SkeletonJson {
         return new SkeletonJson(new AtlasAttachmentLoader(atlas));
     }
 
-	/** @param object A String or ByteArray. */
-	public function readSkeletonData(object:Dynamic, name:String = null):SkeletonData {
-		if(object == null) 
-			throw new IllegalArgumentException("object cannot be null.");
-		var json:String;
-		if(Std.is(object, String)) 
-			json = Std.string(object)
-		else if(Std.is(object, ByteArray)) 
-			json = object.readUTFBytes(object.length)
-		else throw new IllegalArgumentException("object must be a String or ByteArray.");
+	public function readSkeletonData(fileData:String, name:String = null):SkeletonData {
 		var skeletonData:SkeletonData = new SkeletonData();
 		skeletonData.name = name;
-		var root:JsonNode = JsonUtils.parse(json);
+		if (!parsedJson.exists(name)) parsedJson[name] = JsonUtils.parse(fileData);
+		var root:JsonNode = parsedJson[name];
 		
 		// Bones.
 		var boneData:BoneData;
@@ -127,7 +120,7 @@ class SkeletonJson {
 				slotData.attachmentName = slotMap.getStr("attachment");
 				slotData.additiveBlending = slotMap.getBool("additive", false);
 				skeletonData.addSlot(slotData);
-		    }
+			}
 		}
 
 		// Skins.
@@ -167,6 +160,7 @@ class SkeletonJson {
 			}
 
 		}
+
 		// Animations.
 		var animations:Dynamic = root.getNode("animations");
 		for(animationName in animations.fields())
@@ -309,15 +303,15 @@ class SkeletonJson {
 			}
 		}
 
-		var eventsMap:JsonNode = map.getNode("events");
+		var eventsMap:JsonNode = map.getNodesArray("events");
 		if(eventsMap != null)  {
 			var timeline4:EventTimeline = new EventTimeline(eventsMap.length);
 			var frameIndex4:Int = 0;
-			for(eventMapName in eventsMap.fields()) {
-				var eventMap:JsonNode = eventsMap.getNode(eventMapName);
-				var eventData:EventData = skeletonData.findEvent(eventMap.getStr("name"));
+			for(eventMap in cast(eventsMap, Array<JsonNode>)) {
+				var eventMapName = eventMap.getStr("name");
+				var eventData:EventData = skeletonData.findEvent(eventMapName);
 				if(eventData == null) 
-					throw new Exception("Event not found: " + eventMap.getStr("name"));
+					throw new Exception("Event not found: " + eventMapName);
 				var event:Event = new Event(eventData);
 				event.intValue = eventMap.getInt("int", eventData.intValue);
 				event.floatValue = eventMap.getFloat("float", eventData.floatValue);
@@ -369,13 +363,13 @@ class SkeletonJson {
 							drawOrder[i] = unchanged[--unchangedIndex];
 						i--;
 					}
-;
+
 				}
 				var time = drawOrderMap.getFloat("time");
 				timeline5.setFrame(frameIndex5++, time, drawOrder);
 			}
 
-			timelines[timelines.length] = timeline5;
+			timelines.push(timeline5);
 			duration = Math.max(duration, timeline5.frames[timeline5.frameCount - 1]);
 		}
 		skeletonData.addAnimation(new Animation(name, timelines, duration));
