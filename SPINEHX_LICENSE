@@ -1,0 +1,8 @@
+This port uses sources from two projects. Original licenses reserved.
+
+spine-libgdx  https://github.com/EsotericSoftware/spine-runtimes/tree/master/spine-libgdx
+libgdx        https://github.com/libgdx/libgdx
+
+
+"BSD"                for spine-libgdx parts
+"Apache Version 2.0" for libgdx parts

@@ -1,0 +1,11 @@
+{
+    "name": "spinehaxe",
+    "url": "https://github.com/bendmorris/spinehaxe",
+    "license": "BSD",
+    "tags": [ "spine", "animation", "cross", "neko", "flash", "js", "cpp"],
+    "description": "Spine runtime for Haxe 3.",
+    "version": "0.2.0",
+    "releasenote": "First haxelib release.",
+    "contributors": [ "bendmorris" ],
+    "dependencies": {}
+}
