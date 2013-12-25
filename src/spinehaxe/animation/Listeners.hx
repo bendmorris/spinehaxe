@@ -39,7 +39,7 @@ typedef Function = Dynamic;
 class Listeners {
 	public var listeners:Array<Function>;
 
-	public function add(listener : (Void -> Void)) : Void {
+	public function add(listener : Function) : Void {
 		if(listener == null) 
 			throw new IllegalArgumentException("listener cannot be null.");
 		listeners[listeners.length] = listener;
@@ -56,7 +56,7 @@ class Listeners {
 		listeners = new Array<Function>();
 	}
 	
-	public function invoke (i, arg:Dynamic=null) {
+	public function invoke (i:Int, arg:Dynamic=null) {
 		for (listener in listeners)
 			listener(i, arg);
 	}

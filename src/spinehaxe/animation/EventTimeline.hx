@@ -52,12 +52,14 @@ class EventTimeline implements Timeline {
 		return frames.length;
 	}
 
-	/** Sets the time and value of the specified keyframe. */	public function setFrame(frameIndex:Int, time:Float, event:Event):Void {
+	/** Sets the time and value of the specified keyframe. */	
+	public function setFrame(frameIndex:Int, time:Float, event:Event):Void {
 		frames[frameIndex] = time;
 		events[frameIndex] = event;
 	}
 
-	/** Fires events for frames > lastTime and <= time. */	public function apply(skeleton:Skeleton, lastTime:Float, time:Float, firedEvents:Array<Event>, alpha:Float):Void {
+	/** Fires events for frames > lastTime and <= time. */	
+	public function apply(skeleton:Skeleton, lastTime:Float, time:Float, firedEvents:Array<Event>, alpha:Float):Void {
 		if(firedEvents == null) 
 			return;
 		if(lastTime > time)  {
@@ -87,8 +89,8 @@ class EventTimeline implements Timeline {
 
 		}
 
-				while(frameIndex < frameCount && time >= frames[frameIndex]) {
-			firedEvents[firedEvents.length] = events[frameIndex];
+		while(frameIndex < frameCount && time >= frames[frameIndex]) {
+			firedEvents.push(events[frameIndex]);
 			frameIndex++;
 		}
 	}
