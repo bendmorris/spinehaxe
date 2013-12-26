@@ -46,6 +46,7 @@ class AnimationState {
 	public var onComplete:Listeners;
 	public var onEvent:Listeners;
 	public var timeScale:Float;
+	public var clearWhenFinished:Bool=true;
 	public function new(data:AnimationStateData) {
 		tracks = new Array<TrackEntry>();
 		events = new Array<Event>();
@@ -83,7 +84,7 @@ class AnimationState {
 
 			else  {
 				// End non-looping animation when it reaches its end time and there is no next entry.
-				if(!current.loop && current.lastTime >= current.endTime) 
+				if(clearWhenFinished && !current.loop && current.lastTime >= current.endTime) 
 					clearTrack(i);
 			}
 
