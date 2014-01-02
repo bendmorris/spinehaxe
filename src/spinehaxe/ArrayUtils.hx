@@ -23,4 +23,12 @@ class ArrayUtils {
         }
         return a;
     }
+
+    public static function indexOf<T>(arr:Array<T>, v:T):Int {
+        #if (flash || js)
+            return untyped arr.indexOf(v);
+        #else
+            return std.Lambda.indexOf(arr, v);
+        #end
+    }
 }

@@ -23,6 +23,7 @@ import spinehaxe.Exception;
 import haxe.io.Eof;
 import haxe.io.StringInput;
 import spinehaxe.atlas.Texture;
+import spinehaxe.ArrayUtils;
 import StringTools;
 using StringTools;
 import Lambda;
@@ -225,7 +226,7 @@ class TextureAtlas /*implements Disposable*/ {
 	private var regions:Array<AtlasRegion>;
 
     private function addTexture(texture:Texture):Void {
-        if(textures.indexOf(texture) == -1){
+        if(ArrayUtils.indexOf(textures, texture) == -1){
             textures.push(texture);
         }
     }

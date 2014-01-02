@@ -163,7 +163,7 @@ class SkeletonBounds {
 	}
 
 	public function getPolygon(attachment : BoundingBoxAttachment) : Polygon {
-		var index : Int = boundingBoxes.indexOf(attachment);
+		var index : Int = ArrayUtils.indexOf(boundingBoxes, attachment);
 		return index == -(1) ? null : polygons[index];
 	}
 

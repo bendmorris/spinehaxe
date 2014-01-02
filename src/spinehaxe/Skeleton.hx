@@ -66,14 +66,14 @@ class Skeleton {
 		this.data = data;
 		this.bones = new Array<Bone>();
 		for(boneData in data.bones) {
-			var parent:Bone = boneData.parent == (null) ? null : this.bones[data.bones.indexOf(boneData.parent)];
+			var parent:Bone = boneData.parent == (null) ? null : this.bones[ArrayUtils.indexOf(data.bones, boneData.parent)];
 			this.bones[this.bones.length] = new Bone(boneData, parent);
 		}
 
 		slots = new Array<Slot>();
 		drawOrder = new Array<Slot>();
 		for(slotData in data.slots) {
-			var bone:Bone = bones[data.bones.indexOf(slotData.boneData)];
+			var bone:Bone = bones[ArrayUtils.indexOf(data.bones, slotData.boneData)];
 			var slot:Slot = new Slot(slotData, this, bone);
 			slots[slots.length] = slot;
 			drawOrder[drawOrder.length] = slot;

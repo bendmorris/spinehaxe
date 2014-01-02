@@ -80,7 +80,7 @@ class Slot {
 	}
 
 	public function setToSetupPose():Void {
-		var slotIndex:Int = skeleton.data.slots.indexOf(data);
+		var slotIndex:Int = ArrayUtils.indexOf(skeleton.data.slots, data);
 		r = data.r;
 		g = data.g;
 		b = data.b;
