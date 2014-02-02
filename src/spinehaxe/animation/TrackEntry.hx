@@ -72,9 +72,12 @@ class TrackEntryPool {
 	}
 	
 	public function free(obj:TrackEntry) {
-		obj.time = 0;
+		obj.next = obj.previous = null;
+		obj.animation = null;
+		obj.onStart = obj.onEnd = obj.onComplete = obj.onEvent = null;
 		obj.lastTime = -1;
 		obj.timeScale = 1;
+		obj.time = 0;
 		objs.push(obj);
 	}
 	
