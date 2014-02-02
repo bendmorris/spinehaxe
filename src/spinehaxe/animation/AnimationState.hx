@@ -35,11 +35,13 @@ package spinehaxe.animation;
 import spinehaxe.Event;
 import spinehaxe.Skeleton;
 import spinehaxe.Exception;
+import spinehaxe.animation.TrackEntry;
 using Lambda;
 
 class AnimationState {
 	public var data:AnimationStateData;
 	public var tracks:Array<TrackEntry>;
+	var trackEntryPool:TrackEntryPool;
 	public var events:Array<Event>;
 	public var onStart:Listeners;
 	public var onEnd:Listeners;
@@ -49,6 +51,7 @@ class AnimationState {
 	public var clearWhenFinished:Bool=true;
 	public function new(data:AnimationStateData) {
 		tracks = new Array<TrackEntry>();
+		trackEntryPool = new TrackEntryPool();
 		events = new Array<Event>();
 		onStart = new Listeners();
 		onEnd = new Listeners();
@@ -119,6 +122,7 @@ class AnimationState {
 				var alpha:Float = current.mixTime / current.mixDuration;
 				if(alpha >= 1)  {
 					alpha = 1;
+					trackEntryPool.free(previous);
 					current.previous = null;
 				}
 				current.animation.mix(skeleton, current.lastTime, time, loop, events, alpha);
@@ -163,6 +167,16 @@ class AnimationState {
 			current.onEnd(trackIndex);
 		onEnd.invoke(trackIndex);
 		tracks[trackIndex] = null;
+		freeAll(current);
+		if (current.previous != null) trackEntryPool.free(current.previous);
+	}
+
+	function freeAll(entry:TrackEntry) {
+		while (entry != null) {
+			var next = entry.next;
+			trackEntryPool.free(entry);
+			entry = next;
+		}
 	}
 
 	function expandToIndex(index:Int):TrackEntry {
@@ -200,7 +214,7 @@ class AnimationState {
 
 	/** Set the current animation. Any queued animations are cleared. */
 	public function setAnimation(trackIndex:Int, animation:Animation, loop:Bool):TrackEntry {
-		var entry:TrackEntry = new TrackEntry();
+		var entry:TrackEntry = trackEntryPool.get();
 		entry.animation = animation;
 		entry.loop = loop;
 		entry.endTime = animation.duration;
@@ -218,7 +232,7 @@ class AnimationState {
 	/** Adds an animation to be played delay seconds after the current or last queued animation.
 	 * @param delay May be <= 0 to use duration of previous animation minus any mix duration plus the negative delay. */
 	public function addAnimation(trackIndex:Int, animation:Animation, loop:Bool, delay:Float):TrackEntry {
-		var entry:TrackEntry = new TrackEntry();
+		var entry:TrackEntry = trackEntryPool.get();
 		entry.animation = animation;
 		entry.loop = loop;
 		entry.endTime = animation.duration;

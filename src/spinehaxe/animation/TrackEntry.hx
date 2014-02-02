@@ -64,3 +64,24 @@ class TrackEntry {
 	}
 }
 
+class TrackEntryPool {
+	var objs:Array<TrackEntry>;
+	
+	public function new() {
+		objs = [];
+	}
+	
+	public function free(obj:TrackEntry) {
+		obj.time = 0;
+		obj.lastTime = -1;
+		obj.timeScale = 1;
+		objs.push(obj);
+	}
+	
+	public function get() {
+		if (objs.length > 0) {
+			return objs.pop();
+		}
+		return new TrackEntry();
+	}
+}
