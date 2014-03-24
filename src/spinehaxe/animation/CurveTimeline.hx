@@ -45,7 +45,7 @@ import haxe.ds.Vector;
 	var curves:Vector<Float>;
 	// dfx, dfy, ddfx, ddfy, dddfx, dddfy, ...
 	public function new(frameCount:Int) {
-		curves = new Vector<Float>(frameCount*6);
+		curves = ArrayUtils.allocFloat(frameCount*6);
 	}
 
 	public function apply(skeleton:Skeleton, lastTime:Float, time:Float, firedEvents:Array<Event>, alpha:Float):Void {

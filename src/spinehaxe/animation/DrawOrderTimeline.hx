@@ -44,7 +44,7 @@ class DrawOrderTimeline implements Timeline {
 	// time, ...
 		public var drawOrders:Vector<Vector<Int>>;
 	public function new(frameCount:Int) {
-		frames = new Vector<Float>(frameCount);
+		frames = ArrayUtils.allocFloat(frameCount);
 		drawOrders = new Vector<Vector<Int>>(frameCount);
 	}
 

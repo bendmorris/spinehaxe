@@ -92,7 +92,7 @@ class Animation {
 	/** @param target After the first and before the last entry. */
 	static public function binarySearch(values:Vector<Float>, target:Float, step:Int):Int {
 		var low:Int = 0;
-		var high:Int = cast(values.length / step - 2);
+		var high:Int = Std.int(values.length / step - 2);
 		if(high == 0) 
 			return step;
 		var current:Int = high >>> 1;

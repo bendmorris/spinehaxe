@@ -45,7 +45,7 @@ class RotateTimeline extends CurveTimeline {
 	public var frames:Vector<Float>;
 	// time, value, ...
 	public function new(frameCount:Int) {
-		frames = new Vector<Float>(frameCount*2);
+		frames = ArrayUtils.allocFloat(frameCount*2);
 		super(frameCount);
 	}
 

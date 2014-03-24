@@ -46,7 +46,7 @@ class TranslateTimeline extends CurveTimeline {
 	public var frames:Vector<Float>;
 	// time, value, value, ...
 	public function new(frameCount:Int) {
-		frames = new Vector<Float>(frameCount*3);
+		frames = ArrayUtils.allocFloat(frameCount*3);
 		super(frameCount);
 	}
 

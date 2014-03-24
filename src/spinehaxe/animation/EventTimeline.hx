@@ -44,7 +44,7 @@ class EventTimeline implements Timeline {
 	// time, ...
 		public var events:Vector<Event>;
 	public function new(frameCount:Int) {
-		frames = new Vector<Float>(frameCount);
+		frames = ArrayUtils.allocFloat(frameCount);
 		events = new Vector<Event>(frameCount);
 	}
 

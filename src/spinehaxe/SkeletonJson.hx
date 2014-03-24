@@ -222,7 +222,7 @@ class SkeletonJson {
 						}
 
 						timelines.push(timeline);
-						duration = Math.max(duration, timeline.frames[timeline.frameCount * 2 - 2]);
+						duration = Math.max(duration, timeline.frames.get(Std.int(timeline.frameCount * 2 - 2)));
 					}
 
 					else if(timelineName == TIMELINE_TRANSLATE || timelineName == TIMELINE_SCALE) {
@@ -247,7 +247,7 @@ class SkeletonJson {
 						}
 
 						timelines.push(timeline1);
-						duration = Math.max(duration, timeline1.frames[timeline1.frameCount * 3 - 3]);
+						duration = Math.max(duration, timeline1.frames.get(Std.int(timeline1.frameCount * 3 - 3)));
 					}
 
 					else throw new RuntimeException("Invalid timeline type for a bone: " + timelineName + " (" + boneName + ")");
@@ -303,7 +303,7 @@ class SkeletonJson {
 			}
 		}
 
-		var eventsMap:JsonNode = map.getNodesArray("events");
+		var eventsMap:JsonNode = map.getNode("events");
 		if(eventsMap != null)  {
 			var timeline4:EventTimeline = new EventTimeline(eventsMap.length);
 			var frameIndex4:Int = 0;

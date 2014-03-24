@@ -48,7 +48,7 @@ class ColorTimeline extends CurveTimeline {
 	public var frames:Vector<Float>;
 	// time, r, g, b, a, ...
 	public function new(frameCount:Int) {
-		frames = new Vector<Float>(frameCount*5);
+		frames = ArrayUtils.allocFloat(frameCount*5);
 		super(frameCount);
 	}
 
