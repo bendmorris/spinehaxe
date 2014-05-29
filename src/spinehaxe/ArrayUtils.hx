@@ -3,7 +3,7 @@ import haxe.ds.Vector;
 
 class ArrayUtils {
     public static function allocFloat(n:Int):Vector<Float> {
-#if neko
+#if (neko || js)
         var v:Vector<Float> = new Vector(n);
         for (i in 0 ... n) v.set(i, 0);
         return v;
