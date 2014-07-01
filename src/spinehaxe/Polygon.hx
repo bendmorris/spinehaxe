@@ -40,9 +40,9 @@ class Polygon {
 		while(ii < nn) {
 			var vertexY : Float = vertices[ii + 1];
 			var prevY : Float = vertices[prevIndex + 1];
-			if((vertexY < y && prevY >= y) || (prevY < y && vertexY >= y))  {
+			if ((vertexY < y && prevY >= y) || (prevY < y && vertexY >= y)) {
 				var vertexX : Float = vertices[ii];
-				if(vertexX + (y - vertexY) / (prevY - vertexY) * (vertices[prevIndex] - vertexX) < x) 
+				if (vertexX + (y - vertexY) / (prevY - vertexY) * (vertices[prevIndex] - vertexX) < x)
 					inside = !inside;
 			}
 			prevIndex = ii;
@@ -67,9 +67,9 @@ class Polygon {
 			var height34 : Float = y3 - y4;
 			var det3 : Float = width12 * height34 - height12 * width34;
 			var x : Float = (det1 * width34 - width12 * det2) / det3;
-			if(((x >= x3 && x <= x4) || (x >= x4 && x <= x3)) && ((x >= x1 && x <= x2) || (x >= x2 && x <= x1)))  {
+			if (((x >= x3 && x <= x4) || (x >= x4 && x <= x3)) && ((x >= x1 && x <= x2) || (x >= x2 && x <= x1))) {
 				var y : Float = (det1 * height34 - height12 * det2) / det3;
-				if(((y >= y3 && y <= y4) || (y >= y4 && y <= y3)) && ((y >= y1 && y <= y2) || (y >= y2 && y <= y1))) 
+				if (((y >= y3 && y <= y4) || (y >= y4 && y <= y3)) && ((y >= y1 && y <= y2) || (y >= y2 && y <= y1)))
 					return true;
 			}
 			x3 = x4;

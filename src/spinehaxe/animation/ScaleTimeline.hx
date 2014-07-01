@@ -41,11 +41,11 @@ class ScaleTimeline extends TranslateTimeline {
 	}
 
 	override public function apply(skeleton:Skeleton, lastTime:Float, time:Float, firedEvents:Array<Event>, alpha:Float):Void {
-		if(time < frames[0]) 
+		if (time < frames[0])
 			return;
 		// Time is before first frame.
 		var bone:Bone = skeleton.bones[boneIndex];
-		if(time >= frames[frames.length - 3])  {
+		if (time >= frames[frames.length - 3]) {
 			// Time is after last frame.
 			bone.scaleX += (bone.data.scaleX - 1 + frames[frames.length - 2] - bone.scaleX) * alpha;
 			bone.scaleY += (bone.data.scaleY - 1 + frames[frames.length - 1] - bone.scaleY) * alpha;

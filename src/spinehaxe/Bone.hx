@@ -52,7 +52,7 @@ class Bone {
 	public var scaleY:Float;
 	/** @param parent May be null. */
 	public function new(data:BoneData, parent:Bone) {
-		if(data == null) 
+		if (data == null)
 			throw new IllegalArgumentException("data cannot be null.");
 		this.data = data;
 		this.parent = parent;
@@ -61,10 +61,10 @@ class Bone {
 
 	/** Computes the world SRT using the parent bone and the local SRT. */
 	public function updateWorldTransform(flipX:Bool, flipY:Bool):Void {
-		if(parent != null)  {
+		if (parent != null) {
 			worldX = x * parent.m00 + y * parent.m01 + parent.worldX;
 			worldY = x * parent.m10 + y * parent.m11 + parent.worldY;
-			if(data.inheritScale)  {
+			if (data.inheritScale) {
 				worldScaleX = parent.worldScaleX * scaleX;
 				worldScaleY = parent.worldScaleY * scaleY;
 			}
@@ -92,11 +92,11 @@ class Bone {
 		m10 = sin * worldScaleX;
 		m01 = -sin * worldScaleY;
 		m11 = cos * worldScaleY;
-		if(flipX)  {
+		if (flipX) {
 			m00 = -m00;
 			m01 = -m01;
 		}
-		if(flipY != yDown)  {
+		if (flipY != yDown) {
 			m10 = -m10;
 			m11 = -m11;
 		}

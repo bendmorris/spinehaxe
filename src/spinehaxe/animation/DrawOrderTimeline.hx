@@ -55,11 +55,11 @@ class DrawOrderTimeline implements Timeline {
 	}
 
 	public function apply(skeleton:Skeleton, lastTime:Float, time:Float, firedEvents:Array<Event>, alpha:Float):Void {
-		if(time < frames[0]) 
+		if (time < frames[0])
 			return;
 		// Time is before first frame.
 		var frameIndex:Int;
-		if(time >= frames[frames.length - 1]) 
+		if (time >= frames[frames.length - 1])
 			// Time is after last frame.
 		frameIndex = frames.length - 1
 		else frameIndex = Animation.binarySearch(frames, time, 1) - 1;
@@ -67,13 +67,13 @@ class DrawOrderTimeline implements Timeline {
 		var slots:Array<Slot> = skeleton.slots;
 		var drawOrderToSetupIndex:Vector<Int> = drawOrders[frameIndex];
 		var i:Int = 0;
-		if(drawOrderToSetupIndex == null)  {
-			for(slot in skeleton.slots)
+		if (drawOrderToSetupIndex == null) {
+			for (slot in skeleton.slots)
 				drawOrder[i++] = slot;
 		}
 
 		else  {
-			for(setupIndex in drawOrderToSetupIndex)
+			for (setupIndex in drawOrderToSetupIndex)
 				drawOrder[i++] = skeleton.slots[setupIndex];
 		}
 

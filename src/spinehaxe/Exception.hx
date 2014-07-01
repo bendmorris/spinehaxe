@@ -1,9 +1,9 @@
 package spinehaxe;
 class Exception {
-    public var msg:String;
-    public function new(msg:String) {
-        this.msg = msg;
-    }
+	public var msg:String;
+	public function new(msg:String) {
+		this.msg = msg;
+	}
 }
 
 typedef RuntimeException = Exception;

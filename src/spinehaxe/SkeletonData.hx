@@ -45,20 +45,20 @@ class SkeletonData {
 	public var animations:Array<Animation>;
 	// --- Bones.
 	public function addBone(bone:BoneData):Void {
-		if(bone == null) 
+		if (bone == null)
 			throw new IllegalArgumentException("bone cannot be null.");
 		bones[bones.length] = bone;
 	}
 
 	/** @return May be null. */
 	public function findBone(boneName:String):BoneData {
-		if(boneName == null) 
+		if (boneName == null)
 			throw new IllegalArgumentException("boneName cannot be null.");
 		var i:Int = 0;
 		var n:Int = bones.length;
 		while(i < n) {
 			var bone:BoneData = bones[i];
-			if(bone.name == boneName) 
+			if (bone.name == boneName)
 				return bone;
 			i++;
 		}
@@ -67,12 +67,12 @@ class SkeletonData {
 
 	/** @return -1 if the bone was not found. */
 	public function findBoneIndex(boneName:String):Int {
-		if(boneName == null) 
+		if (boneName == null)
 			throw new IllegalArgumentException("boneName cannot be null.");
 		var i:Int = 0;
 		var n:Int = bones.length;
 		while(i < n) {
-			if(bones[i].name == boneName) 
+			if (bones[i].name == boneName)
 				return i;
 			i++;
 		}
@@ -81,20 +81,20 @@ class SkeletonData {
 
 	// --- Slots.
 	public function addSlot(slot:SlotData):Void {
-		if(slot == null) 
+		if (slot == null)
 			throw new IllegalArgumentException("slot cannot be null.");
 		slots[slots.length] = slot;
 	}
 
 	/** @return May be null. */
 	public function findSlot(slotName:String):SlotData {
-		if(slotName == null) 
+		if (slotName == null)
 			throw new IllegalArgumentException("slotName cannot be null.");
 		var i:Int = 0;
 		var n:Int = slots.length;
 		while(i < n) {
 			var slot:SlotData = slots[i];
-			if(slot.name == slotName) 
+			if (slot.name == slotName)
 				return slot;
 			i++;
 		}
@@ -103,12 +103,12 @@ class SkeletonData {
 
 	/** @return -1 if the bone was not found. */
 	public function findSlotIndex(slotName:String):Int {
-		if(slotName == null) 
+		if (slotName == null)
 			throw new IllegalArgumentException("slotName cannot be null.");
 		var i:Int = 0;
 		var n:Int = slots.length;
 		while(i < n) {
-			if(slots[i].name == slotName) 
+			if (slots[i].name == slotName)
 				return i;
 			i++;
 		}
@@ -117,37 +117,37 @@ class SkeletonData {
 
 	// --- Skins.
 	public function addSkin(skin:Skin):Void {
-		if(skin == null) 
+		if (skin == null)
 			throw new IllegalArgumentException("skin cannot be null.");
 		skins[skins.length] = skin;
 	}
 
 	/** @return May be null. */
 	public function findSkin(skinName:String):Skin {
-		if(skinName == null) 
+		if (skinName == null)
 			throw new IllegalArgumentException("skinName cannot be null.");
-		for(skin in skins)
-			if(skin.name == skinName) 
+		for (skin in skins)
+			if (skin.name == skinName)
 			return skin;
 		return null;
 	}
 
 	// --- Events.
 	public function addEvent(eventData:EventData):Void {
-		if(eventData == null) 
+		if (eventData == null)
 			throw new IllegalArgumentException("eventData cannot be null.");
 		events[events.length] = eventData;
 	}
 
 	/** @return May be null. */
 	public function findEvent(eventName:String):EventData {
-		if(eventName == null) 
+		if (eventName == null)
 			throw new IllegalArgumentException("eventName cannot be null.");
 		var i:Int = 0;
 		var n:Int = events.length;
 		while(i < n) {
 			var eventData:EventData = events[i];
-			if(eventData.name == eventName) 
+			if (eventData.name == eventName)
 				return eventData;
 			i++;
 		}
@@ -156,20 +156,20 @@ class SkeletonData {
 
 	// --- Animations.
 	public function addAnimation(animation:Animation):Void {
-		if(animation == null) 
+		if (animation == null)
 			throw new IllegalArgumentException("animation cannot be null.");
 		animations[animations.length] = animation;
 	}
 
 	/** @return May be null. */
 	public function findAnimation(animationName:String):Animation {
-		if(animationName == null) 
+		if (animationName == null)
 			throw new IllegalArgumentException("animationName cannot be null.");
 		var i:Int = 0;
 		var n:Int = animations.length;
 		while(i < n) {
 			var animation:Animation = animations[i];
-			if(animation.name == animationName) 
+			if (animation.name == animationName)
 				return animation;
 			i++;
 		}

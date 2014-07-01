@@ -52,19 +52,19 @@ class Skeleton {
 	public var x:Float = 0;
 	public var y:Float = 0;
 	public function new(data:SkeletonData) {
-		if(data == null) 
+		if (data == null)
 			throw new IllegalArgumentException("data cannot be null.");
 		this.data = data;
 
 		this.bones = new Array<Bone>();
-		for(boneData in data.bones) {
+		for (boneData in data.bones) {
 			var parent:Bone = boneData.parent == (null) ? null : this.bones[ArrayUtils.indexOf(data.bones, boneData.parent)];
 			this.bones[this.bones.length] = new Bone(boneData, parent);
 		}
 
 		slots = new Array<Slot>();
 		drawOrder = new Array<Slot>();
-		for(slotData in data.slots) {
+		for (slotData in data.slots) {
 			var bone:Bone = bones[ArrayUtils.indexOf(data.bones, slotData.boneData)];
 			var slot:Slot = new Slot(slotData, this, bone);
 			slots[slots.length] = slot;
@@ -74,7 +74,7 @@ class Skeleton {
 
 	/** Updates the world transform for each bone. */
 	public function updateWorldTransform():Void {
-		for(bone in bones)
+		for (bone in bones)
 			bone.updateWorldTransform(flipX, flipY);
 	}
 
@@ -85,41 +85,41 @@ class Skeleton {
 	}
 
 	public function setBonesToSetupPose():Void {
-		for(bone in bones)
+		for (bone in bones)
 			bone.setToSetupPose();
 	}
 
 	public function setSlotsToSetupPose():Void {
 		var i:Int = 0;
-		for(slot in slots) {
+		for (slot in slots) {
 			drawOrder[i++] = slot;
 			slot.setToSetupPose();
 		}
 	}
 
 	public function get_rootBone():Bone {
-		if(bones.length == 0) 
+		if (bones.length == 0)
 			return null;
 		return bones[0];
 	}
 
 	/** @return May be null. */
 	public function findBone(boneName:String):Bone {
-		if(boneName == null) 
+		if (boneName == null)
 			throw new IllegalArgumentException("boneName cannot be null.");
-		for(bone in bones)
-			if(bone.data.name == boneName) 
+		for (bone in bones)
+			if (bone.data.name == boneName)
 			return bone;
 		return null;
 	}
 
 	/** @return -1 if the bone was not found. */
 	public function findBoneIndex(boneName:String):Int {
-		if(boneName == null) 
+		if (boneName == null)
 			throw new IllegalArgumentException("boneName cannot be null.");
 		var i:Int = 0;
-		for(bone in bones) {
-			if(bone.data.name == boneName) 
+		for (bone in bones) {
+			if (bone.data.name == boneName)
 				return i;
 			i++;
 		}
@@ -129,21 +129,21 @@ class Skeleton {
 
 	/** @return May be null. */
 	public function findSlot(slotName:String):Slot {
-		if(slotName == null) 
+		if (slotName == null)
 			throw new IllegalArgumentException("slotName cannot be null.");
-		for(slot in slots)
-			if(slot.data.name == slotName) 
+		for (slot in slots)
+			if (slot.data.name == slotName)
 			return slot;
 		return null;
 	}
 
 	/** @return -1 if the bone was not found. */
 	public function findSlotIndex(slotName:String):Int {
-		if(slotName == null) 
+		if (slotName == null)
 			throw new IllegalArgumentException("slotName cannot be null.");
 		var i:Int = 0;
-		for(slot in slots) {
-			if(slot.data.name == slotName) 
+		for (slot in slots) {
+			if (slot.data.name == slotName)
 				return i;
 			i++;
 		}
@@ -153,7 +153,7 @@ class Skeleton {
 
 	public function set_skinName(skinName:String):String {
 		var skin:Skin = data.findSkin(skinName);
-		if(skin == null) 
+		if (skin == null)
 			throw new IllegalArgumentException("Skin not found: " + skinName);
 		this.skin = skin;
 		return skinName;
@@ -187,29 +187,29 @@ class Skeleton {
 
 	/** @return May be null. */
 	public function getAttachmentForSlotIndex(slotIndex:Int, attachmentName:String):Attachment {
-		if(attachmentName == null) 
+		if (attachmentName == null)
 			throw new IllegalArgumentException("attachmentName cannot be null.");
-		if(skin != null)  {
+		if (skin != null) {
 			var attachment:Attachment = skin.getAttachment(slotIndex, attachmentName);
-			if(attachment != null) 
+			if (attachment != null)
 				return attachment;
 		}
-		if(data.defaultSkin != null) 
+		if (data.defaultSkin != null)
 			return data.defaultSkin.getAttachment(slotIndex, attachmentName);
 		return null;
 	}
 
 	/** @param attachmentName May be null. */
 	public function setAttachment(slotName:String, attachmentName:String):Void {
-		if(slotName == null) 
+		if (slotName == null)
 			throw new IllegalArgumentException("slotName cannot be null.");
 		var i:Int = 0;
-		for(slot in slots) {
-			if(slot.data.name == slotName)  {
+		for (slot in slots) {
+			if (slot.data.name == slotName) {
 				var attachment:Attachment = null;
-				if(attachmentName != null)  {
+				if (attachmentName != null) {
 					attachment = getAttachmentForSlotIndex(i, attachmentName);
-					if(attachment == null) 
+					if (attachment == null)
 						throw new IllegalArgumentException("Attachment not found: " + attachmentName + ", for slot: " + slotName);
 				}
 				slot.attachment = attachment;

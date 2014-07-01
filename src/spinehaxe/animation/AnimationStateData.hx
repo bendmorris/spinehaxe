@@ -45,25 +45,25 @@ class AnimationStateData {
 
 	public function setMixByName(fromName:String, toName:String, duration:Float):Void {
 		var from:Animation = skeletonData.findAnimation(fromName);
-		if(from == null) 
+		if (from == null)
 			throw new IllegalArgumentException("Animation not found: " + fromName);
 		var to:Animation = skeletonData.findAnimation(toName);
-		if(to == null) 
+		if (to == null)
 			throw new IllegalArgumentException("Animation not found: " + toName);
 		setMix(from, to, duration);
 	}
 
 	public function setMix(from:Animation, to:Animation, duration:Float):Void {
-		if(from == null) 
+		if (from == null)
 			throw new IllegalArgumentException("from cannot be null.");
-		if(to == null) 
+		if (to == null)
 			throw new IllegalArgumentException("to cannot be null.");
 		animationToMixTime[from.name + ":" + to.name] = duration;
 	}
 
 	public function getMix(from:Animation, to:Animation):Float {
 		var key = from.name + ":" + to.name;
-		if(!animationToMixTime.exists(key)) 
+		if (!animationToMixTime.exists(key))
 			return defaultMix;
 		var time:Dynamic = animationToMixTime[key];
 		return time;

@@ -86,9 +86,9 @@ import haxe.ds.Vector;
 	public function getCurvePercent(frameIndex:Int, percent:Float):Float {
 		var curveIndex:Int = frameIndex * 6;
 		var dfx:Float = curves[curveIndex];
-		if(dfx == LINEAR) 
+		if (dfx == LINEAR)
 			return percent;
-		if(dfx == STEPPED) 
+		if (dfx == STEPPED)
 			return 0;
 		var dfy:Float = curves[curveIndex + 1];
 		var ddfx:Float = curves[curveIndex + 2];
@@ -99,12 +99,12 @@ import haxe.ds.Vector;
 		var y:Float = dfy;
 		var i:Int = BEZIER_SEGMENTS - 2;
 		while(true) {
-			if(x >= percent)  {
+			if (x >= percent) {
 				var prevX:Float = x - dfx;
 				var prevY:Float = y - dfy;
 				return prevY + (y - prevY) * (percent - prevX) / (x - prevX);
 			}
-			if(i == 0) 
+			if (i == 0)
 				break;
 			i--;
 			dfx += ddfx;

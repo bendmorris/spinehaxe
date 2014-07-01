@@ -55,11 +55,11 @@ class AttachmentTimeline implements Timeline {
 	}
 
 	public function apply(skeleton:Skeleton, lastTime:Float, time:Float, firedEvents:Array<Event>, alpha:Float):Void {
-		if(time < frames[0]) 
+		if (time < frames[0])
 			return;
 		// Time is before first frame.
 		var frameIndex:Int;
-		if(time >= frames[frames.length - 1]) 
+		if (time >= frames[frames.length - 1])
 			// Time is after last frame.
 		frameIndex = frames.length - 1
 		else frameIndex = Animation.binarySearch(frames, time, 1) - 1;

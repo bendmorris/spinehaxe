@@ -39,13 +39,13 @@ class Skin {
 	var attachments:Map<String, Attachment>;
 	public function new(name:String) {
 		attachments = new Map();
-		if(name == null) 
+		if (name == null)
 			throw new IllegalArgumentException("name cannot be null.");
 		this.name = name;
 	}
 
 	public function addAttachment(slotIndex:Int, name:String, attachment:Attachment):Void {
-		if(attachment == null) 
+		if (attachment == null)
 			throw new IllegalArgumentException("attachment cannot be null.");
 		attachments[slotIndex + ":" + name] = attachment;
 	}
@@ -59,14 +59,14 @@ class Skin {
 	}
 
 	/** Attach each attachment in this skin if the corresponding attachment in the old skin is currently attached. */	public function attachAll(skeleton:Skeleton, oldSkin:Skin):Void {
-		for(key in Reflect.fields(oldSkin.attachments)) {
+		for (key in Reflect.fields(oldSkin.attachments)) {
 			var colon:Int = key.indexOf(":");
 			var slotIndex:Int = Std.parseInt(key.substring(0, colon));
 			var name:String = key.substring(colon + 1);
 			var slot:Slot = skeleton.slots[slotIndex];
-			if(slot.attachment != null && slot.attachment.name == name)  {
+			if (slot.attachment != null && slot.attachment.name == name) {
 				var attachment:Attachment = getAttachment(slotIndex, name);
-				if(attachment != null) 
+				if (attachment != null)
 					slot.attachment = attachment;
 			}
 		}

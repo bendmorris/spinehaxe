@@ -6,10 +6,10 @@
  * modification, are permitted provided that the following conditions are met:
  *
  * 1. Redistributions of source code must retain the above copyright notice, this
- *    list of conditions and the following disclaimer.
+ *	list of conditions and the following disclaimer.
  * 2. Redistributions in binary form must reproduce the above copyright notice,
- *    this list of conditions and the following disclaimer in the documentation
- *    and/or other materials provided with the distribution.
+ *	this list of conditions and the following disclaimer in the documentation
+ *	and/or other materials provided with the distribution.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
  * ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
@@ -27,54 +27,54 @@ package spinehaxe.attachments;
 import spinehaxe.Exception;
 import spinehaxe.atlas.TextureRegion;
 class RegionSequenceAttachment extends RegionAttachment {
-    private var mode:Mode;
-    private var frameTime:Float;
-    private var regions:Array<TextureRegion>;
+	private var mode:Mode;
+	private var frameTime:Float;
+	private var regions:Array<TextureRegion>;
 
-    public function new (name:String) {
-        super(name);
-    }
+	public function new (name:String) {
+		super(name);
+	}
 
-    public override function updateVertices (slot:Slot):Void {
-        if (regions == null) throw new IllegalStateException("Regions have not been set: " + this);
+	public override function updateVertices (slot:Slot):Void {
+		if (regions == null) throw new IllegalStateException("Regions have not been set: " + this);
 
-        var frameIndex:Int = Math.floor(slot.attachmentTime / frameTime);
-        switch (mode) {
-            case forward:
-                frameIndex = MathUtils.minInt(regions.length - 1, frameIndex);
-            case forwardLoop:
-                frameIndex = frameIndex % regions.length;
-            case pingPong:
-                frameIndex = frameIndex % (regions.length * 2);
-            if (frameIndex >= regions.length) frameIndex = regions.length - 1 - (frameIndex - regions.length);
-            case random:
-                frameIndex = MathUtils.random(regions.length - 1);
-            case backward:
-                frameIndex = MathUtils.maxInt(regions.length - frameIndex - 1, 0);
-            case backwardLoop:
-                frameIndex = frameIndex % regions.length;
-                frameIndex = regions.length - frameIndex - 1;
-        }
-        setRegion(regions[frameIndex]);
+		var frameIndex:Int = Math.floor(slot.attachmentTime / frameTime);
+		switch (mode) {
+			case forward:
+				frameIndex = MathUtils.minInt(regions.length - 1, frameIndex);
+			case forwardLoop:
+				frameIndex = frameIndex % regions.length;
+			case pingPong:
+				frameIndex = frameIndex % (regions.length * 2);
+			if (frameIndex >= regions.length) frameIndex = regions.length - 1 - (frameIndex - regions.length);
+			case random:
+				frameIndex = MathUtils.random(regions.length - 1);
+			case backward:
+				frameIndex = MathUtils.maxInt(regions.length - frameIndex - 1, 0);
+			case backwardLoop:
+				frameIndex = frameIndex % regions.length;
+				frameIndex = regions.length - frameIndex - 1;
+		}
+		setRegion(regions[frameIndex]);
 
-        super.updateVertices(slot);
-    }
+		super.updateVertices(slot);
+	}
 
-    public function getRegions ():Array<TextureRegion> {
-        if (regions == null) throw new IllegalStateException("Regions have not been set: " + this);
-        return regions;
-    }
+	public function getRegions ():Array<TextureRegion> {
+		if (regions == null) throw new IllegalStateException("Regions have not been set: " + this);
+		return regions;
+	}
 
-    public function setRegions (regions:Array<TextureRegion>) {
-        this.regions = regions;
-    }
+	public function setRegions (regions:Array<TextureRegion>) {
+		this.regions = regions;
+	}
 
-    /** Sets the time in seconds each frame is shown. */
-    public function setFrameTime (frameTime:Float) {
-        this.frameTime = frameTime;
-    }
+	/** Sets the time in seconds each frame is shown. */
+	public function setFrameTime (frameTime:Float) {
+		this.frameTime = frameTime;
+	}
 
-    public function setMode (mode:Mode) {
-        this.mode = mode;
-    }
+	public function setMode (mode:Mode) {
+		this.mode = mode;
+	}
 }

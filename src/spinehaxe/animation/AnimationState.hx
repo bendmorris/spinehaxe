@@ -55,7 +55,7 @@ class AnimationState {
 		onComplete = new Listeners();
 		onEvent = new Listeners();
 		timeScale = 1;
-		if(data == null) 
+		if (data == null)
 			throw new IllegalArgumentException("data cannot be null.");
 		this.data = data;
 	}
@@ -65,25 +65,25 @@ class AnimationState {
 		var i:Int = 0;
 		while(i < tracks.length) {
 			var current:TrackEntry = tracks[i];
-			if(current == null) {
+			if (current == null) {
 				i++;
 				continue;
 			}
 
 			current.time += delta * current.timeScale;
-			if(current.previous != null)  {
+			if (current.previous != null) {
 				var previousDelta:Float = delta * current.previous.timeScale;
 				current.previous.time += previousDelta;
 				current.mixTime += previousDelta;
 			}
 
 			var next:TrackEntry = current.next;
-			if(next != null) {
+			if (next != null) {
 				next.time = current.lastTime - next.delay;
 				if (next.time >= 0) setCurrent(i, next);
 			} else {
 				// End non-looping animation when it reaches its end time and there is no next entry.
-				if(clearWhenFinished && !current.loop && current.lastTime >= current.endTime) 
+				if (clearWhenFinished && !current.loop && current.lastTime >= current.endTime)
 					clearTrack(i);
 			}
 
@@ -95,7 +95,7 @@ class AnimationState {
 		var i:Int = 0;
 		while(i < tracks.length) {
 			var current:TrackEntry = tracks[i];
-			if(current == null) {
+			if (current == null) {
 				i++;
 				continue;
 			}
@@ -105,7 +105,7 @@ class AnimationState {
 			var lastTime:Float = current.lastTime;
 			var endTime:Float = current.endTime;
 			var loop:Bool = current.loop;
-			if(!loop && time > endTime) 
+			if (!loop && time > endTime)
 				time = endTime;
 			var previous:TrackEntry = current.previous;
 			if (previous == null) {
@@ -115,12 +115,12 @@ class AnimationState {
 					current.animation.mix(skeleton, current.lastTime, time, loop, events, current.mix);
 			} else {
 				var previousTime:Float = previous.time;
-				if(!previous.loop && previousTime > previous.endTime) 
+				if (!previous.loop && previousTime > previous.endTime)
 					previousTime = previous.endTime;
 				previous.animation.apply(skeleton, previousTime, previousTime, previous.loop, null);
 
 				var alpha:Float = current.mixTime / current.mixDuration * current.mix;
-				if(alpha >= 1)  {
+				if (alpha >= 1) {
 					alpha = 1;
 					trackEntryPool.free(previous);
 					current.previous = null;
@@ -128,16 +128,16 @@ class AnimationState {
 				current.animation.mix(skeleton, current.lastTime, time, loop, events, alpha);
 			}
 
-			for(event in events) {
-				if(current.onEvent != null) 
+			for (event in events) {
+				if (current.onEvent != null)
 					current.onEvent(i, event);
 				onEvent.invoke(i, event);
 			}
 
 			// Check if completed the animation or a loop iteration.
-			if((loop) ? (lastTime % endTime > time % endTime):(lastTime < endTime && time >= endTime))  {
+			if ((loop) ? (lastTime % endTime > time % endTime):(lastTime < endTime && time >= endTime)) {
 				var count:Int = cast(time / endTime);
-				if(current.onComplete != null) 
+				if (current.onComplete != null)
 					current.onComplete(i, count);
 				onComplete.invoke(i, count);
 			}
@@ -158,12 +158,12 @@ class AnimationState {
 	}
 
 	public function clearTrack(trackIndex:Int):Void {
-		if(trackIndex >= tracks.length) 
+		if (trackIndex >= tracks.length)
 			return;
 		var current:TrackEntry = tracks[trackIndex];
-		if(current == null) 
+		if (current == null)
 			return;
-		if(current.onEnd != null) 
+		if (current.onEnd != null)
 			current.onEnd(trackIndex);
 		onEnd.invoke(trackIndex);
 		tracks[trackIndex] = null;
@@ -180,7 +180,7 @@ class AnimationState {
 	}
 
 	function expandToIndex(index:Int):TrackEntry {
-		if(index < tracks.length) 
+		if (index < tracks.length)
 			return tracks[index];
 		while(index >= tracks.length)tracks[tracks.length] = null;
 		return null;
@@ -188,15 +188,15 @@ class AnimationState {
 
 	function setCurrent(index:Int, entry:TrackEntry):Void {
 		var current:TrackEntry = expandToIndex(index);
-		if(current != null)  {
+		if (current != null) {
 			var previous:TrackEntry = current.previous;
 			current.previous = null;
 
-			if(current.onEnd != null) current.onEnd(index);
+			if (current.onEnd != null) current.onEnd(index);
 			onEnd.invoke(index);
 
 			entry.mixDuration = data.getMix(current.animation, entry.animation);
-			if(entry.mixDuration > 0)  {
+			if (entry.mixDuration > 0) {
 				entry.mixTime = 0;
 				if (previous != null && current.mixTime / current.mixDuration < 0.5) {
 					entry.previous = previous;
@@ -206,14 +206,14 @@ class AnimationState {
 			}
 		}
 		tracks[index] = entry;
-		if(entry.onStart != null) 
+		if (entry.onStart != null)
 			entry.onStart(index);
 		onStart.invoke(index);
 	}
 
 	public function setAnimationByName(trackIndex:Int, animationName:String, loop:Bool):TrackEntry {
 		var animation:Animation = data.skeletonData.findAnimation(animationName);
-		if(animation == null) 
+		if (animation == null)
 			throw new IllegalArgumentException("Animation not found: " + animationName);
 		return setAnimation(trackIndex, animation, loop);
 	}
@@ -230,7 +230,7 @@ class AnimationState {
 
 	public function addAnimationByName(trackIndex:Int, animationName:String, loop:Bool, delay:Float):TrackEntry {
 		var animation:Animation = data.skeletonData.findAnimation(animationName);
-		if(animation == null) 
+		if (animation == null)
 			throw new IllegalArgumentException("Animation not found: " + animationName);
 		return addAnimation(trackIndex, animation, loop, delay);
 	}
@@ -243,14 +243,14 @@ class AnimationState {
 		entry.loop = loop;
 		entry.endTime = animation.duration;
 		var last:TrackEntry = expandToIndex(trackIndex);
-		if(last != null)  {
+		if (last != null) {
 			while(last.next != null)last = last.next;
 			last.next = entry;
 		}
 
 		else tracks[trackIndex] = entry;
-		if(delay <= 0)  {
-			if(last != null) 
+		if (delay <= 0) {
+			if (last != null)
 				delay += last.endTime - data.getMix(last.animation, animation)
 			else delay = 0;
 		}
@@ -260,22 +260,22 @@ class AnimationState {
 
 	/** May be null. */
 	public function getCurrent(trackIndex:Int):TrackEntry {
-		if(trackIndex >= tracks.length) 
+		if (trackIndex >= tracks.length)
 			return null;
 		return tracks[trackIndex];
 	}
 
 	public function toString():String {
 		var buffer:String = "";
-		for(entry in tracks) {
-			if(entry == null) 
+		for (entry in tracks) {
+			if (entry == null)
 				continue;
-			if(buffer.length > 0) 
+			if (buffer.length > 0)
 				buffer += ", ";
 			buffer += entry.toString();
 		}
 
-		if(buffer.length == 0) 
+		if (buffer.length == 0)
 			return "<none>";
 		return buffer;
 	}

@@ -38,7 +38,7 @@ class Event {
 	public var floatValue:Float;
 	public var stringValue:String;
 	public function new(data:EventData) {
-		if(data == null) 
+		if (data == null)
 			throw new IllegalArgumentException("data cannot be null.");
 		this.data = data;
 	}

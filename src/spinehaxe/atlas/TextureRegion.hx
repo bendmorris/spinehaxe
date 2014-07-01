@@ -25,15 +25,15 @@ package spinehaxe.atlas;
  * @author Nathan Sweet */
 import spinehaxe.Exception;
 class TextureRegion {
-    public var texture:Texture;
+	public var texture:Texture;
 	public var u:Float;
-    public var v:Float;
-    public var u2:Float;
-    public var v2:Float;
-    public var regionWidth:Int;
-    public var regionHeight:Int;
-    public var regionX(get, set):Int;
-    public var regionY(get, set):Int;
+	public var v:Float;
+	public var u2:Float;
+	public var v2:Float;
+	public var regionWidth:Int;
+	public var regionHeight:Int;
+	public var regionX(get, set):Int;
+	public var regionY(get, set):Int;
 
 	/** Constructs a region with no texture and no coordinates defined. */
 	public function new () {
@@ -42,57 +42,57 @@ class TextureRegion {
 	/** Constructs a region the size of the specified texture. */
 	public static function fromTexture (texture:Texture):TextureRegion {
 		if (texture == null) throw new IllegalArgumentException("texture cannot be null.");
-        var t = new TextureRegion();
+		var t = new TextureRegion();
 		t.texture = texture;
 		t.setRegionXYWH(0, 0, texture.width, texture.height);
-        return t;
+		return t;
 	}
 
 	/** @param width The width of the texture region. May be negative to flip the sprite when drawn.
 	 * @param height The height of the texture region. May be negative to flip the sprite when drawn. */
 	public static function fromTextureWH (texture:Texture, width:Int, height:Int):TextureRegion {
-        var t = new TextureRegion();
+		var t = new TextureRegion();
 		t.texture = texture;
 		t.setRegionXYWH(0, 0, width, height);
-        return t;
+		return t;
 	}
 
 	/** @param width The width of the texture region. May be negative to flip the sprite when drawn.
 	 * @param height The height of the texture region. May be negative to flip the sprite when drawn. */
 	public static function fromTextureXYWH ( texture:Texture, x:Int, y:Int, width:Int, height:Int):TextureRegion {
-        var t = new TextureRegion();
+		var t = new TextureRegion();
 		t.texture = texture;
 		t.setRegionXYWH(x, y, width, height);
-        return t;
+		return t;
 	}
 
 	public static function fromTextureUVUV (texture:Texture, u:Float, v:Float, u2:Float, v2:Float):TextureRegion {
-        var t = new TextureRegion();
-        t.texture = texture;
+		var t = new TextureRegion();
+		t.texture = texture;
 		t.setRegionUV(u, v, u2, v2);
-        return t;
+		return t;
 	}
 
 	/** Constructs a region with the same texture and coordinates of the specified region. */
 	public  static function copy (region:TextureRegion):TextureRegion {
-        var t = new TextureRegion();
-        t.setRegionCopy(region);
-        return t;
+		var t = new TextureRegion();
+		t.setRegionCopy(region);
+		return t;
 	}
 
 	/** Constructs a region with the same texture as the specified region and sets the coordinates relative to the specified region.
 	 * @param width The width of the texture region. May be negative to flip the sprite when drawn.
 	 * @param height The height of the texture region. May be negative to flip the sprite when drawn. */
-    public static function createRelXYWH (region:TextureRegion, x:Int, y:Int, width:Int, height:Int):TextureRegion {
-        var t = new TextureRegion();
-        t.setRegionRelXYWH(region, x, y, width, height);
-        return t;
+	public static function createRelXYWH (region:TextureRegion, x:Int, y:Int, width:Int, height:Int):TextureRegion {
+		var t = new TextureRegion();
+		t.setRegionRelXYWH(region, x, y, width, height);
+		return t;
 	}
 
 	/** Sets the texture and sets the coordinates to the size of the specified texture. */
 	public function setRegionTex (texture:Texture) {
 		this.texture = texture;
-        setRegionXYWH(0, 0, texture.width, texture.height);
+		setRegionXYWH(0, 0, texture.width, texture.height);
 	}
 
 	/** @param width The width of the texture region. May be negative to flip the sprite when drawn.
@@ -255,14 +255,14 @@ class TextureRegion {
 		var startX:Int = x;
 		var tiles = new Array<Array<TextureRegion>>();
 		for (rowIdx in 0...rows) {
-            var row = new Array<TextureRegion>();
-            tiles[rowIdx] = row;
+			var row = new Array<TextureRegion>();
+			tiles[rowIdx] = row;
 			x = startX;
 			for (colIdx in 0...cols) {
-                row[colIdx] = TextureRegion.fromTextureXYWH(texture, x, y, tileWidth, tileHeight);
-                x += tileWidth;
+				row[colIdx] = TextureRegion.fromTextureXYWH(texture, x, y, tileWidth, tileHeight);
+				x += tileWidth;
 			}
-            y += tileHeight;
+			y += tileHeight;
 		}
 
 		return tiles;

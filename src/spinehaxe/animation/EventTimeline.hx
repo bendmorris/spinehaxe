@@ -57,29 +57,29 @@ class EventTimeline implements Timeline {
 
 	/** Fires events for frames > lastTime and <= time. */	
 	public function apply(skeleton:Skeleton, lastTime:Float, time:Float, firedEvents:Array<Event>, alpha:Float):Void {
-		if(firedEvents == null) 
+		if (firedEvents == null)
 			return;
-		if(lastTime > time)  {
+		if (lastTime > time) {
 			// Fire events after last time for looped animations.
 			apply(skeleton, lastTime, 32767, firedEvents, alpha);
 			lastTime = -1;
 		}
 
-		else if(lastTime >= frames[frameCount - 1]) 
+		else if (lastTime >= frames[frameCount - 1])
 			// Last time is after last frame.
 		return;
-		if(time < frames[0]) 
+		if (time < frames[0])
 			return;
 		// Time is before first frame.
 		var frameIndex:Int;
-		if(lastTime < frames[0]) 
+		if (lastTime < frames[0])
 			frameIndex = 0
 		else  {
 			frameIndex = Animation.binarySearch(frames, lastTime, 1);
 			var frame:Float = frames[frameIndex];
 			while(frameIndex > 0) {
 				// Fire multiple events with the same frame.
-				if(frames[frameIndex - 1] != frame) 
+				if (frames[frameIndex - 1] != frame)
 					break;
 				frameIndex--;
 			}

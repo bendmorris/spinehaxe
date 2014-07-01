@@ -48,11 +48,11 @@ class Slot {
 	public var attachmentVertices:Array<Float> = new Array();
 
 	public function new(data:SlotData, skeleton:Skeleton, bone:Bone) {
-		if(data == null) 
+		if (data == null)
 			throw new IllegalArgumentException("data cannot be null.");
-		if(skeleton == null) 
+		if (skeleton == null)
 			throw new IllegalArgumentException("skeleton cannot be null.");
-		if(bone == null) 
+		if (bone == null)
 			throw new IllegalArgumentException("bone cannot be null.");
 		this.data = data;
 		this.skeleton = skeleton;

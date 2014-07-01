@@ -54,12 +54,12 @@ class RotateTimeline extends CurveTimeline {
 	}
 
 	override public function apply(skeleton:Skeleton, lastTime:Float, time:Float, firedEvents:Array<Event>, alpha:Float):Void {
-		if(time < frames[0]) 
+		if (time < frames[0])
 			return;
 		// Time is before first frame.
 		var bone:Bone = skeleton.bones[boneIndex];
 		var amount:Float;
-		if(time >= frames[frames.length - 2])  {
+		if (time >= frames[frames.length - 2]) {
 			// Time is after last frame.
 			amount = bone.data.rotation + frames[frames.length - 1] - bone.rotation;
 			while(amount > 180)amount -= 360;

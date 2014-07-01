@@ -6,10 +6,10 @@
  * modification, are permitted provided that the following conditions are met:
  *
  * 1. Redistributions of source code must retain the above copyright notice, this
- *    list of conditions and the following disclaimer.
+ *	list of conditions and the following disclaimer.
  * 2. Redistributions in binary form must reproduce the above copyright notice,
- *    this list of conditions and the following disclaimer in the documentation
- *    and/or other materials provided with the distribution.
+ *	this list of conditions and the following disclaimer in the documentation
+ *	and/or other materials provided with the distribution.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
  * ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
@@ -29,31 +29,31 @@ import spinehaxe.attachments.RegionSequenceAttachment;
 import spinehaxe.attachments.RegionAttachment;
 import spinehaxe.Exception;
 class AtlasAttachmentLoader implements AttachmentLoader {
-    private var atlas:TextureAtlas;
+	private var atlas:TextureAtlas;
 
-    public function new(atlas:TextureAtlas) {
-        if (atlas == null) throw new IllegalArgumentException("atlas cannot be null.");
-        this.atlas = atlas;
-    }
+	public function new(atlas:TextureAtlas) {
+		if (atlas == null) throw new IllegalArgumentException("atlas cannot be null.");
+		this.atlas = atlas;
+	}
 
-    public function newAttachment(skin:Skin, type:AttachmentType, name:String):Attachment {
-        var attachment:Attachment = null;
-        switch (type) {
-            case region:
-                attachment = new RegionAttachment(name);
-            case regionSequence:
-                attachment = new RegionSequenceAttachment(name);
-//            default:
-//                throw new IllegalArgumentException("Unknown attachment type: " + type);
-        }
+	public function newAttachment(skin:Skin, type:AttachmentType, name:String):Attachment {
+		var attachment:Attachment = null;
+		switch (type) {
+			case region:
+				attachment = new RegionAttachment(name);
+			case regionSequence:
+				attachment = new RegionSequenceAttachment(name);
+//			default:
+//				throw new IllegalArgumentException("Unknown attachment type: " + type);
+		}
 
-        if (Std.is(attachment, RegionAttachment)) {
-            var region:AtlasRegion = atlas.findRegion(attachment.name);
-            if (region == null)
-                throw new RuntimeException("Region not found in atlas: " + attachment + " (" + type + " attachment: " + name + ")");
-            cast(attachment, RegionAttachment).setRegion(region);
-        }
+		if (Std.is(attachment, RegionAttachment)) {
+			var region:AtlasRegion = atlas.findRegion(attachment.name);
+			if (region == null)
+				throw new RuntimeException("Region not found in atlas: " + attachment + " (" + type + " attachment: " + name + ")");
+			cast(attachment, RegionAttachment).setRegion(region);
+		}
 
-        return attachment;
-    }
+		return attachment;
+	}
 }

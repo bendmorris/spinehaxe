@@ -59,7 +59,7 @@ class ColorTimeline extends CurveTimeline {
 	}
 
 	override public function apply(skeleton:Skeleton, lastTime:Float, time:Float, firedEvents:Array<Event>, alpha:Float):Void {
-		if(time < frames[0]) 
+		if (time < frames[0])
 			return; // Time is before first frame.
 
 		var r:Float, g:Float, b:Float, a:Float;

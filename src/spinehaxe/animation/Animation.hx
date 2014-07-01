@@ -40,9 +40,9 @@ class Animation {
 
 	public var duration:Float;
 	public function new(name:String, timelines:Array<Timeline>, duration:Float) {
-		if(name == null) 
+		if (name == null)
 			throw new IllegalArgumentException("name cannot be null.");
-		if(timelines == null) 
+		if (timelines == null)
 			throw new IllegalArgumentException("timelines cannot be null.");
 		this.name = name;
 		this.timelines = timelines;
@@ -51,9 +51,9 @@ class Animation {
 
 	/** Poses the skeleton at the specified time for this animation. */
 	public function apply(skeleton:Skeleton, lastTime:Float, time:Float, loop:Bool, events:Array<Event>):Void {
-		if(skeleton == null) 
+		if (skeleton == null)
 			throw new IllegalArgumentException("skeleton cannot be null.");
-		if(loop && duration != 0)  {
+		if (loop && duration != 0) {
 			time %= duration;
 			lastTime %= duration;
 		}
@@ -68,9 +68,9 @@ class Animation {
 	/** Poses the skeleton at the specified time for this animation mixed with the current pose.
 	 * @param alpha The amount of this animation that affects the current pose. */
 	public function mix(skeleton:Skeleton, lastTime:Float, time:Float, loop:Bool, events:Array<Event>, alpha:Float):Void {
-		if(skeleton == null) 
+		if (skeleton == null)
 			throw new IllegalArgumentException("skeleton cannot be null.");
-		if(loop && duration != 0)  {
+		if (loop && duration != 0) {
 			time %= duration;
 			lastTime %= duration;
 		}
@@ -90,14 +90,14 @@ class Animation {
 	static public function binarySearch(values:Vector<Float>, target:Float, step:Int):Int {
 		var low:Int = 0;
 		var high:Int = Std.int(values.length / step - 2);
-		if(high == 0) 
+		if (high == 0)
 			return step;
 		var current:Int = high >>> 1;
 		while(true) {
-			if(values[(current + 1) * step] <= target) 
+			if (values[(current + 1) * step] <= target)
 				low = current + 1
 			else high = current;
-			if(low == high) 
+			if (low == high)
 				return (low + 1) * step;
 			current = (low + high) >>> 1;
 		}
@@ -109,7 +109,7 @@ class Animation {
 		var i:Int = 0;
 		var last:Int = values.length - step;
 		while(i <= last) {
-			if(values[i] > target) 
+			if (values[i] > target)
 				return i;
 			i += step;
 		}

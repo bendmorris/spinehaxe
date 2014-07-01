@@ -18,9 +18,9 @@
 
 package spinehaxe.atlas;
 interface Texture {
-    public var width(get, never):Int;
-    public var height(get, never):Int;
-    public function dispose():Void;
-    public function setWrap(uWrap:String, vWrap:String):Void;
-    public function setFilter(minFilter:String, magFilter:String):Void ;
+	public var width(get, never):Int;
+	public var height(get, never):Int;
+	public function dispose():Void;
+	public function setWrap(uWrap:String, vWrap:String):Void;
+	public function setFilter(minFilter:String, magFilter:String):Void ;
 }

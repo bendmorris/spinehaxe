@@ -49,14 +49,14 @@ class SkeletonBounds {
 		var x : Float = skeleton.x;
 		var y : Float = skeleton.y;
 		boundingBoxes.length = 0;
-		for(polygon in polygons/* AS3HX WARNING could not determine type for var: polygon exp: EIdent(polygons) type: Vector<Polygon>*/)
+		for (polygon in polygons/* AS3HX WARNING could not determine type for var: polygon exp: EIdent(polygons) type: Vector<Polygon>*/)
 			polygonPool[polygonPool.length] = polygon;
 		polygons.length = 0;
 		var i : Int = 0;
 		while(i < slotCount) {
 			var slot : Slot = slots[i];
 			var boundingBox : BoundingBoxAttachment = try cast(slot.attachment, BoundingBoxAttachment) catch(e:Dynamic) null;
-			if(boundingBox == null) 
+			if (boundingBox == null)
 				 {
 				i++;
 				continue;
@@ -64,7 +64,7 @@ class SkeletonBounds {
 ;
 			boundingBoxes[boundingBoxes.length] = boundingBox;
 			var poolCount : Int = polygonPool.length;
-			if(poolCount > 0)  {
+			if (poolCount > 0) {
 				polygon = polygonPool[poolCount - 1];
 				polygonPool.splice(poolCount - 1, 1);
 			}
@@ -75,7 +75,7 @@ class SkeletonBounds {
 			boundingBox.computeWorldVertices(x, y, slot.bone, polygon.vertices);
 			i++;
 		}
-		if(updateAabb) 
+		if (updateAabb)
 			aabbCompute();
 	}
 
@@ -113,20 +113,20 @@ class SkeletonBounds {
 	}
 
 	/** Returns true if the axis aligned bounding box intersects the line segment. */	public function aabbIntersectsSegment(x1 : Float, y1 : Float, x2 : Float, y2 : Float) : Bool {
-		if((x1 <= minX && x2 <= minX) || (y1 <= minY && y2 <= minY) || (x1 >= maxX && x2 >= maxX) || (y1 >= maxY && y2 >= maxY)) 
+		if ((x1 <= minX && x2 <= minX) || (y1 <= minY && y2 <= minY) || (x1 >= maxX && x2 >= maxX) || (y1 >= maxY && y2 >= maxY))
 			return false;
 		var m : Float = (y2 - y1) / (x2 - x1);
 		var y : Float = m * (minX - x1) + y1;
-		if(y > minY && y < maxY) 
+		if (y > minY && y < maxY)
 			return true;
 		y = m * (maxX - x1) + y1;
-		if(y > minY && y < maxY) 
+		if (y > minY && y < maxY)
 			return true;
 		var x : Float = (minY - y1) / m + x1;
-		if(x > minX && x < maxX) 
+		if (x > minX && x < maxX)
 			return true;
 		x = (maxY - y1) / m + x1;
-		if(x > minX && x < maxX) 
+		if (x > minX && x < maxX)
 			return true;
 		return false;
 	}
@@ -140,7 +140,7 @@ class SkeletonBounds {
 		var i : Int = 0;
 		var n : Int = polygons.length;
 		while(i < n) {
-			if(polygons[i].containsPoint(x, y)) 
+			if (polygons[i].containsPoint(x, y))
 				return boundingBoxes[i];
 			i++;
 		}
@@ -152,7 +152,7 @@ class SkeletonBounds {
 		var i : Int = 0;
 		var n : Int = polygons.length;
 		while(i < n) {
-			if(polygons[i].intersectsSegment(x1, y1, x2, y2)) 
+			if (polygons[i].intersectsSegment(x1, y1, x2, y2))
 				return boundingBoxes[i];
 			i++;
 		}

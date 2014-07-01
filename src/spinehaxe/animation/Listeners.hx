@@ -37,13 +37,13 @@ class Listeners {
 	public var listeners:Array<Function>;
 
 	public function add(listener : Function) : Void {
-		if(listener == null) 
+		if (listener == null)
 			throw new IllegalArgumentException("listener cannot be null.");
 		listeners.push(listener);
 	}
 
 	public function remove(listener : Function) : Void {
-		if(listener == null) 
+		if (listener == null)
 			throw new IllegalArgumentException("listener cannot be null.");
 		listeners.remove(listener);
 	}

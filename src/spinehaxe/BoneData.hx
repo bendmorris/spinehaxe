@@ -49,7 +49,7 @@ class BoneData {
 		scaleY = 1;
 		inheritScale = true;
 		inheritRotation = true;
-		if(name == null) 
+		if (name == null)
 			throw new IllegalArgumentException("name cannot be null.");
 		this.name = name;
 		this.parent = parent;
