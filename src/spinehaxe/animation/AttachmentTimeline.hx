@@ -40,9 +40,9 @@ class AttachmentTimeline implements Timeline {
 	public var frameCount(get, never):Int;
 
 	public var slotIndex:Int;
-	public var frames:Vector<Float>;
-	// time, ...
-		public var attachmentNames:Vector<String>;
+	public var frames:Vector<Float>; // time, ...
+	public var attachmentNames:Vector<String>;
+
 	public function new(frameCount:Int) {
 		frames = ArrayUtils.allocFloat(frameCount);
 		attachmentNames = new Vector<String>(frameCount);

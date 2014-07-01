@@ -6,10 +6,10 @@
  * modification, are permitted provided that the following conditions are met:
  *
  * 1. Redistributions of source code must retain the above copyright notice, this
- *    list of conditions and the following disclaimer.
+ *	list of conditions and the following disclaimer.
  * 2. Redistributions in binary form must reproduce the above copyright notice,
- *    this list of conditions and the following disclaimer in the documentation
- *    and/or other materials provided with the distribution.
+ *	this list of conditions and the following disclaimer in the documentation
+ *	and/or other materials provided with the distribution.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
  * ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
@@ -24,6 +24,7 @@
  ******************************************************************************/
 
 package spinehaxe.attachments;
+
 import spinehaxe.atlas.TextureRegion;
 import spinehaxe.Exception;
 import spinehaxe.atlas.TextureAtlas;
@@ -31,42 +32,47 @@ import spinehaxe.ArrayUtils;
 import haxe.ds.Vector;
 
 class RegionAttachment extends Attachment {
-    public static inline var X1 = 0;
-    public static inline var Y1 = 1;
-    public static inline var C1 = 2;
-    public static inline var U1 = 3;
-    public static inline var V1 = 4;
-    public static inline var X2 = 5;
-    public static inline var Y2 = 6;
-    public static inline var C2 = 7;
-    public static inline var U2 = 8;
-    public static inline var V2 = 9;
-    public static inline var X3 = 10;
-    public static inline var Y3 = 11;
-    public static inline var C3 = 12;
-    public static inline var U3 = 13;
-    public static inline var V3 = 14;
-    public static inline var X4 = 15;
-    public static inline var Y4 = 16;
-    public static inline var C4 = 17;
-    public static inline var U4 = 18;
-    public static inline var V4 = 19;
+	public static inline var X1 = 0;
+	public static inline var Y1 = 1;
+	public static inline var C1 = 2;
+	public static inline var U1 = 3;
+	public static inline var V1 = 4;
+	public static inline var X2 = 5;
+	public static inline var Y2 = 6;
+	public static inline var C2 = 7;
+	public static inline var U2 = 8;
+	public static inline var V2 = 9;
+	public static inline var X3 = 10;
+	public static inline var Y3 = 11;
+	public static inline var C3 = 12;
+	public static inline var U3 = 13;
+	public static inline var V3 = 14;
+	public static inline var X4 = 15;
+	public static inline var Y4 = 16;
+	public static inline var C4 = 17;
+	public static inline var U4 = 18;
+	public static inline var V4 = 19;
 
-    public var region:TextureRegion;
-    public var x:Float = 0;
-    public var y:Float = 0;
-    public var scaleX:Float = 1;
-    public var scaleY:Float = 1;
-    public var rotation:Float = 0;
-    public var width:Float = 0;
-    public var height:Float = 0;
-    public var vertices:Vector<Float>;
-    public var offset:Vector<Float>;
+	public var region:TextureRegion;
+	public var x:Float = 0;
+	public var y:Float = 0;
+	public var scaleX:Float = 1;
+	public var scaleY:Float = 1;
+	public var rotation:Float = 0;
+	public var width:Float = 0;
+	public var height:Float = 0;
+	public var r:Float = 1;
+	public var g:Float = 1;
+	public var b:Float = 1;
+	public var a:Float = 1;
+	public var path:String;
+	public var vertices:Vector<Float>;
+	public var offset:Vector<Float>;
 
 	public function new (name:String) {
 		super(name);
-        vertices = ArrayUtils.allocFloat(20);
-        offset = ArrayUtils.allocFloat(8);
+		vertices = ArrayUtils.allocFloat(20);
+		offset = ArrayUtils.allocFloat(8);
 	}
 
 	public function updateOffset ():Void {
@@ -82,12 +88,12 @@ class RegionAttachment extends Attachment {
 				localX2 -= (region.originalWidth - region.offsetX - region.packedHeight) / region.originalWidth * height;
 				localY2 -= (region.originalHeight - region.offsetY - region.packedWidth) / region.originalHeight * width;
 			} else {
-                localX += region.offsetX / region.originalWidth * width;
+				localX += region.offsetX / region.originalWidth * width;
 				localY += region.offsetY / region.originalHeight * height;
 				localX2 -= (region.originalWidth - region.offsetX - region.packedWidth) / region.originalWidth * width;
 				localY2 -= (region.originalHeight - region.offsetY - region.packedHeight) / region.originalHeight * height;
-            }
-        }
+			}
+		}
 		localX *= scaleX;
 		localY *= scaleY;
 		localX2 *= scaleX;
@@ -172,8 +178,8 @@ class RegionAttachment extends Attachment {
 }
 
 class NumberUtils {
-    public static function intToFloatColor(value:Int):Float {
-        return value;//TODO
-    }
+	public static function intToFloatColor(value:Int):Float {
+		return value;//TODO
+	}
 }
 

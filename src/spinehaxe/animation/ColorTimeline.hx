@@ -45,11 +45,11 @@ class ColorTimeline extends CurveTimeline {
 	static inline var FRAME_B:Int = 3;
 	static inline var FRAME_A:Int = 4;
 	public var slotIndex:Int;
-	public var frames:Vector<Float>;
-	// time, r, g, b, a, ...
+	public var frames:Vector<Float>; // time, r, g, b, a, ...
+
 	public function new(frameCount:Int) {
-		frames = ArrayUtils.allocFloat(frameCount*5);
 		super(frameCount);
+		frames = ArrayUtils.allocFloat(frameCount*5);
 	}
 
 	/** Sets the time and value of the specified keyframe. */	public function setFrame(frameIndex:Int, time:Float, r:Float, g:Float, b:Float, a:Float):Void {
@@ -63,39 +63,37 @@ class ColorTimeline extends CurveTimeline {
 
 	override public function apply(skeleton:Skeleton, lastTime:Float, time:Float, firedEvents:Array<Event>, alpha:Float):Void {
 		if(time < frames[0]) 
-			return;
-		// Time is before first frame.
-		var slot:Slot = skeleton.slots[slotIndex];
-		if(time >= frames[frames.length - 5])  {
+			return; // Time is before first frame.
+
+		var r:Float, g:Float, b:Float, a:Float;
+		if (time >= frames[frames.length - 5]) {
 			// Time is after last frame.
 			var i:Int = frames.length - 1;
-			slot.r = frames[i - 3];
-			slot.g = frames[i - 2];
-			slot.b = frames[i - 1];
-			slot.a = frames[i];
-			return;
+			r = frames[i - 3];
+			g = frames[i - 2];
+			b = frames[i - 1];
+			a = frames[i];
+		} else {
+			// Interpolate between the previous frame and the current frame.
+			var frameIndex:Int = Animation.binarySearch(frames, time, 5);
+			var prevFrameR:Float = frames[frameIndex - 4];
+			var prevFrameG:Float = frames[frameIndex - 3];
+			var prevFrameB:Float = frames[frameIndex - 2];
+			var prevFrameA:Float = frames[frameIndex - 1];
+			var frameTime:Float = frames[frameIndex];
+			var percent:Float = 1 - (time - frameTime) / (frames[frameIndex + PREV_FRAME_TIME] - frameTime);
+			r = prevFrameR + (frames[frameIndex + FRAME_R] - prevFrameR) * percent;
+			g = prevFrameG + (frames[frameIndex + FRAME_G] - prevFrameG) * percent;
+			b = prevFrameB + (frames[frameIndex + FRAME_B] - prevFrameB) * percent;
+			a = prevFrameA + (frames[frameIndex + FRAME_A] - prevFrameA) * percent;
 		}
-		// Interpolate between the previous frame and the current frame.
-		var frameIndex:Int = Animation.binarySearch(frames, time, 5);
-		var prevFrameR:Float = frames[frameIndex - 4];
-		var prevFrameG:Float = frames[frameIndex - 3];
-		var prevFrameB:Float = frames[frameIndex - 2];
-		var prevFrameA:Float = frames[frameIndex - 1];
-		var frameTime:Float = frames[frameIndex];
-		var percent:Float = 1 - (time - frameTime) / (frames[frameIndex + PREV_FRAME_TIME] - frameTime);
-		percent = getCurvePercent(Math.floor(frameIndex / 5 - 1), percent < (0) ? 0:(percent > (1) ? 1:percent));
-		var r:Float = prevFrameR + (frames[frameIndex + FRAME_R] - prevFrameR) * percent;
-		var g:Float = prevFrameG + (frames[frameIndex + FRAME_G] - prevFrameG) * percent;
-		var b:Float = prevFrameB + (frames[frameIndex + FRAME_B] - prevFrameB) * percent;
-		var a:Float = prevFrameA + (frames[frameIndex + FRAME_A] - prevFrameA) * percent;
-		if(alpha < 1)  {
+		var slot:Slot = skeleton.slots[slotIndex];
+		if (alpha < 1) {
 			slot.r += (r - slot.r) * alpha;
 			slot.g += (g - slot.g) * alpha;
 			slot.b += (b - slot.b) * alpha;
 			slot.a += (a - slot.a) * alpha;
-		}
-
-		else  {
+		} else {
 			slot.r = r;
 			slot.g = g;
 			slot.b = b;

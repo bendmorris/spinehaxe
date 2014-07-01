@@ -45,25 +45,20 @@ class Skeleton {
 	public var skin:Skin;
 	public var skinName(never, set):String;
 
-	public var r:Int;
-	public var g:Int;
-	public var b:Int;
-	public var a:Int;
-	public var time:Float;
+	public var r:Float = 1;
+	public var g:Float = 1;
+	public var b:Float = 1;
+	public var a:Float = 1;
+	public var time:Float = 0;
 	public var flipX:Bool;
 	public var flipY:Bool;
-	public var x:Float;
-	public var y:Float;
+	public var x:Float = 0;
+	public var y:Float = 0;
 	public function new(data:SkeletonData) {
-		r = 1;
-		g = 1;
-		b = 1;
-		a = 1;
-		x = 0;
-		y = 0;
 		if(data == null) 
 			throw new IllegalArgumentException("data cannot be null.");
 		this.data = data;
+
 		this.bones = new Array<Bone>();
 		for(boneData in data.bones) {
 			var parent:Bone = boneData.parent == (null) ? null : this.bones[ArrayUtils.indexOf(data.bones, boneData.parent)];
@@ -98,8 +93,11 @@ class Skeleton {
 	}
 
 	public function setSlotsToSetupPose():Void {
-		for(slot in slots)
+		var i:Int = 0;
+		for(slot in slots) {
+			drawOrder[i++] = slot;
 			slot.setToSetupPose();
+		}
 	}
 
 	public function get_rootBone():Bone {
@@ -168,10 +166,21 @@ class Skeleton {
 	 * from the new skin are attached if the corresponding attachment from the old skin was attached.
 	 * @param newSkin May be null. */
 	public function setSkin(newSkin:Skin):Skin {
-		if(skin != null && newSkin != null) 
-			newSkin.attachAll(this, skin);
-		skin = newSkin;
-		return newSkin;
+		if (newSkin != null) {
+			if (skin != null)
+				newSkin.attachAll(this, skin);
+			else {
+				var i:Int = 0;
+				for (slot in slots) {
+					var name:String = slot.data.attachmentName;
+					if (name != null && name != "") {
+						var attachment:Attachment = newSkin.getAttachment(i, name);
+						if (attachment != null) slot.attachment = attachment;
+					}
+				}
+			}
+		}
+		return skin = newSkin;
 	}
 
 	/** @return May be null. */

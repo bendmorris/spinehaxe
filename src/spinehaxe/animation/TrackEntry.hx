@@ -43,12 +43,13 @@ class TrackEntry {
 	public var animation:Animation;
 	public var loop:Bool;
 	public var delay:Float;
-	public var time:Float;
-	public var lastTime:Float;
+	public var time:Float = 0;
+	public var lastTime:Float = -1;
 	public var endTime:Float;
-	public var timeScale:Float;
+	public var timeScale:Float = 1;
 	public var mixTime:Float;
 	public var mixDuration:Float;
+	public var mix:Float = 1;
 	public var onStart:Function;
 	public var onEnd:Function;
 	public var onComplete:Function;
@@ -58,9 +59,6 @@ class TrackEntry {
 	}
 
 	public function new() {
-		time = 0;
-		lastTime = -1;
-		timeScale = 1;
 	}
 }
 

@@ -42,8 +42,8 @@ import haxe.ds.Vector;
 	static inline var LINEAR:Float = 0;
 	static inline var STEPPED:Float = -1;
 	static inline var BEZIER_SEGMENTS:Int = 10;
-	var curves:Vector<Float>;
-	// dfx, dfy, ddfx, ddfy, dddfx, dddfy, ...
+	var curves:Vector<Float>; // dfx, dfy, ddfx, ddfy, dddfx, dddfy, ...
+
 	public function new(frameCount:Int) {
 		curves = ArrayUtils.allocFloat(frameCount*6);
 	}

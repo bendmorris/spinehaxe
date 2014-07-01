@@ -43,8 +43,8 @@ class TranslateTimeline extends CurveTimeline {
 	static inline var FRAME_X:Int = 1;
 	static inline var FRAME_Y:Int = 2;
 	public var boneIndex:Int;
-	public var frames:Vector<Float>;
-	// time, value, value, ...
+	public var frames:Vector<Float>; // time, value, value, ...
+
 	public function new(frameCount:Int) {
 		frames = ArrayUtils.allocFloat(frameCount*3);
 		super(frameCount);

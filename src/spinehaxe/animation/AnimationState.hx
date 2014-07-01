@@ -73,19 +73,18 @@ class AnimationState {
 				continue;
 			}
 
-			var trackDelta:Float = delta * current.timeScale;
-			current.time += trackDelta;
+			current.time += delta * current.timeScale;
 			if(current.previous != null)  {
-				current.previous.time += trackDelta;
-				current.mixTime += trackDelta;
-			}
-			var next:TrackEntry = current.next;
-			if(next != null)  {
-				if(current.lastTime >= next.delay) 
-					setCurrent(i, next);
+				var previousDelta:Float = delta * current.previous.timeScale;
+				current.previous.time += previousDelta;
+				current.mixTime += previousDelta;
 			}
 
-			else  {
+			var next:TrackEntry = current.next;
+			if(next != null) {
+				next.time = current.lastTime - next.delay;
+				if (next.time >= 0) setCurrent(i, next);
+			} else {
 				// End non-looping animation when it reaches its end time and there is no next entry.
 				if(clearWhenFinished && !current.loop && current.lastTime >= current.endTime) 
 					clearTrack(i);
@@ -112,14 +111,18 @@ class AnimationState {
 			if(!loop && time > endTime) 
 				time = endTime;
 			var previous:TrackEntry = current.previous;
-			if(previous == null) 
-				current.animation.apply(skeleton, current.lastTime, time, loop, events)
-			else  {
+			if (previous == null) {
+				if (current.mix == 1)
+					current.animation.apply(skeleton, current.lastTime, time, loop, events);
+				else
+					current.animation.mix(skeleton, current.lastTime, time, loop, events, current.mix);
+			} else {
 				var previousTime:Float = previous.time;
 				if(!previous.loop && previousTime > previous.endTime) 
 					previousTime = previous.endTime;
 				previous.animation.apply(skeleton, previousTime, previousTime, previous.loop, null);
-				var alpha:Float = current.mixTime / current.mixDuration;
+
+				var alpha:Float = current.mixTime / current.mixDuration * current.mix;
 				if(alpha >= 1)  {
 					alpha = 1;
 					trackEntryPool.free(previous);
@@ -189,14 +192,20 @@ class AnimationState {
 	function setCurrent(index:Int, entry:TrackEntry):Void {
 		var current:TrackEntry = expandToIndex(index);
 		if(current != null)  {
+			var previous:TrackEntry = current.previous;
 			current.previous = null;
-			if(current.onEnd != null) 
-				current.onEnd(index);
+
+			if(current.onEnd != null) current.onEnd(index);
 			onEnd.invoke(index);
+
 			entry.mixDuration = data.getMix(current.animation, entry.animation);
 			if(entry.mixDuration > 0)  {
 				entry.mixTime = 0;
-				entry.previous = current;
+				if (previous != null && current.mixTime / current.mixDuration < 0.5) {
+					entry.previous = previous;
+					previous = current;
+				} else
+					entry.previous = current;
 			}
 		}
 		tracks[index] = entry;

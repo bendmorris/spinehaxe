@@ -40,9 +40,9 @@ import haxe.ds.Vector;
 class DrawOrderTimeline implements Timeline {
 	public var frameCount(get, never):Int;
 
-	public var frames:Vector<Float>;
-	// time, ...
-		public var drawOrders:Vector<Vector<Int>>;
+	public var frames:Vector<Float>; // time, ...
+	public var drawOrders:Vector<Vector<Int>>;
+
 	public function new(frameCount:Int) {
 		frames = ArrayUtils.allocFloat(frameCount);
 		drawOrders = new Vector<Vector<Int>>(frameCount);

@@ -48,6 +48,8 @@ class Slot {
 	public var b:Float;
 	public var a:Float;
 	var _attachmentTime:Float;
+	public var attachmentVertices:Array<Float> = new Array();
+
 	public function new(data:SlotData, skeleton:Skeleton, bone:Bone) {
 		if(data == null) 
 			throw new IllegalArgumentException("data cannot be null.");
@@ -66,6 +68,7 @@ class Slot {
 	public function set_attachment(attachment:Attachment):Attachment {
 		this.attachment = attachment;
 		_attachmentTime = skeleton.time;
+		attachmentVertices.splice(0, attachmentVertices.length);
 		return attachment;
 	}
 

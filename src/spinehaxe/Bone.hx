@@ -81,8 +81,8 @@ class Bone {
 		}
 
 		else  {
-			worldX = (flipX) ? -x : x;
-			worldY = ((flipY && Bone.yDown != flipY)) ? -y : y;
+			worldX = flipX ? -x : x;
+			worldY = flipY != yDown ? -y : y;
 			worldScaleX = scaleX;
 			worldScaleY = scaleY;
 			worldRotation = rotation;

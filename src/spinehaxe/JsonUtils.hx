@@ -31,17 +31,20 @@ class JsonUtils {
         if (value == null) return defaultValue;
         return cast(value, Int);
     }
+
     public static function getFloat(node:JsonNode, field:String, defaultValue:Float=0):Float {
         var value:Dynamic = getDynamic(node, field);
         if (value == null) return defaultValue;
         if (Std.is(value, Int)) return cast(value, Int);
         return cast(value, Float);
     }
+
     public static function getStr(node:JsonNode, field:String, defaultValue:String=null):String {
         var value:Dynamic = Reflect.getProperty(node, field);
         if (value == null) return defaultValue;
         return cast(value, String);
     }
+
     public static function getBool(node:JsonNode, field:String, defaultValue:Bool = false):Bool {
         var value = Reflect.getProperty(node, field);
         if(value == null){
@@ -49,4 +52,8 @@ class JsonUtils {
         }
         return cast value;
     }
+
+	public static function hasOwnProperty(node:JsonNode, field:String) {
+		return Reflect.hasField(node, field);
+	}
 }
