@@ -100,7 +100,6 @@ class AnimationState {
 				continue;
 			}
 
-			events = new Array();
 			var time:Float = current.time;
 			var lastTime:Float = current.lastTime;
 			var endTime:Float = current.endTime;
@@ -128,7 +127,8 @@ class AnimationState {
 				current.animation.mix(skeleton, current.lastTime, time, loop, events, alpha);
 			}
 
-			for (event in events) {
+			while (events.length > 0) {
+				var event = events.pop();
 				if (current.onEvent != null)
 					current.onEvent(i, event);
 				onEvent.invoke(i, event);
