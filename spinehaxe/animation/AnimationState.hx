@@ -44,7 +44,7 @@ class AnimationState {
 	public var onEnd:Listeners;
 	public var onComplete:Listeners;
 	public var onEvent:Listeners;
-	public var timeScale:Float;
+	public var timeScale:Float = 0;
 	public var clearWhenFinished:Bool=true;
 	public function new(data:AnimationStateData) {
 		tracks = new Array<TrackEntry>();

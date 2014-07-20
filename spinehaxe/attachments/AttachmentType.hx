@@ -25,13 +25,14 @@
 
 package spinehaxe.attachments;
 enum AttachmentType {
-	region; regionSequence;
+	region; regionSequence; boundingbox;
 }
 class AttachmentTypes{
 	public static function valueOf(t:String, def:AttachmentType = null):AttachmentType{
 		switch(t) {
 			case "region":return region;
 			case "regionSequence":return regionSequence;
+			case "boundingbox":return boundingbox;
 			default:return def;
 		}
 	}

@@ -27,35 +27,25 @@
  * OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  *****************************************************************************/
-package spinehaxe.animation;
-import spinehaxe.Exception;
-using Lambda;
 
-typedef Function = Dynamic;
+package spinehaxe.platform.openfl;
 
-class Listeners {
-	public var listeners:Array<Function>;
+import spinehaxe.SkeletonData;
+import spinehaxe.animation.AnimationState;
+import spinehaxe.animation.AnimationStateData;
 
-	public function add(listener : Function) : Void {
-		if (listener == null)
-			throw new IllegalArgumentException("listener cannot be null.");
-		listeners.push(listener);
+class SkeletonAnimation extends SkeletonSprite {
+	public var state:AnimationState;
+
+	public function new (skeletonData:SkeletonData, stateData:AnimationStateData = null) {
+		super(skeletonData);
+		state = new AnimationState(stateData != null ? stateData : new AnimationStateData(skeletonData));
 	}
 
-	public function remove(listener : Function) : Void {
-		if (listener == null)
-			throw new IllegalArgumentException("listener cannot be null.");
-		listeners.remove(listener);
-	}
-
-
-	public function new() {
-		listeners = new Array<Function>();
-	}
-	
-	public function invoke (i:Int, ?arg:Dynamic=null) {
-		for (listener in listeners)
-			listener(i, arg);
+	override public function advanceTime (time:Float) : Void {
+		state.update(time * timeScale);
+		state.apply(skeleton);
+		skeleton.updateWorldTransform();
+		super.advanceTime(time);
 	}
 }
-

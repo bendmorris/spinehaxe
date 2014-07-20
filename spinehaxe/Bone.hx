@@ -34,22 +34,22 @@ import spinehaxe.Exception;
 class Bone {
 	public var data:BoneData;
 	public var parent:Bone;
-	public var m00:Float;
-	public var m01:Float;
-	public var m10:Float;
-	public var m11:Float;
-	public var worldX:Float;
-	public var worldY:Float;
-	public var worldRotation:Float;
-	public var worldScaleX:Float;
-	public var worldScaleY:Float;
+	public var m00:Float = 0;
+	public var m01:Float = 0;
+	public var m10:Float = 0;
+	public var m11:Float = 0;
+	public var worldX:Float = 0;
+	public var worldY:Float = 0;
+	public var worldRotation:Float = 0;
+	public var worldScaleX:Float = 0;
+	public var worldScaleY:Float = 0;
 
-	static public var yDown:Bool;
-	public var x:Float;
-	public var y:Float;
-	public var rotation:Float;
-	public var scaleX:Float;
-	public var scaleY:Float;
+	static public var yDown:Bool = false;
+	public var x:Float = 0;
+	public var y:Float = 0;
+	public var rotation:Float = 0;
+	public var scaleX:Float = 0;
+	public var scaleY:Float = 0;
 	/** @param parent May be null. */
 	public function new(data:BoneData, parent:Bone) {
 		if (data == null)

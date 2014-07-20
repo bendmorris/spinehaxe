@@ -43,8 +43,8 @@ class AtlasAttachmentLoader implements AttachmentLoader {
 				attachment = new RegionAttachment(name);
 			case regionSequence:
 				attachment = new RegionSequenceAttachment(name);
-//			default:
-//				throw new IllegalArgumentException("Unknown attachment type: " + type);
+			default:
+				throw new IllegalArgumentException("Unknown attachment type: " + type);
 		}
 
 		if (Std.is(attachment, RegionAttachment)) {

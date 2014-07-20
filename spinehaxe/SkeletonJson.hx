@@ -280,7 +280,7 @@ class SkeletonJson {
 						}
 
 						timelines.push(timeline2);
-						duration = Math.max(duration, timeline2.frames[timeline2.frameCount * 5 - 5]);
+						duration = Math.max(duration, timeline2.frames[Std.int(timeline2.frameCount * 5 - 5)]);
 					}
 
 					else if (timelineName2 == TIMELINE_ATTACHMENT) {

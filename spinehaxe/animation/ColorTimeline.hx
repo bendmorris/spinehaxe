@@ -49,7 +49,8 @@ class ColorTimeline extends CurveTimeline {
 		frames = ArrayUtils.allocFloat(frameCount*5);
 	}
 
-	/** Sets the time and value of the specified keyframe. */	public function setFrame(frameIndex:Int, time:Float, r:Float, g:Float, b:Float, a:Float):Void {
+	/** Sets the time and value of the specified keyframe. */
+	public function setFrame(frameIndex:Int, time:Float, r:Float, g:Float, b:Float, a:Float):Void {
 		frameIndex *= 5;
 		frames[frameIndex] = time;
 		frames[frameIndex + 1] = r;

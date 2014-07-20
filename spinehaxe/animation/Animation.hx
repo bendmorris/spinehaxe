@@ -38,7 +38,7 @@ class Animation {
 	public var timelines:Array<Timeline>;
 	public var name:String;
 
-	public var duration:Float;
+	public var duration:Float = 0;
 	public function new(name:String, timelines:Array<Timeline>, duration:Float) {
 		if (name == null)
 			throw new IllegalArgumentException("name cannot be null.");

@@ -77,9 +77,9 @@ class SkeletonRenderer extends Sprite {
 			if (Std.is(attachment, RegionAttachment)) {
 				var regionAttachment:RegionAttachment = cast(attachment, RegionAttachment);
 				regionAttachment.updateVertices(slot);
-				var vertices = regionAttachment.getVertices();
-				var region:TextureRegion = regionAttachment.getRegion();
-				var texture:BitmapDataTexture = cast(region.getTexture(), BitmapDataTexture);
+				var vertices = regionAttachment.vertices;
+				var region:TextureRegion = regionAttachment.region;
+				var texture:BitmapDataTexture = cast(region.texture, BitmapDataTexture);
 				if (bd == null) {
 					bd = texture.bd;
 				} else if (bd!=texture.bd) {
