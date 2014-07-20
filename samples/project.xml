@@ -1,18 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <project>
-	<meta title="sample" package="com.example.app" version="1.0.0" company="" />
 
- 	<app file="Main" main="Main" path="bin" />
+    <meta title="spinehx - AnimationStateTest" package="org.bitbucket.nitrobin.spinehx.AnimationStateTest" version="1.0.0" company="spinehx" />
+    <app main="AnimationStateTest" path="bin" file="spinehx-AnimationStateTest" />
+    <window width="320" height="480" fps="200" unless="mobile"/>
+    <window fps="60" if="mobile"/>
+    <source path="src" />
 
-	<window fps="60" background="0x808080" />
-	<window width="640" height="480" resizable="true" />
-	<window fullscreen="true" if="mobile" />
-	<window orientation="landscape" vsync="true" if="cpp" />
-
-	<source path="src" />
-
-	<haxelib name="openfl" />
-	<haxelib name="spinehaxe" />
+    <haxelib name="openfl" />
+    <haxelib name="spinehaxe" />
 
     <assets path="assets" rename="assets" />
+
 </project>

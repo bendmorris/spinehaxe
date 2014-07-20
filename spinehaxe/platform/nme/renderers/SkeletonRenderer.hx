@@ -42,7 +42,7 @@ import haxe.ds.ObjectMap;
 class SkeletonRenderer extends Sprite {
 	var skeleton:Skeleton;
 
-	#if (flash || cpp || neko)
+	#if (flash || cpp)
 	var vs:Vector<Float>;
 	var idx:Vector<Int>;
 	var uvt:Vector<Float>;
@@ -116,21 +116,20 @@ class SkeletonRenderer extends Sprite {
 
 	#else
 
-	public var sprites:ObjectMap<RegionAttachment, Sprite> ;
+	public var sprites:Map<RegionAttachment, Sprite> ;
 
 	public function new (skeleton:Skeleton) {
 		super();
 		this.skeleton = skeleton;
-		sprites = new ObjectMap<RegionAttachment, Sprite>();
+		sprites = new Map<RegionAttachment, Sprite>();
 	}
 
 	public function clearBuffers () {
 		for (s in sprites)s.visible = false;
 	}
 
-	// TODO fix flipx
 	public function draw () {
-		graphics.clear();
+		removeChildren();
 		var drawOrder:Array<Slot> = skeleton.drawOrder;
 		var flipX:Int = (skeleton.flipX) ? -1 : 1;
 		var flipY:Int = (skeleton.flipY) ? 1 : -1;
@@ -156,6 +155,7 @@ class SkeletonRenderer extends Sprite {
 				wrapper.scaleX = (bone.worldScaleX + regionAttachment.scaleX - 1) * flipX;
 				wrapper.scaleY = (bone.worldScaleY + regionAttachment.scaleY - 1) * flipY;
 
+				addChild(wrapper);
 				wrapper.visible = true;
 			}
 		}
@@ -165,36 +165,30 @@ class SkeletonRenderer extends Sprite {
 		var wrapper:Sprite = sprites.get(regionAttachment);
 		if (wrapper == null) {
 			var region:AtlasRegion = cast regionAttachment.region;
-			var texture:BitmapDataTexture = cast(region.texture, BitmapDataTexture);
 
-			var bitmapData:BitmapData = texture.bd;
-			var regionData:BitmapData;
-			if (region.rotate) {
-				regionData = new BitmapData(region.regionHeight, region.regionWidth);
-				regionData.copyPixels(bitmapData, //
-				new Rectangle(region.regionX, region.regionY, region.regionHeight, region.regionWidth), //
-				new Point());
-			} else {
-				regionData = new BitmapData(region.regionWidth, region.regionHeight);
-				regionData.copyPixels(bitmapData, //
-				new Rectangle(region.regionX, region.regionY, region.regionWidth, region.regionHeight), //
-				new Point());
-			}
+			var bitmapData:BitmapData = cast (region.texture, BitmapDataTexture).bd;
+			var regionWidth:Float = region.rotate ? region.regionHeight : region.regionWidth;
+			var regionHeight:Float = region.rotate ? region.regionWidth : region.regionHeight;
+			var regionData:BitmapData = new BitmapData(Std.int(region.regionWidth), Std.int(region.regionHeight));
+			regionData.copyPixels(bitmapData, new Rectangle(region.regionX, region.regionY, region.regionWidth, region.regionHeight), new Point());
 
 			var bitmap:Bitmap = new Bitmap(regionData);
 			bitmap.smoothing = true;
-			bitmap.x = -regionAttachment.width / 2; // Registration point.
-			bitmap.y = -regionAttachment.height / 2;
+
+			var radians:Float = -regionAttachment.rotation * Math.PI / 180;
+			var cos:Float = Math.cos(radians);
+			var sin:Float = Math.sin(radians);
+			bitmap.x = -regionAttachment.width / 2 * regionAttachment.scaleX;
+			bitmap.y = -regionAttachment.height / 2 * regionAttachment.scaleY;
 			if (region.rotate) {
-				bitmap.rotation = 90;
-				bitmap.x += region.regionWidth;
+				bitmap.rotation += 90;
+				bitmap.x += region.regionWidth * (regionAttachment.width / region.regionWidth);
 			}
 
 			wrapper = new Sprite();
 			wrapper.addChild(bitmap);
 
 			sprites.set(regionAttachment, wrapper);
-			addChild(wrapper);
 		}
 		return wrapper;
 	}
