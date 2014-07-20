@@ -135,19 +135,19 @@ class SkeletonRenderer extends Sprite {
 		var flipX:Int = (skeleton.flipX) ? -1 : 1;
 		var flipY:Int = (skeleton.flipY) ? 1 : -1;
 		var flip:Int = flipX * flipY;
-		var skeletonX:Float = skeleton.getX();
-		var skeletonY:Float = skeleton.getY();
+		var skeletonX:Float = skeleton.x;
+		var skeletonY:Float = skeleton.y;
 		for (slot in drawOrder) {
 			var attachment:Attachment = slot.attachment;
 			if (Std.is(attachment, RegionAttachment)) {
 				var regionAttachment:RegionAttachment = cast(attachment, RegionAttachment);
 				regionAttachment.updateVertices(slot);
-				var vertices = regionAttachment.getVertices();
+				var vertices = regionAttachment.vertices;
 
 				var wrapper:Sprite = get(regionAttachment);
 
-				var region:AtlasRegion = cast regionAttachment.getRegion();
-				var bone:Bone = slot.getBone();
+				var region:AtlasRegion = cast regionAttachment.region;
+				var bone:Bone = slot.bone;
 				var x:Float = regionAttachment.x - region.offsetX;
 				var y:Float = regionAttachment.y - region.offsetY;
 				wrapper.x = skeletonX + bone.worldX + x * bone.m00 + y * bone.m01;
@@ -164,20 +164,20 @@ class SkeletonRenderer extends Sprite {
 	public function get (regionAttachment:RegionAttachment):Sprite {
 		var wrapper:Sprite = sprites.get(regionAttachment);
 		if (wrapper == null) {
-			var region:AtlasRegion = cast regionAttachment.getRegion();
-			var texture:BitmapDataTexture = cast(region.getTexture(), BitmapDataTexture);
+			var region:AtlasRegion = cast regionAttachment.region;
+			var texture:BitmapDataTexture = cast(region.texture, BitmapDataTexture);
 
 			var bitmapData:BitmapData = texture.bd;
 			var regionData:BitmapData;
 			if (region.rotate) {
-				regionData = new BitmapData(region.getRegionHeight(), region.getRegionWidth());
+				regionData = new BitmapData(region.regionHeight, region.regionWidth);
 				regionData.copyPixels(bitmapData, //
-				new Rectangle(region.getRegionX(), region.getRegionY(), region.getRegionHeight(), region.getRegionWidth()), //
+				new Rectangle(region.regionX, region.regionY, region.regionHeight, region.regionWidth), //
 				new Point());
 			} else {
-				regionData = new BitmapData(region.getRegionWidth(), region.getRegionHeight());
+				regionData = new BitmapData(region.regionWidth, region.regionHeight);
 				regionData.copyPixels(bitmapData, //
-				new Rectangle(region.getRegionX(), region.getRegionY(), region.getRegionWidth(), region.getRegionHeight()), //
+				new Rectangle(region.regionX, region.regionY, region.regionWidth, region.regionHeight), //
 				new Point());
 			}
 
@@ -187,7 +187,7 @@ class SkeletonRenderer extends Sprite {
 			bitmap.y = -regionAttachment.height / 2;
 			if (region.rotate) {
 				bitmap.rotation = 90;
-				bitmap.x += region.getRegionWidth();
+				bitmap.x += region.regionWidth;
 			}
 
 			wrapper = new Sprite();
