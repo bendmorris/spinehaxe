@@ -44,10 +44,10 @@ class SkeletonRendererDebug extends Sprite {
 			graphics.moveTo(x1, y1);
 			graphics.lineTo(x2, y2);
 		}
-		var skeletonX:Float = skeleton.getX();
-		var skeletonY:Float = skeleton.getY();
+		var skeletonX:Float = skeleton.x;
+		var skeletonY:Float = skeleton.y;
 
-		for (bone in skeleton.getBones()) {
+		for (bone in skeleton.bones) {
 			if (bone.parent == null) continue;
 			var x:Float = skeletonX + bone.data.length * bone.m00 + bone.worldX;
 			var y:Float = skeletonY + bone.data.length * bone.m10 + bone.worldY;
@@ -55,12 +55,12 @@ class SkeletonRendererDebug extends Sprite {
 		}
 
 		graphics.lineStyle(1, 0x0000ff);
-		for (slot in skeleton.getSlots()) {
+		for (slot in skeleton.slots) {
 			var attachment:Attachment = slot.attachment;
 			if (Std.is(attachment, RegionAttachment)) {
 				var regionAttachment:RegionAttachment = cast(attachment, RegionAttachment);
 				regionAttachment.updateVertices(slot);
-				var vertices = regionAttachment.getVertices();
+				var vertices = regionAttachment.vertices;
 				graphics.moveTo(vertices[RegionAttachment.X1], vertices[RegionAttachment.Y1]);
 				graphics.lineTo(vertices[RegionAttachment.X2], vertices[RegionAttachment.Y2]);
 				graphics.lineTo(vertices[RegionAttachment.X3], vertices[RegionAttachment.Y3]);
@@ -71,7 +71,7 @@ class SkeletonRendererDebug extends Sprite {
 
 		graphics.lineStyle(1, 0x00ff00);
 //		graphics.beginFill(0x00ff00);
-		for (bone in skeleton.getBones()) {
+		for (bone in skeleton.bones) {
 			graphics.drawCircle(skeletonX + bone.worldX, skeletonY + bone.worldY, 3);
 		}
 		graphics.endFill();
