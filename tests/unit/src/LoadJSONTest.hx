@@ -8,6 +8,7 @@ import spinehaxe.JsonUtils;
 using spinehaxe.JsonUtils;
 import spinehaxe.Exception;
 import spinehaxe.BoneData;
+import spinehaxe.Color;
 //import spinehaxe.platform.nme.BitmapDataTextureLoader;
 //import spinehaxe.atlas.TextureAtlas;
 
@@ -56,8 +57,14 @@ class LoadJSONTest extends TestCase {
 			boneData.rotation = boneMap.getFloat("rotation", 0);
 			boneData.scaleX = boneMap.getFloat("scaleX", 1);
 			boneData.scaleY = boneMap.getFloat("scaleY", 1);
+			boneData.flipX = boneMap.getBool("flipX", false);
+			boneData.flipY = boneMap.getBool("flipY", false);
 			boneData.inheritScale = boneMap.getBool("inheritScale", true);
 			boneData.inheritRotation = boneMap.getBool("inheritRotation", true);
+
+            var color_str:String = boneMap.getStr("color");
+            if (color_str != null) boneData.color = Color.fromString(color_str);
+
 			skeletonData.addBone(boneData);
 		}
         assertTrue(skeletonData.bones.length == 17);
@@ -69,8 +76,12 @@ class LoadJSONTest extends TestCase {
         assertTrue(skeletonData.bones[15].y == -0.45);
         assertTrue(skeletonData.bones[15].rotation == 5.34);
         assertTrue(skeletonData.bones[4].inheritScale == false);
-        //TODO:[Yura] create color entity in BoneData!
-        //assertTrue(skeletonData.bones[15].color == "ff000dff");
+        assertTrue(skeletonData.bones[4].flipX == false);
+        assertTrue(skeletonData.bones[0].flipX == false);
+        assertTrue(skeletonData.bones[4].flipY == false);
+        assertEquals(skeletonData.bones[16].color.toString(), "FF000DFF");
+        assertEquals(skeletonData.bones[1].color.toString(), "00FF04FF");
+        assertEquals(skeletonData.bones[0].color.toString(), "9C9C9CFF");
     }
 
     public function testSkeletonDataLoad() {

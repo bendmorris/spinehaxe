@@ -30,6 +30,7 @@
 package spinehaxe;
 
 import spinehaxe.Exception;
+import spinehaxe.Color;
 
 class BoneData {
 	public var parent:BoneData;
@@ -43,21 +44,46 @@ class BoneData {
 	public var scaleY:Float;
 	public var inheritScale:Bool;
 	public var inheritRotation:Bool;
+    public var flipX:Bool;
+    public var flipY:Bool;
+
+    // Nonessential.
+    public var color:Color = new Color(0.61, 0.61, 0.61, 1);
+
 	/** @param parent May be null. */
 	public function new(name:String, parent:BoneData) {
+		if (name == null)
+			throw new IllegalArgumentException("name cannot be null.");
 		scaleX = 1;
 		scaleY = 1;
 		inheritScale = true;
 		inheritRotation = true;
-		if (name == null)
-			throw new IllegalArgumentException("name cannot be null.");
 		this.name = name;
 		this.parent = parent;
 	}
+
+    //TODO:[Yura] в haxe нету перегруженных конструкторов, а значит надо сделать иной подход к реализации
+    //public function new(bone:BoneData, parent:BoneData) {
+		//if (bone == null)
+			//throw new IllegalArgumentException("bone cannot be null.");
+		//this.parent = parent;
+        //name = bone.name;
+        //length = bone.length;
+        //x = bone.x;
+        //y = bone.y;
+        //rotation = bone.rotation;
+		//scaleX = bone.scaleX;
+		//scaleY = bone.scaleY;
+        //flipX = bone.flipX;
+        //flipY = bone.flipY;
+	//}
 
 	public function toString():String {
 		return name;
 	}
 
-}
+    public function getColor():Color {
+        return this.color;
+    }
 
+}

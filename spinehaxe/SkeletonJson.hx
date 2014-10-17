@@ -51,6 +51,7 @@ import spinehaxe.attachments.RegionAttachment;
 import spinehaxe.attachments.AtlasAttachmentLoader;
 import spinehaxe.atlas.TextureAtlas;
 import spinehaxe.Exception;
+import spinehaxe.Color;
 import spinehaxe.JsonUtils;
 using spinehaxe.JsonUtils;
 import haxe.ds.Vector;
@@ -78,7 +79,6 @@ class SkeletonJson {
 		skeletonData.name = name;
 		if (!parsedJson.exists(name)) parsedJson[name] = JsonUtils.parse(fileData);
 		var root:JsonNode = parsedJson[name];
-        trace("read json");
 		
 		// Bones.
 		var boneData:BoneData;
@@ -97,11 +97,16 @@ class SkeletonJson {
 			boneData.rotation = boneMap.getFloat("rotation", 0);
 			boneData.scaleX = boneMap.getFloat("scaleX", 1);
 			boneData.scaleY = boneMap.getFloat("scaleY", 1);
+			boneData.flipX = boneMap.getBool("flipX", false);
+			boneData.flipY = boneMap.getBool("flipY", false);
 			boneData.inheritScale = boneMap.getBool("inheritScale", true);
 			boneData.inheritRotation = boneMap.getBool("inheritRotation", true);
+
+            var color_str:String = boneMap.getStr("color");
+            if (color_str != null) boneData.color = Color.fromString(color_str);
+
 			skeletonData.addBone(boneData);
 		}
-        trace("read bones: " + skeletonData.bones.length );
 
 		// Slots.
 		var slots = root.getNodesArray("slots");
