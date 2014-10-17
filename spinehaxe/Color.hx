@@ -1,6 +1,9 @@
 package spinehaxe;
 
 class Color {
+    public static var CLEAR:Color = new Color(0, 0, 0, 0);
+    public static var WHITE:Color = new Color(1, 1, 1, 1);
+    public static var BLACK:Color = new Color(0, 0, 0, 1);
 //TODO port from gdx
 	public var r:Float = 0;
 	public var g:Float = 0;
@@ -36,4 +39,18 @@ class Color {
 	public function new(r, g, b, a) {
 		set(r, g, b, a);
 	}
+
+    /** Returns the color encoded as hex string with the format RRGGBBAA. */
+    public function toString():String {
+        //var value:String = Integer.toHexString(((int)(255 * r) << 24) | ((int)(255 * g) << 16) | ((int)(255 * b) << 8) | ((int)(255 * a)));
+        //while (value.length() < 8) {
+            //value = "0" + value;
+        //}
+        //return value;AAhA
+        return (StringTools.hex(colorFloatToInt(a), 2)) + StringTools.hex(colorFloatToInt(r), 2) + StringTools.hex(colorFloatToInt(g), 2) + StringTools.hex(colorFloatToInt(b), 2);
+    }
+
+    private function colorFloatToInt(value: Float):Int {
+        return Math.round(value * 255);
+    }
 }

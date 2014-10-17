@@ -29,7 +29,7 @@
  *****************************************************************************/
 package spinehaxe;
 
-import flash.utils.ByteArray;
+//import flash.utils.ByteArray;
 import spinehaxe.animation.Animation;
 import spinehaxe.animation.AttachmentTimeline;
 import spinehaxe.animation.ColorTimeline;
@@ -78,6 +78,7 @@ class SkeletonJson {
 		skeletonData.name = name;
 		if (!parsedJson.exists(name)) parsedJson[name] = JsonUtils.parse(fileData);
 		var root:JsonNode = parsedJson[name];
+        trace("read json");
 		
 		// Bones.
 		var boneData:BoneData;
@@ -100,6 +101,7 @@ class SkeletonJson {
 			boneData.inheritRotation = boneMap.getBool("inheritRotation", true);
 			skeletonData.addBone(boneData);
 		}
+        trace("read bones: " + skeletonData.bones.length );
 
 		// Slots.
 		var slots = root.getNodesArray("slots");
@@ -123,6 +125,7 @@ class SkeletonJson {
 			}
 		}
 
+        trace("read slots");
 		// Skins.
 		var skins:JsonNode = root.getNode("skins");
 		if (skins != null) {
@@ -146,6 +149,7 @@ class SkeletonJson {
 					skeletonData.defaultSkin = skin;
 			}
 		}
+        trace("read skins");
 
 		// Events.
 		var events:Dynamic = root.getNode("events");
