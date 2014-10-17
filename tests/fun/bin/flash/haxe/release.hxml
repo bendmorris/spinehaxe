@@ -1,0 +1,14 @@
+-main ApplicationMain 
+-cp /usr/lib/haxe/lib/openfl/2,0,1/
+-D openfl=2.0.1
+-cp src
+-cp ../../../spinehaxe
+-cp /usr/lib/haxe/lib/openfl/2,0,1/backends/flash
+-cp /usr/lib/haxe/lib/openfl/2,0,1/backends/flash
+-D tools=1.5.7
+-D openfl-flash
+-D web
+-swf-version 11.2
+-swf bin/flash/bin/spinehx-AnimationStateTest.swf
+-swf-header 320:480:200:FFFFFF
+-cp bin/flash/haxe

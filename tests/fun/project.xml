@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<project>
+
+    <meta title="spinehx - AnimationStateTest" package="org.bitbucket.nitrobin.spinehx.AnimationStateTest" version="1.0.0" company="spinehx" />
+    <app main="AnimationStateTest" path="bin" file="spinehx-AnimationStateTest" />
+    <window width="320" height="480" fps="200" unless="mobile"/>
+    <window fps="60" if="mobile"/>
+    <source path="src" />
+    <source path="../../../spinehaxe" />
+
+    <haxelib name="openfl" />
+
+    <assets path="assets" rename="assets" />
+
+</project>
