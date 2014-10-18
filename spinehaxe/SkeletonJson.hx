@@ -105,7 +105,7 @@ class SkeletonJson {
             var color_str:String = boneMap.getStr("color");
             if (color_str != null) boneData.color = Color.fromString(color_str);
 
-			skeletonData.addBone(boneData);
+            skeletonData.bones.push(boneData);
 		}
 
 		// Slots.

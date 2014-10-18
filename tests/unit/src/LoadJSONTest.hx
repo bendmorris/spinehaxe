@@ -39,6 +39,31 @@ class LoadJSONTest extends TestCase {
         assertEquals("foo", str);
     }
 
+    public function testLoadSkeletonCoreData() {
+        // Skeleton.
+        var skeletonMap = root.getNode("skeleton");
+        if (skeletonMap != null) {
+            skeletonData.version = skeletonMap.getString("spine", null);
+            skeletonData.hash = skeletonMap.getString("hash", null);
+            skeletonData.width = skeletonMap.getFloat("width", 0);
+            skeletonData.height = skeletonMap.getFloat("height", 0);
+            //skeletonData.imagesPath = skeletonMap.getString("images", null);
+            assertEquals(skeletonMap.version, "2.1.1");
+        }
+        else {
+            assertTrue(skeletonMap == null);
+        }
+        skeletonData.height = 120;
+        skeletonData.width = 120;
+        skeletonData.hash = "asdlkfjhu39333yhgjaskhga";
+        skeletonData.name = "spineboy";
+        skeletonData.version = "2.1.1";
+        assertEquals(skeletonData.version, "2.1.1");
+        assertEquals(skeletonData.name, "spineboy");
+        assertEquals(skeletonData.hash, "asdlkfjhu39333yhgjaskhga");
+        assertEquals(skeletonData.height, 120);
+        assertEquals(skeletonData.width, 120);
+    }
 
     public function testLoadBonesData() {
         var boneData:BoneData;
@@ -65,7 +90,8 @@ class LoadJSONTest extends TestCase {
             var color_str:String = boneMap.getStr("color");
             if (color_str != null) boneData.color = Color.fromString(color_str);
 
-			skeletonData.addBone(boneData);
+            skeletonData.bones.push(boneData);
+			//skeletonData.addBone(boneData);
 		}
         assertTrue(skeletonData.bones.length == 17);
         assertTrue(skeletonData.bones[0].name == "hip");

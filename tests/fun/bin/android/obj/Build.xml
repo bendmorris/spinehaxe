@@ -1,0 +1,1634 @@
+<xml>
+<set name="HXCPP_API_LEVEL" value="311" />
+<files id="haxe">
+<compilerflag value="-Iinclude"/>
+  <file name="src/spinehaxe/platform/nme/renderers/SkeletonRenderer.cpp">
+   <depend name="include/Std.h"/>
+   <depend name="include/openfl/display/BitmapData.h"/>
+   <depend name="include/openfl/display/DisplayObject.h"/>
+   <depend name="include/openfl/display/DisplayObjectContainer.h"/>
+   <depend name="include/openfl/display/Graphics.h"/>
+   <depend name="include/openfl/display/IBitmapDrawable.h"/>
+   <depend name="include/openfl/display/InteractiveObject.h"/>
+   <depend name="include/openfl/display/Sprite.h"/>
+   <depend name="include/openfl/display/TriangleCulling.h"/>
+   <depend name="include/openfl/events/EventDispatcher.h"/>
+   <depend name="include/openfl/events/IEventDispatcher.h"/>
+   <depend name="include/openfl/geom/Matrix.h"/>
+   <depend name="include/spinehaxe/Skeleton.h"/>
+   <depend name="include/spinehaxe/Slot.h"/>
+   <depend name="include/spinehaxe/atlas/Texture.h"/>
+   <depend name="include/spinehaxe/atlas/TextureRegion.h"/>
+   <depend name="include/spinehaxe/attachments/Attachment.h"/>
+   <depend name="include/spinehaxe/attachments/RegionAttachment.h"/>
+   <depend name="include/spinehaxe/platform/nme/BitmapDataTexture.h"/>
+   <depend name="include/spinehaxe/platform/nme/renderers/SkeletonRenderer.h"/>
+  </file>
+  <file name="src/spinehaxe/platform/nme/BitmapDataTextureLoader.cpp">
+   <depend name="include/spinehaxe/atlas/Texture.h"/>
+   <depend name="include/spinehaxe/atlas/TextureLoader.h"/>
+   <depend name="include/spinehaxe/platform/nme/BitmapDataTexture.h"/>
+   <depend name="include/spinehaxe/platform/nme/BitmapDataTextureLoader.h"/>
+  </file>
+  <file name="src/spinehaxe/platform/nme/BitmapDataTexture.cpp">
+   <depend name="include/openfl/Assets.h"/>
+   <depend name="include/openfl/display/BitmapData.h"/>
+   <depend name="include/openfl/display/IBitmapDrawable.h"/>
+   <depend name="include/spinehaxe/atlas/Texture.h"/>
+   <depend name="include/spinehaxe/platform/nme/BitmapDataTexture.h"/>
+  </file>
+  <file name="src/spinehaxe/attachments/RegionSequenceAttachment.cpp">
+   <depend name="include/Std.h"/>
+   <depend name="include/spinehaxe/Exception.h"/>
+   <depend name="include/spinehaxe/Slot.h"/>
+   <depend name="include/spinehaxe/atlas/TextureRegion.h"/>
+   <depend name="include/spinehaxe/attachments/Attachment.h"/>
+   <depend name="include/spinehaxe/attachments/Mode.h"/>
+   <depend name="include/spinehaxe/attachments/RegionAttachment.h"/>
+   <depend name="include/spinehaxe/attachments/RegionSequenceAttachment.h"/>
+  </file>
+  <file name="src/spinehaxe/attachments/NumberUtils.cpp">
+   <depend name="include/spinehaxe/attachments/NumberUtils.h"/>
+  </file>
+  <file name="src/spinehaxe/attachments/RegionAttachment.cpp">
+   <depend name="include/Std.h"/>
+   <depend name="include/spinehaxe/ArrayUtils.h"/>
+   <depend name="include/spinehaxe/Bone.h"/>
+   <depend name="include/spinehaxe/Exception.h"/>
+   <depend name="include/spinehaxe/Skeleton.h"/>
+   <depend name="include/spinehaxe/Slot.h"/>
+   <depend name="include/spinehaxe/atlas/AtlasRegion.h"/>
+   <depend name="include/spinehaxe/atlas/TextureRegion.h"/>
+   <depend name="include/spinehaxe/attachments/Attachment.h"/>
+   <depend name="include/spinehaxe/attachments/RegionAttachment.h"/>
+  </file>
+  <file name="src/spinehaxe/attachments/Modes.cpp">
+   <depend name="include/spinehaxe/attachments/Mode.h"/>
+   <depend name="include/spinehaxe/attachments/Modes.h"/>
+  </file>
+  <file name="src/spinehaxe/attachments/Mode.cpp">
+   <depend name="include/spinehaxe/attachments/Mode.h"/>
+  </file>
+  <file name="src/spinehaxe/attachments/BoundingBoxAttachment.cpp">
+   <depend name="include/spinehaxe/Bone.h"/>
+   <depend name="include/spinehaxe/attachments/Attachment.h"/>
+   <depend name="include/spinehaxe/attachments/BoundingBoxAttachment.h"/>
+  </file>
+  <file name="src/spinehaxe/attachments/AttachmentTypes.cpp">
+   <depend name="include/spinehaxe/attachments/AttachmentType.h"/>
+   <depend name="include/spinehaxe/attachments/AttachmentTypes.h"/>
+  </file>
+  <file name="src/spinehaxe/attachments/AttachmentType.cpp">
+   <depend name="include/spinehaxe/attachments/AttachmentType.h"/>
+  </file>
+  <file name="src/spinehaxe/attachments/Attachment.cpp">
+   <depend name="include/spinehaxe/Exception.h"/>
+   <depend name="include/spinehaxe/attachments/Attachment.h"/>
+  </file>
+  <file name="src/spinehaxe/attachments/AtlasAttachmentLoader.cpp">
+   <depend name="include/Std.h"/>
+   <depend name="include/spinehaxe/Exception.h"/>
+   <depend name="include/spinehaxe/Skin.h"/>
+   <depend name="include/spinehaxe/atlas/AtlasRegion.h"/>
+   <depend name="include/spinehaxe/atlas/TextureAtlas.h"/>
+   <depend name="include/spinehaxe/atlas/TextureRegion.h"/>
+   <depend name="include/spinehaxe/attachments/AtlasAttachmentLoader.h"/>
+   <depend name="include/spinehaxe/attachments/Attachment.h"/>
+   <depend name="include/spinehaxe/attachments/AttachmentLoader.h"/>
+   <depend name="include/spinehaxe/attachments/AttachmentType.h"/>
+   <depend name="include/spinehaxe/attachments/RegionAttachment.h"/>
+   <depend name="include/spinehaxe/attachments/RegionSequenceAttachment.h"/>
+  </file>
+  <file name="src/spinehaxe/attachments/AttachmentLoader.cpp">
+   <depend name="include/spinehaxe/Skin.h"/>
+   <depend name="include/spinehaxe/attachments/Attachment.h"/>
+   <depend name="include/spinehaxe/attachments/AttachmentLoader.h"/>
+   <depend name="include/spinehaxe/attachments/AttachmentType.h"/>
+  </file>
+  <file name="src/spinehaxe/atlas/TextureLoader.cpp">
+   <depend name="include/spinehaxe/atlas/Texture.h"/>
+   <depend name="include/spinehaxe/atlas/TextureLoader.h"/>
+  </file>
+  <file name="src/spinehaxe/atlas/AtlasRegion.cpp">
+   <depend name="include/spinehaxe/atlas/AtlasRegion.h"/>
+   <depend name="include/spinehaxe/atlas/Texture.h"/>
+   <depend name="include/spinehaxe/atlas/TextureRegion.h"/>
+  </file>
+  <file name="src/spinehaxe/atlas/TextureRegion.cpp">
+   <depend name="include/spinehaxe/Exception.h"/>
+   <depend name="include/spinehaxe/atlas/Texture.h"/>
+   <depend name="include/spinehaxe/atlas/TextureRegion.h"/>
+  </file>
+  <file name="src/spinehaxe/atlas/TextureAtlas.cpp">
+   <depend name="include/IMap.h"/>
+   <depend name="include/haxe/ds/ObjectMap.h"/>
+   <depend name="include/spinehaxe/ArrayUtils.h"/>
+   <depend name="include/spinehaxe/atlas/AtlasRegion.h"/>
+   <depend name="include/spinehaxe/atlas/Page.h"/>
+   <depend name="include/spinehaxe/atlas/Region.h"/>
+   <depend name="include/spinehaxe/atlas/Texture.h"/>
+   <depend name="include/spinehaxe/atlas/TextureAtlas.h"/>
+   <depend name="include/spinehaxe/atlas/TextureAtlasData.h"/>
+   <depend name="include/spinehaxe/atlas/TextureLoader.h"/>
+   <depend name="include/spinehaxe/atlas/TextureRegion.h"/>
+  </file>
+  <file name="src/spinehaxe/atlas/TextureAtlasData.cpp">
+   <depend name="include/Std.h"/>
+   <depend name="include/StringTools.h"/>
+   <depend name="include/haxe/io/BytesInput.h"/>
+   <depend name="include/haxe/io/Eof.h"/>
+   <depend name="include/haxe/io/Input.h"/>
+   <depend name="include/haxe/io/StringInput.h"/>
+   <depend name="include/spinehaxe/Exception.h"/>
+   <depend name="include/spinehaxe/atlas/Page.h"/>
+   <depend name="include/spinehaxe/atlas/Region.h"/>
+   <depend name="include/spinehaxe/atlas/TextureAtlasData.h"/>
+  </file>
+  <file name="src/spinehaxe/atlas/Region.cpp">
+   <depend name="include/spinehaxe/atlas/Page.h"/>
+   <depend name="include/spinehaxe/atlas/Region.h"/>
+  </file>
+  <file name="src/spinehaxe/atlas/Page.cpp">
+   <depend name="include/spinehaxe/atlas/Page.h"/>
+   <depend name="include/spinehaxe/atlas/Texture.h"/>
+  </file>
+  <file name="src/spinehaxe/atlas/Texture.cpp">
+   <depend name="include/spinehaxe/atlas/Texture.h"/>
+  </file>
+  <file name="src/spinehaxe/animation/TrackEntryPool.cpp">
+   <depend name="include/spinehaxe/animation/Animation.h"/>
+   <depend name="include/spinehaxe/animation/TrackEntry.h"/>
+   <depend name="include/spinehaxe/animation/TrackEntryPool.h"/>
+  </file>
+  <file name="src/spinehaxe/animation/TrackEntry.cpp">
+   <depend name="include/spinehaxe/animation/Animation.h"/>
+   <depend name="include/spinehaxe/animation/TrackEntry.h"/>
+  </file>
+  <file name="src/spinehaxe/animation/ScaleTimeline.cpp">
+   <depend name="include/spinehaxe/Bone.h"/>
+   <depend name="include/spinehaxe/BoneData.h"/>
+   <depend name="include/spinehaxe/Event.h"/>
+   <depend name="include/spinehaxe/Skeleton.h"/>
+   <depend name="include/spinehaxe/animation/Animation.h"/>
+   <depend name="include/spinehaxe/animation/CurveTimeline.h"/>
+   <depend name="include/spinehaxe/animation/ScaleTimeline.h"/>
+   <depend name="include/spinehaxe/animation/Timeline.h"/>
+   <depend name="include/spinehaxe/animation/TranslateTimeline.h"/>
+  </file>
+  <file name="src/spinehaxe/animation/TranslateTimeline.cpp">
+   <depend name="include/spinehaxe/ArrayUtils.h"/>
+   <depend name="include/spinehaxe/Bone.h"/>
+   <depend name="include/spinehaxe/BoneData.h"/>
+   <depend name="include/spinehaxe/Event.h"/>
+   <depend name="include/spinehaxe/Skeleton.h"/>
+   <depend name="include/spinehaxe/animation/Animation.h"/>
+   <depend name="include/spinehaxe/animation/CurveTimeline.h"/>
+   <depend name="include/spinehaxe/animation/Timeline.h"/>
+   <depend name="include/spinehaxe/animation/TranslateTimeline.h"/>
+  </file>
+  <file name="src/spinehaxe/animation/RotateTimeline.cpp">
+   <depend name="include/spinehaxe/ArrayUtils.h"/>
+   <depend name="include/spinehaxe/Bone.h"/>
+   <depend name="include/spinehaxe/BoneData.h"/>
+   <depend name="include/spinehaxe/Event.h"/>
+   <depend name="include/spinehaxe/Skeleton.h"/>
+   <depend name="include/spinehaxe/animation/Animation.h"/>
+   <depend name="include/spinehaxe/animation/CurveTimeline.h"/>
+   <depend name="include/spinehaxe/animation/RotateTimeline.h"/>
+   <depend name="include/spinehaxe/animation/Timeline.h"/>
+  </file>
+  <file name="src/spinehaxe/animation/Listeners.cpp">
+   <depend name="include/spinehaxe/Exception.h"/>
+   <depend name="include/spinehaxe/animation/Listeners.h"/>
+  </file>
+  <file name="src/spinehaxe/animation/EventTimeline.cpp">
+   <depend name="include/spinehaxe/ArrayUtils.h"/>
+   <depend name="include/spinehaxe/Event.h"/>
+   <depend name="include/spinehaxe/Skeleton.h"/>
+   <depend name="include/spinehaxe/animation/Animation.h"/>
+   <depend name="include/spinehaxe/animation/EventTimeline.h"/>
+   <depend name="include/spinehaxe/animation/Timeline.h"/>
+  </file>
+  <file name="src/spinehaxe/animation/DrawOrderTimeline.cpp">
+   <depend name="include/spinehaxe/ArrayUtils.h"/>
+   <depend name="include/spinehaxe/Event.h"/>
+   <depend name="include/spinehaxe/Skeleton.h"/>
+   <depend name="include/spinehaxe/Slot.h"/>
+   <depend name="include/spinehaxe/animation/Animation.h"/>
+   <depend name="include/spinehaxe/animation/DrawOrderTimeline.h"/>
+   <depend name="include/spinehaxe/animation/Timeline.h"/>
+  </file>
+  <file name="src/spinehaxe/animation/ColorTimeline.cpp">
+   <depend name="include/spinehaxe/ArrayUtils.h"/>
+   <depend name="include/spinehaxe/Event.h"/>
+   <depend name="include/spinehaxe/Skeleton.h"/>
+   <depend name="include/spinehaxe/Slot.h"/>
+   <depend name="include/spinehaxe/animation/Animation.h"/>
+   <depend name="include/spinehaxe/animation/ColorTimeline.h"/>
+   <depend name="include/spinehaxe/animation/CurveTimeline.h"/>
+   <depend name="include/spinehaxe/animation/Timeline.h"/>
+  </file>
+  <file name="src/spinehaxe/animation/CurveTimeline.cpp">
+   <depend name="include/spinehaxe/ArrayUtils.h"/>
+   <depend name="include/spinehaxe/Event.h"/>
+   <depend name="include/spinehaxe/Skeleton.h"/>
+   <depend name="include/spinehaxe/animation/CurveTimeline.h"/>
+   <depend name="include/spinehaxe/animation/Timeline.h"/>
+  </file>
+  <file name="src/spinehaxe/animation/AttachmentTimeline.cpp">
+   <depend name="include/spinehaxe/ArrayUtils.h"/>
+   <depend name="include/spinehaxe/Event.h"/>
+   <depend name="include/spinehaxe/Skeleton.h"/>
+   <depend name="include/spinehaxe/Slot.h"/>
+   <depend name="include/spinehaxe/animation/Animation.h"/>
+   <depend name="include/spinehaxe/animation/AttachmentTimeline.h"/>
+   <depend name="include/spinehaxe/animation/Timeline.h"/>
+   <depend name="include/spinehaxe/attachments/Attachment.h"/>
+  </file>
+  <file name="src/spinehaxe/animation/Timeline.cpp">
+   <depend name="include/spinehaxe/Event.h"/>
+   <depend name="include/spinehaxe/Skeleton.h"/>
+   <depend name="include/spinehaxe/animation/Timeline.h"/>
+  </file>
+  <file name="src/spinehaxe/animation/AnimationStateData.cpp">
+   <depend name="include/IMap.h"/>
+   <depend name="include/haxe/ds/StringMap.h"/>
+   <depend name="include/spinehaxe/Exception.h"/>
+   <depend name="include/spinehaxe/SkeletonData.h"/>
+   <depend name="include/spinehaxe/animation/Animation.h"/>
+   <depend name="include/spinehaxe/animation/AnimationStateData.h"/>
+  </file>
+  <file name="src/spinehaxe/animation/AnimationState.cpp">
+   <depend name="include/spinehaxe/Event.h"/>
+   <depend name="include/spinehaxe/Exception.h"/>
+   <depend name="include/spinehaxe/Skeleton.h"/>
+   <depend name="include/spinehaxe/SkeletonData.h"/>
+   <depend name="include/spinehaxe/animation/Animation.h"/>
+   <depend name="include/spinehaxe/animation/AnimationState.h"/>
+   <depend name="include/spinehaxe/animation/AnimationStateData.h"/>
+   <depend name="include/spinehaxe/animation/Listeners.h"/>
+   <depend name="include/spinehaxe/animation/TrackEntry.h"/>
+   <depend name="include/spinehaxe/animation/TrackEntryPool.h"/>
+  </file>
+  <file name="src/spinehaxe/animation/Animation.cpp">
+   <depend name="include/Std.h"/>
+   <depend name="include/spinehaxe/Event.h"/>
+   <depend name="include/spinehaxe/Exception.h"/>
+   <depend name="include/spinehaxe/Skeleton.h"/>
+   <depend name="include/spinehaxe/animation/Animation.h"/>
+   <depend name="include/spinehaxe/animation/Timeline.h"/>
+  </file>
+  <file name="src/spinehaxe/SlotData.cpp">
+   <depend name="include/spinehaxe/BoneData.h"/>
+   <depend name="include/spinehaxe/Exception.h"/>
+   <depend name="include/spinehaxe/SlotData.h"/>
+  </file>
+  <file name="src/spinehaxe/Slot.cpp">
+   <depend name="include/spinehaxe/ArrayUtils.h"/>
+   <depend name="include/spinehaxe/Bone.h"/>
+   <depend name="include/spinehaxe/Exception.h"/>
+   <depend name="include/spinehaxe/Skeleton.h"/>
+   <depend name="include/spinehaxe/SkeletonData.h"/>
+   <depend name="include/spinehaxe/Slot.h"/>
+   <depend name="include/spinehaxe/SlotData.h"/>
+   <depend name="include/spinehaxe/attachments/Attachment.h"/>
+  </file>
+  <file name="src/spinehaxe/Skin.cpp">
+   <depend name="include/IMap.h"/>
+   <depend name="include/Reflect.h"/>
+   <depend name="include/Std.h"/>
+   <depend name="include/haxe/ds/StringMap.h"/>
+   <depend name="include/spinehaxe/Exception.h"/>
+   <depend name="include/spinehaxe/Skeleton.h"/>
+   <depend name="include/spinehaxe/Skin.h"/>
+   <depend name="include/spinehaxe/Slot.h"/>
+   <depend name="include/spinehaxe/attachments/Attachment.h"/>
+  </file>
+  <file name="src/spinehaxe/SkeletonJson.cpp">
+   <depend name="include/IMap.h"/>
+   <depend name="include/Reflect.h"/>
+   <depend name="include/Std.h"/>
+   <depend name="include/haxe/Log.h"/>
+   <depend name="include/haxe/ds/StringMap.h"/>
+   <depend name="include/spinehaxe/BoneData.h"/>
+   <depend name="include/spinehaxe/Color.h"/>
+   <depend name="include/spinehaxe/Event.h"/>
+   <depend name="include/spinehaxe/EventData.h"/>
+   <depend name="include/spinehaxe/Exception.h"/>
+   <depend name="include/spinehaxe/JsonUtils.h"/>
+   <depend name="include/spinehaxe/SkeletonData.h"/>
+   <depend name="include/spinehaxe/SkeletonJson.h"/>
+   <depend name="include/spinehaxe/Skin.h"/>
+   <depend name="include/spinehaxe/SlotData.h"/>
+   <depend name="include/spinehaxe/animation/Animation.h"/>
+   <depend name="include/spinehaxe/animation/AttachmentTimeline.h"/>
+   <depend name="include/spinehaxe/animation/ColorTimeline.h"/>
+   <depend name="include/spinehaxe/animation/CurveTimeline.h"/>
+   <depend name="include/spinehaxe/animation/DrawOrderTimeline.h"/>
+   <depend name="include/spinehaxe/animation/EventTimeline.h"/>
+   <depend name="include/spinehaxe/animation/RotateTimeline.h"/>
+   <depend name="include/spinehaxe/animation/ScaleTimeline.h"/>
+   <depend name="include/spinehaxe/animation/Timeline.h"/>
+   <depend name="include/spinehaxe/animation/TranslateTimeline.h"/>
+   <depend name="include/spinehaxe/atlas/TextureAtlas.h"/>
+   <depend name="include/spinehaxe/attachments/AtlasAttachmentLoader.h"/>
+   <depend name="include/spinehaxe/attachments/Attachment.h"/>
+   <depend name="include/spinehaxe/attachments/AttachmentLoader.h"/>
+   <depend name="include/spinehaxe/attachments/AttachmentType.h"/>
+   <depend name="include/spinehaxe/attachments/AttachmentTypes.h"/>
+   <depend name="include/spinehaxe/attachments/RegionAttachment.h"/>
+  </file>
+  <file name="src/spinehaxe/SkeletonData.cpp">
+   <depend name="include/Std.h"/>
+   <depend name="include/spinehaxe/BoneData.h"/>
+   <depend name="include/spinehaxe/EventData.h"/>
+   <depend name="include/spinehaxe/Exception.h"/>
+   <depend name="include/spinehaxe/SkeletonData.h"/>
+   <depend name="include/spinehaxe/Skin.h"/>
+   <depend name="include/spinehaxe/SlotData.h"/>
+   <depend name="include/spinehaxe/animation/Animation.h"/>
+  </file>
+  <file name="src/spinehaxe/Skeleton.cpp">
+   <depend name="include/Std.h"/>
+   <depend name="include/spinehaxe/ArrayUtils.h"/>
+   <depend name="include/spinehaxe/Bone.h"/>
+   <depend name="include/spinehaxe/BoneData.h"/>
+   <depend name="include/spinehaxe/Exception.h"/>
+   <depend name="include/spinehaxe/Skeleton.h"/>
+   <depend name="include/spinehaxe/SkeletonData.h"/>
+   <depend name="include/spinehaxe/Skin.h"/>
+   <depend name="include/spinehaxe/Slot.h"/>
+   <depend name="include/spinehaxe/SlotData.h"/>
+   <depend name="include/spinehaxe/attachments/Attachment.h"/>
+  </file>
+  <file name="src/spinehaxe/MathUtils.cpp">
+   <depend name="include/spinehaxe/MathUtils.h"/>
+  </file>
+  <file name="src/spinehaxe/JsonUtils.cpp">
+   <depend name="include/Reflect.h"/>
+   <depend name="include/Std.h"/>
+   <depend name="include/haxe/format/JsonParser.h"/>
+   <depend name="include/spinehaxe/JsonUtils.h"/>
+  </file>
+  <file name="src/spinehaxe/Exception.cpp">
+   <depend name="include/spinehaxe/Exception.h"/>
+  </file>
+  <file name="src/spinehaxe/EventData.cpp">
+   <depend name="include/spinehaxe/EventData.h"/>
+   <depend name="include/spinehaxe/Exception.h"/>
+  </file>
+  <file name="src/spinehaxe/Event.cpp">
+   <depend name="include/spinehaxe/Event.h"/>
+   <depend name="include/spinehaxe/EventData.h"/>
+   <depend name="include/spinehaxe/Exception.h"/>
+  </file>
+  <file name="src/spinehaxe/Color.cpp">
+   <depend name="include/EReg.h"/>
+   <depend name="include/Std.h"/>
+   <depend name="include/StringTools.h"/>
+   <depend name="include/spinehaxe/Color.h"/>
+  </file>
+  <file name="src/spinehaxe/BoneData.cpp">
+   <depend name="include/spinehaxe/BoneData.h"/>
+   <depend name="include/spinehaxe/Color.h"/>
+   <depend name="include/spinehaxe/Exception.h"/>
+  </file>
+  <file name="src/spinehaxe/Bone.cpp">
+   <depend name="include/spinehaxe/Bone.h"/>
+   <depend name="include/spinehaxe/BoneData.h"/>
+   <depend name="include/spinehaxe/Exception.h"/>
+  </file>
+  <file name="src/spinehaxe/ArrayUtils.cpp">
+   <depend name="include/spinehaxe/ArrayUtils.h"/>
+  </file>
+  <file name="src/openfl/utils/WeakRef.cpp">
+   <depend name="include/Std.h"/>
+   <depend name="include/openfl/Lib.h"/>
+   <depend name="include/openfl/utils/WeakRef.h"/>
+  </file>
+  <file name="src/openfl/utils/Float32Array.cpp">
+   <depend name="include/Std.h"/>
+   <depend name="include/openfl/geom/Matrix3D.h"/>
+   <depend name="include/openfl/utils/ArrayBufferView.h"/>
+   <depend name="include/openfl/utils/Float32Array.h"/>
+   <depend name="include/openfl/utils/IMemoryRange.h"/>
+  </file>
+  <file name="src/openfl/utils/Endian.cpp">
+   <depend name="include/openfl/utils/Endian.h"/>
+  </file>
+  <file name="src/openfl/utils/CompressionAlgorithm.cpp">
+   <depend name="include/openfl/utils/CompressionAlgorithm.h"/>
+  </file>
+  <file name="src/openfl/utils/ByteArray.cpp">
+   <depend name="include/haxe/io/Bytes.h"/>
+   <depend name="include/haxe/zip/Compress.h"/>
+   <depend name="include/haxe/zip/Uncompress.h"/>
+   <depend name="include/openfl/Lib.h"/>
+   <depend name="include/openfl/errors/EOFError.h"/>
+   <depend name="include/openfl/errors/Error.h"/>
+   <depend name="include/openfl/utils/ByteArray.h"/>
+   <depend name="include/openfl/utils/CompressionAlgorithm.h"/>
+   <depend name="include/openfl/utils/IDataInput.h"/>
+   <depend name="include/openfl/utils/IDataOutput.h"/>
+   <depend name="include/openfl/utils/IMemoryRange.h"/>
+  </file>
+  <file name="src/openfl/utils/IDataInput.cpp">
+   <depend name="include/haxe/io/Bytes.h"/>
+   <depend name="include/openfl/utils/ByteArray.h"/>
+   <depend name="include/openfl/utils/IDataInput.h"/>
+   <depend name="include/openfl/utils/IDataOutput.h"/>
+   <depend name="include/openfl/utils/IMemoryRange.h"/>
+  </file>
+  <file name="src/openfl/utils/IDataOutput.cpp">
+   <depend name="include/haxe/io/Bytes.h"/>
+   <depend name="include/openfl/utils/IDataOutput.h"/>
+  </file>
+  <file name="src/openfl/utils/ArrayBufferView.cpp">
+   <depend name="include/Std.h"/>
+   <depend name="include/haxe/io/Bytes.h"/>
+   <depend name="include/openfl/utils/ArrayBufferView.h"/>
+   <depend name="include/openfl/utils/ByteArray.h"/>
+   <depend name="include/openfl/utils/IDataInput.h"/>
+   <depend name="include/openfl/utils/IDataOutput.h"/>
+   <depend name="include/openfl/utils/IMemoryRange.h"/>
+  </file>
+  <file name="src/openfl/utils/IMemoryRange.cpp">
+   <depend name="include/haxe/io/Bytes.h"/>
+   <depend name="include/openfl/utils/ByteArray.h"/>
+   <depend name="include/openfl/utils/IDataInput.h"/>
+   <depend name="include/openfl/utils/IDataOutput.h"/>
+   <depend name="include/openfl/utils/IMemoryRange.h"/>
+  </file>
+  <file name="src/openfl/ui/Keyboard.cpp">
+   <depend name="include/openfl/ui/Keyboard.h"/>
+  </file>
+  <file name="src/openfl/text/TextLineMetrics.cpp">
+   <depend name="include/openfl/text/TextLineMetrics.h"/>
+  </file>
+  <file name="src/openfl/text/TextFormat.cpp">
+   <depend name="include/openfl/text/TextFormat.h"/>
+  </file>
+  <file name="src/openfl/text/TextFieldType.cpp">
+   <depend name="include/openfl/text/TextFieldType.h"/>
+  </file>
+  <file name="src/openfl/text/TextFieldAutoSize.cpp">
+   <depend name="include/openfl/text/TextFieldAutoSize.h"/>
+  </file>
+  <file name="src/openfl/text/GridFitType.cpp">
+   <depend name="include/openfl/text/GridFitType.h"/>
+  </file>
+  <file name="src/openfl/text/FontType.cpp">
+   <depend name="include/openfl/text/FontType.h"/>
+  </file>
+  <file name="src/openfl/text/FontStyle.cpp">
+   <depend name="include/openfl/text/FontStyle.h"/>
+  </file>
+  <file name="src/openfl/text/Font.cpp">
+   <depend name="include/Reflect.h"/>
+   <depend name="include/Std.h"/>
+   <depend name="include/Type.h"/>
+   <depend name="include/haxe/Resource.h"/>
+   <depend name="include/haxe/io/Bytes.h"/>
+   <depend name="include/openfl/Lib.h"/>
+   <depend name="include/openfl/text/Font.h"/>
+   <depend name="include/openfl/text/FontStyle.h"/>
+   <depend name="include/openfl/text/FontType.h"/>
+   <depend name="include/openfl/utils/ByteArray.h"/>
+   <depend name="include/openfl/utils/IDataInput.h"/>
+   <depend name="include/openfl/utils/IDataOutput.h"/>
+   <depend name="include/openfl/utils/IMemoryRange.h"/>
+  </file>
+  <file name="src/openfl/text/AntiAliasType.cpp">
+   <depend name="include/openfl/text/AntiAliasType.h"/>
+  </file>
+  <file name="src/openfl/system/SecurityDomain.cpp">
+   <depend name="include/openfl/system/SecurityDomain.h"/>
+  </file>
+  <file name="src/openfl/system/ScreenMode.cpp">
+   <depend name="include/openfl/system/PixelFormat.h"/>
+   <depend name="include/openfl/system/ScreenMode.h"/>
+  </file>
+  <file name="src/openfl/system/PixelFormat.cpp">
+   <depend name="include/openfl/system/PixelFormat.h"/>
+  </file>
+  <file name="src/openfl/system/LoaderContext.cpp">
+   <depend name="include/openfl/system/ApplicationDomain.h"/>
+   <depend name="include/openfl/system/LoaderContext.h"/>
+   <depend name="include/openfl/system/SecurityDomain.h"/>
+  </file>
+  <file name="src/openfl/system/ApplicationDomain.cpp">
+   <depend name="include/Type.h"/>
+   <depend name="include/openfl/system/ApplicationDomain.h"/>
+  </file>
+  <file name="src/openfl/net/URLVariables.cpp">
+   <depend name="include/Reflect.h"/>
+   <depend name="include/StringTools.h"/>
+   <depend name="include/openfl/net/URLVariables.h"/>
+  </file>
+  <file name="src/openfl/net/URLRequestMethod.cpp">
+   <depend name="include/openfl/net/URLRequestMethod.h"/>
+  </file>
+  <file name="src/openfl/net/URLRequestHeader.cpp">
+   <depend name="include/openfl/net/URLRequestHeader.h"/>
+  </file>
+  <file name="src/openfl/net/URLRequest.cpp">
+   <depend name="include/Reflect.h"/>
+   <depend name="include/Std.h"/>
+   <depend name="include/haxe/io/Bytes.h"/>
+   <depend name="include/openfl/net/URLRequest.h"/>
+   <depend name="include/openfl/net/URLRequestHeader.h"/>
+   <depend name="include/openfl/net/URLVariables.h"/>
+   <depend name="include/openfl/utils/ByteArray.h"/>
+   <depend name="include/openfl/utils/IDataInput.h"/>
+   <depend name="include/openfl/utils/IDataOutput.h"/>
+   <depend name="include/openfl/utils/IMemoryRange.h"/>
+  </file>
+  <file name="src/openfl/net/URLLoaderDataFormat.cpp">
+   <depend name="include/openfl/net/URLLoaderDataFormat.h"/>
+  </file>
+  <file name="src/openfl/media/SoundTransform.cpp">
+   <depend name="include/openfl/media/SoundTransform.h"/>
+  </file>
+  <file name="src/openfl/media/SoundLoaderContext.cpp">
+   <depend name="include/openfl/media/SoundLoaderContext.h"/>
+  </file>
+  <file name="src/openfl/media/AudioThreadState.cpp">
+   <depend name="include/Lambda.h"/>
+   <depend name="include/cpp/vm/Mutex.h"/>
+   <depend name="include/cpp/vm/Thread.h"/>
+   <depend name="include/openfl/events/EventDispatcher.h"/>
+   <depend name="include/openfl/events/IEventDispatcher.h"/>
+   <depend name="include/openfl/media/AudioThreadState.h"/>
+   <depend name="include/openfl/media/SoundChannel.h"/>
+  </file>
+  <file name="src/openfl/media/SoundChannel.cpp">
+   <depend name="include/Sys.h"/>
+   <depend name="include/cpp/vm/Thread.h"/>
+   <depend name="include/haxe/io/Bytes.h"/>
+   <depend name="include/openfl/Lib.h"/>
+   <depend name="include/openfl/events/Event.h"/>
+   <depend name="include/openfl/events/EventDispatcher.h"/>
+   <depend name="include/openfl/events/IEventDispatcher.h"/>
+   <depend name="include/openfl/events/SampleDataEvent.h"/>
+   <depend name="include/openfl/media/AudioThreadState.h"/>
+   <depend name="include/openfl/media/InternalAudioType.h"/>
+   <depend name="include/openfl/media/Sound.h"/>
+   <depend name="include/openfl/media/SoundChannel.h"/>
+   <depend name="include/openfl/media/SoundTransform.h"/>
+   <depend name="include/openfl/utils/ByteArray.h"/>
+   <depend name="include/openfl/utils/IDataInput.h"/>
+   <depend name="include/openfl/utils/IDataOutput.h"/>
+   <depend name="include/openfl/utils/IMemoryRange.h"/>
+  </file>
+  <file name="src/openfl/media/InternalAudioType.cpp">
+   <depend name="include/openfl/media/InternalAudioType.h"/>
+  </file>
+  <file name="src/openfl/media/Sound.cpp">
+   <depend name="include/Std.h"/>
+   <depend name="include/haxe/Log.h"/>
+   <depend name="include/haxe/io/Bytes.h"/>
+   <depend name="include/openfl/Lib.h"/>
+   <depend name="include/openfl/errors/Error.h"/>
+   <depend name="include/openfl/events/ErrorEvent.h"/>
+   <depend name="include/openfl/events/Event.h"/>
+   <depend name="include/openfl/events/EventDispatcher.h"/>
+   <depend name="include/openfl/events/IEventDispatcher.h"/>
+   <depend name="include/openfl/events/IOErrorEvent.h"/>
+   <depend name="include/openfl/events/SampleDataEvent.h"/>
+   <depend name="include/openfl/events/TextEvent.h"/>
+   <depend name="include/openfl/media/ID3Info.h"/>
+   <depend name="include/openfl/media/InternalAudioType.h"/>
+   <depend name="include/openfl/media/Sound.h"/>
+   <depend name="include/openfl/media/SoundChannel.h"/>
+   <depend name="include/openfl/media/SoundLoaderContext.h"/>
+   <depend name="include/openfl/media/SoundTransform.h"/>
+   <depend name="include/openfl/net/URLRequest.h"/>
+   <depend name="include/openfl/utils/ByteArray.h"/>
+   <depend name="include/openfl/utils/IDataInput.h"/>
+   <depend name="include/openfl/utils/IDataOutput.h"/>
+   <depend name="include/openfl/utils/IMemoryRange.h"/>
+  </file>
+  <file name="src/openfl/media/ID3Info.cpp">
+   <depend name="include/openfl/media/ID3Info.h"/>
+  </file>
+  <file name="src/openfl/gl/GLTexture.cpp">
+   <depend name="include/openfl/gl/GLObject.h"/>
+   <depend name="include/openfl/gl/GLTexture.h"/>
+  </file>
+  <file name="src/openfl/gl/GLShader.cpp">
+   <depend name="include/openfl/gl/GLObject.h"/>
+   <depend name="include/openfl/gl/GLShader.h"/>
+  </file>
+  <file name="src/openfl/gl/GLRenderbuffer.cpp">
+   <depend name="include/openfl/gl/GLObject.h"/>
+   <depend name="include/openfl/gl/GLRenderbuffer.h"/>
+  </file>
+  <file name="src/openfl/gl/GLProgram.cpp">
+   <depend name="include/openfl/gl/GLObject.h"/>
+   <depend name="include/openfl/gl/GLProgram.h"/>
+   <depend name="include/openfl/gl/GLShader.h"/>
+  </file>
+  <file name="src/openfl/gl/GLFramebuffer.cpp">
+   <depend name="include/openfl/gl/GLFramebuffer.h"/>
+   <depend name="include/openfl/gl/GLObject.h"/>
+  </file>
+  <file name="src/openfl/gl/GLBuffer.cpp">
+   <depend name="include/openfl/gl/GLBuffer.h"/>
+   <depend name="include/openfl/gl/GLObject.h"/>
+  </file>
+  <file name="src/openfl/gl/GLObject.cpp">
+   <depend name="include/Std.h"/>
+   <depend name="include/openfl/gl/GL.h"/>
+   <depend name="include/openfl/gl/GLObject.h"/>
+  </file>
+  <file name="src/openfl/gl/_GL/Float32Data_Impl_.cpp">
+   <depend name="include/haxe/io/Bytes.h"/>
+   <depend name="include/openfl/gl/_GL/Float32Data_Impl_.h"/>
+   <depend name="include/openfl/utils/ArrayBufferView.h"/>
+   <depend name="include/openfl/utils/ByteArray.h"/>
+   <depend name="include/openfl/utils/Float32Array.h"/>
+   <depend name="include/openfl/utils/IDataInput.h"/>
+   <depend name="include/openfl/utils/IDataOutput.h"/>
+   <depend name="include/openfl/utils/IMemoryRange.h"/>
+  </file>
+  <file name="src/openfl/gl/GL.cpp">
+   <depend name="include/haxe/Log.h"/>
+   <depend name="include/haxe/io/Bytes.h"/>
+   <depend name="include/openfl/Lib.h"/>
+   <depend name="include/openfl/display/BitmapData.h"/>
+   <depend name="include/openfl/display/DisplayObject.h"/>
+   <depend name="include/openfl/display/DisplayObjectContainer.h"/>
+   <depend name="include/openfl/display/IBitmapDrawable.h"/>
+   <depend name="include/openfl/display/InteractiveObject.h"/>
+   <depend name="include/openfl/display/MovieClip.h"/>
+   <depend name="include/openfl/display/Sprite.h"/>
+   <depend name="include/openfl/display/Stage.h"/>
+   <depend name="include/openfl/events/EventDispatcher.h"/>
+   <depend name="include/openfl/events/IEventDispatcher.h"/>
+   <depend name="include/openfl/geom/Matrix3D.h"/>
+   <depend name="include/openfl/gl/GL.h"/>
+   <depend name="include/openfl/gl/GLBuffer.h"/>
+   <depend name="include/openfl/gl/GLFramebuffer.h"/>
+   <depend name="include/openfl/gl/GLObject.h"/>
+   <depend name="include/openfl/gl/GLProgram.h"/>
+   <depend name="include/openfl/gl/GLRenderbuffer.h"/>
+   <depend name="include/openfl/gl/GLShader.h"/>
+   <depend name="include/openfl/gl/GLTexture.h"/>
+   <depend name="include/openfl/utils/ArrayBufferView.h"/>
+   <depend name="include/openfl/utils/ByteArray.h"/>
+   <depend name="include/openfl/utils/Float32Array.h"/>
+   <depend name="include/openfl/utils/IDataInput.h"/>
+   <depend name="include/openfl/utils/IDataOutput.h"/>
+   <depend name="include/openfl/utils/IMemoryRange.h"/>
+  </file>
+  <file name="src/openfl/geom/Vector3D.cpp">
+   <depend name="include/openfl/geom/Vector3D.h"/>
+  </file>
+  <file name="src/openfl/geom/Transform.cpp">
+   <depend name="include/openfl/display/DisplayObject.h"/>
+   <depend name="include/openfl/display/IBitmapDrawable.h"/>
+   <depend name="include/openfl/events/EventDispatcher.h"/>
+   <depend name="include/openfl/events/IEventDispatcher.h"/>
+   <depend name="include/openfl/geom/ColorTransform.h"/>
+   <depend name="include/openfl/geom/Matrix.h"/>
+   <depend name="include/openfl/geom/Rectangle.h"/>
+   <depend name="include/openfl/geom/Transform.h"/>
+  </file>
+  <file name="src/openfl/geom/Rectangle.cpp">
+   <depend name="include/openfl/geom/Matrix.h"/>
+   <depend name="include/openfl/geom/Point.h"/>
+   <depend name="include/openfl/geom/Rectangle.h"/>
+  </file>
+  <file name="src/openfl/geom/Matrix3D.cpp">
+   <depend name="include/openfl/geom/Matrix3D.h"/>
+   <depend name="include/openfl/geom/Vector3D.h"/>
+  </file>
+  <file name="src/openfl/geom/Matrix.cpp">
+   <depend name="include/openfl/geom/Matrix.h"/>
+   <depend name="include/openfl/geom/Point.h"/>
+   <depend name="include/openfl/geom/Vector3D.h"/>
+  </file>
+  <file name="src/openfl/geom/ColorTransform.cpp">
+   <depend name="include/Std.h"/>
+   <depend name="include/openfl/geom/ColorTransform.h"/>
+  </file>
+  <file name="src/openfl/filters/BitmapFilter.cpp">
+   <depend name="include/openfl/filters/BitmapFilter.h"/>
+  </file>
+  <file name="src/openfl/events/UncaughtErrorEvents.cpp">
+   <depend name="include/openfl/events/EventDispatcher.h"/>
+   <depend name="include/openfl/events/IEventDispatcher.h"/>
+   <depend name="include/openfl/events/UncaughtErrorEvents.h"/>
+  </file>
+  <file name="src/openfl/events/UncaughtErrorEvent.cpp">
+   <depend name="include/Std.h"/>
+   <depend name="include/openfl/events/ErrorEvent.h"/>
+   <depend name="include/openfl/events/Event.h"/>
+   <depend name="include/openfl/events/TextEvent.h"/>
+   <depend name="include/openfl/events/UncaughtErrorEvent.h"/>
+  </file>
+  <file name="src/openfl/events/SystemEvent.cpp">
+   <depend name="include/Std.h"/>
+   <depend name="include/openfl/events/Event.h"/>
+   <depend name="include/openfl/events/SystemEvent.h"/>
+  </file>
+  <file name="src/openfl/events/SampleDataEvent.cpp">
+   <depend name="include/Std.h"/>
+   <depend name="include/haxe/io/Bytes.h"/>
+   <depend name="include/openfl/events/Event.h"/>
+   <depend name="include/openfl/events/SampleDataEvent.h"/>
+   <depend name="include/openfl/utils/ByteArray.h"/>
+   <depend name="include/openfl/utils/IDataInput.h"/>
+   <depend name="include/openfl/utils/IDataOutput.h"/>
+   <depend name="include/openfl/utils/IMemoryRange.h"/>
+  </file>
+  <file name="src/openfl/events/ProgressEvent.cpp">
+   <depend name="include/Std.h"/>
+   <depend name="include/openfl/events/Event.h"/>
+   <depend name="include/openfl/events/ProgressEvent.h"/>
+  </file>
+  <file name="src/openfl/events/KeyboardEvent.cpp">
+   <depend name="include/Std.h"/>
+   <depend name="include/openfl/events/Event.h"/>
+   <depend name="include/openfl/events/KeyboardEvent.h"/>
+  </file>
+  <file name="src/openfl/events/JoystickEvent.cpp">
+   <depend name="include/Std.h"/>
+   <depend name="include/openfl/events/Event.h"/>
+   <depend name="include/openfl/events/JoystickEvent.h"/>
+  </file>
+  <file name="src/openfl/events/IOErrorEvent.cpp">
+   <depend name="include/Std.h"/>
+   <depend name="include/openfl/events/ErrorEvent.h"/>
+   <depend name="include/openfl/events/Event.h"/>
+   <depend name="include/openfl/events/IOErrorEvent.h"/>
+   <depend name="include/openfl/events/TextEvent.h"/>
+  </file>
+  <file name="src/openfl/events/HTTPStatusEvent.cpp">
+   <depend name="include/Std.h"/>
+   <depend name="include/openfl/events/Event.h"/>
+   <depend name="include/openfl/events/HTTPStatusEvent.h"/>
+   <depend name="include/openfl/net/URLRequestHeader.h"/>
+  </file>
+  <file name="src/openfl/events/FocusEvent.cpp">
+   <depend name="include/Std.h"/>
+   <depend name="include/openfl/display/DisplayObject.h"/>
+   <depend name="include/openfl/display/IBitmapDrawable.h"/>
+   <depend name="include/openfl/display/InteractiveObject.h"/>
+   <depend name="include/openfl/events/Event.h"/>
+   <depend name="include/openfl/events/EventDispatcher.h"/>
+   <depend name="include/openfl/events/FocusEvent.h"/>
+   <depend name="include/openfl/events/IEventDispatcher.h"/>
+  </file>
+  <file name="src/openfl/events/EventPhase.cpp">
+   <depend name="include/openfl/events/EventPhase.h"/>
+  </file>
+  <file name="src/openfl/events/Listener.cpp">
+   <depend name="include/Reflect.h"/>
+   <depend name="include/openfl/events/Event.h"/>
+   <depend name="include/openfl/events/Listener.h"/>
+   <depend name="include/openfl/utils/WeakRef.h"/>
+  </file>
+  <file name="src/openfl/events/ErrorEvent.cpp">
+   <depend name="include/Std.h"/>
+   <depend name="include/openfl/events/ErrorEvent.h"/>
+   <depend name="include/openfl/events/Event.h"/>
+   <depend name="include/openfl/events/TextEvent.h"/>
+  </file>
+  <file name="src/openfl/events/TextEvent.cpp">
+   <depend name="include/Std.h"/>
+   <depend name="include/openfl/events/Event.h"/>
+   <depend name="include/openfl/events/TextEvent.h"/>
+  </file>
+  <file name="src/openfl/errors/RangeError.cpp">
+   <depend name="include/openfl/errors/Error.h"/>
+   <depend name="include/openfl/errors/RangeError.h"/>
+  </file>
+  <file name="src/openfl/errors/EOFError.cpp">
+   <depend name="include/openfl/errors/EOFError.h"/>
+   <depend name="include/openfl/errors/Error.h"/>
+  </file>
+  <file name="src/openfl/errors/ArgumentError.cpp">
+   <depend name="include/openfl/errors/ArgumentError.h"/>
+   <depend name="include/openfl/errors/Error.h"/>
+  </file>
+  <file name="src/openfl/errors/Error.cpp">
+   <depend name="include/haxe/CallStack.h"/>
+   <depend name="include/haxe/StackItem.h"/>
+   <depend name="include/openfl/errors/Error.h"/>
+  </file>
+  <file name="src/openfl/display/TriangleCulling.cpp">
+   <depend name="include/openfl/display/TriangleCulling.h"/>
+  </file>
+  <file name="src/openfl/display/Tilesheet.cpp">
+   <depend name="include/openfl/Lib.h"/>
+   <depend name="include/openfl/display/BitmapData.h"/>
+   <depend name="include/openfl/display/Graphics.h"/>
+   <depend name="include/openfl/display/IBitmapDrawable.h"/>
+   <depend name="include/openfl/display/Tilesheet.h"/>
+   <depend name="include/openfl/geom/Point.h"/>
+   <depend name="include/openfl/geom/Rectangle.h"/>
+  </file>
+  <file name="src/openfl/geom/Point.cpp">
+   <depend name="include/openfl/geom/Point.h"/>
+  </file>
+  <file name="src/openfl/display/StageScaleMode.cpp">
+   <depend name="include/openfl/display/StageScaleMode.h"/>
+  </file>
+  <file name="src/openfl/display/StageQuality.cpp">
+   <depend name="include/openfl/display/StageQuality.h"/>
+  </file>
+  <file name="src/openfl/display/StageDisplayState.cpp">
+   <depend name="include/openfl/display/StageDisplayState.h"/>
+  </file>
+  <file name="src/openfl/display/StageAlign.cpp">
+   <depend name="include/openfl/display/StageAlign.h"/>
+  </file>
+  <file name="src/openfl/display/TouchInfo.cpp">
+   <depend name="include/openfl/display/DisplayObject.h"/>
+   <depend name="include/openfl/display/IBitmapDrawable.h"/>
+   <depend name="include/openfl/display/InteractiveObject.h"/>
+   <depend name="include/openfl/display/TouchInfo.h"/>
+   <depend name="include/openfl/events/EventDispatcher.h"/>
+   <depend name="include/openfl/events/IEventDispatcher.h"/>
+  </file>
+  <file name="src/openfl/display/SpreadMethod.cpp">
+   <depend name="include/openfl/display/SpreadMethod.h"/>
+  </file>
+  <file name="src/openfl/display/Shape.cpp">
+   <depend name="include/openfl/display/DisplayObject.h"/>
+   <depend name="include/openfl/display/IBitmapDrawable.h"/>
+   <depend name="include/openfl/display/Shape.h"/>
+   <depend name="include/openfl/events/EventDispatcher.h"/>
+   <depend name="include/openfl/events/IEventDispatcher.h"/>
+  </file>
+  <file name="src/openfl/display/PixelSnapping.cpp">
+   <depend name="include/openfl/display/PixelSnapping.h"/>
+  </file>
+  <file name="src/openfl/display/OpenGLView.cpp">
+   <depend name="include/openfl/display/DirectRenderer.h"/>
+   <depend name="include/openfl/display/DisplayObject.h"/>
+   <depend name="include/openfl/display/IBitmapDrawable.h"/>
+   <depend name="include/openfl/display/OpenGLView.h"/>
+   <depend name="include/openfl/events/EventDispatcher.h"/>
+   <depend name="include/openfl/events/IEventDispatcher.h"/>
+  </file>
+  <file name="src/openfl/display/MovieClip.cpp">
+   <depend name="include/openfl/display/DisplayObject.h"/>
+   <depend name="include/openfl/display/DisplayObjectContainer.h"/>
+   <depend name="include/openfl/display/FrameLabel.h"/>
+   <depend name="include/openfl/display/IBitmapDrawable.h"/>
+   <depend name="include/openfl/display/InteractiveObject.h"/>
+   <depend name="include/openfl/display/MovieClip.h"/>
+   <depend name="include/openfl/display/Sprite.h"/>
+   <depend name="include/openfl/events/EventDispatcher.h"/>
+   <depend name="include/openfl/events/IEventDispatcher.h"/>
+  </file>
+  <file name="src/openfl/display/ManagedStage.cpp">
+   <depend name="include/openfl/Lib.h"/>
+   <depend name="include/openfl/display/DisplayObject.h"/>
+   <depend name="include/openfl/display/DisplayObjectContainer.h"/>
+   <depend name="include/openfl/display/IBitmapDrawable.h"/>
+   <depend name="include/openfl/display/InteractiveObject.h"/>
+   <depend name="include/openfl/display/ManagedStage.h"/>
+   <depend name="include/openfl/display/Stage.h"/>
+   <depend name="include/openfl/events/EventDispatcher.h"/>
+   <depend name="include/openfl/events/IEventDispatcher.h"/>
+  </file>
+  <file name="src/openfl/display/Stage.cpp">
+   <depend name="include/IMap.h"/>
+   <depend name="include/Reflect.h"/>
+   <depend name="include/Std.h"/>
+   <depend name="include/Type.h"/>
+   <depend name="include/haxe/Log.h"/>
+   <depend name="include/haxe/Timer.h"/>
+   <depend name="include/haxe/ds/IntMap.h"/>
+   <depend name="include/openfl/Lib.h"/>
+   <depend name="include/openfl/display/DisplayObject.h"/>
+   <depend name="include/openfl/display/DisplayObjectContainer.h"/>
+   <depend name="include/openfl/display/IBitmapDrawable.h"/>
+   <depend name="include/openfl/display/InteractiveObject.h"/>
+   <depend name="include/openfl/display/Sprite.h"/>
+   <depend name="include/openfl/display/Stage.h"/>
+   <depend name="include/openfl/display/StageAlign.h"/>
+   <depend name="include/openfl/display/StageDisplayState.h"/>
+   <depend name="include/openfl/display/StageQuality.h"/>
+   <depend name="include/openfl/display/StageScaleMode.h"/>
+   <depend name="include/openfl/display/TouchInfo.h"/>
+   <depend name="include/openfl/events/Event.h"/>
+   <depend name="include/openfl/events/EventDispatcher.h"/>
+   <depend name="include/openfl/events/FocusEvent.h"/>
+   <depend name="include/openfl/events/IEventDispatcher.h"/>
+   <depend name="include/openfl/events/JoystickEvent.h"/>
+   <depend name="include/openfl/events/KeyboardEvent.h"/>
+   <depend name="include/openfl/events/MouseEvent.h"/>
+   <depend name="include/openfl/events/SystemEvent.h"/>
+   <depend name="include/openfl/events/TouchEvent.h"/>
+   <depend name="include/openfl/geom/Point.h"/>
+   <depend name="include/openfl/geom/Rectangle.h"/>
+   <depend name="include/openfl/media/SoundChannel.h"/>
+   <depend name="include/openfl/net/URLLoader.h"/>
+   <depend name="include/openfl/system/ScreenMode.h"/>
+  </file>
+  <file name="src/openfl/events/TouchEvent.cpp">
+   <depend name="include/openfl/display/DisplayObject.h"/>
+   <depend name="include/openfl/display/IBitmapDrawable.h"/>
+   <depend name="include/openfl/display/InteractiveObject.h"/>
+   <depend name="include/openfl/events/Event.h"/>
+   <depend name="include/openfl/events/EventDispatcher.h"/>
+   <depend name="include/openfl/events/IEventDispatcher.h"/>
+   <depend name="include/openfl/events/MouseEvent.h"/>
+   <depend name="include/openfl/events/TouchEvent.h"/>
+   <depend name="include/openfl/geom/Point.h"/>
+  </file>
+  <file name="src/openfl/events/MouseEvent.cpp">
+   <depend name="include/Std.h"/>
+   <depend name="include/openfl/display/DisplayObject.h"/>
+   <depend name="include/openfl/display/IBitmapDrawable.h"/>
+   <depend name="include/openfl/display/InteractiveObject.h"/>
+   <depend name="include/openfl/events/Event.h"/>
+   <depend name="include/openfl/events/EventDispatcher.h"/>
+   <depend name="include/openfl/events/IEventDispatcher.h"/>
+   <depend name="include/openfl/events/MouseEvent.h"/>
+   <depend name="include/openfl/geom/Point.h"/>
+  </file>
+  <file name="src/openfl/events/Event.cpp">
+   <depend name="include/Std.h"/>
+   <depend name="include/openfl/events/Event.h"/>
+   <depend name="include/openfl/events/EventPhase.h"/>
+  </file>
+  <file name="src/openfl/display/LoaderInfo.cpp">
+   <depend name="include/haxe/io/Bytes.h"/>
+   <depend name="include/openfl/display/DisplayObject.h"/>
+   <depend name="include/openfl/display/DisplayObjectContainer.h"/>
+   <depend name="include/openfl/display/IBitmapDrawable.h"/>
+   <depend name="include/openfl/display/InteractiveObject.h"/>
+   <depend name="include/openfl/display/Loader.h"/>
+   <depend name="include/openfl/display/LoaderInfo.h"/>
+   <depend name="include/openfl/display/Sprite.h"/>
+   <depend name="include/openfl/events/Event.h"/>
+   <depend name="include/openfl/events/EventDispatcher.h"/>
+   <depend name="include/openfl/events/IEventDispatcher.h"/>
+   <depend name="include/openfl/events/UncaughtErrorEvents.h"/>
+   <depend name="include/openfl/net/URLLoader.h"/>
+   <depend name="include/openfl/net/URLLoaderDataFormat.h"/>
+   <depend name="include/openfl/net/URLRequest.h"/>
+   <depend name="include/openfl/system/ApplicationDomain.h"/>
+   <depend name="include/openfl/utils/ByteArray.h"/>
+   <depend name="include/openfl/utils/IDataInput.h"/>
+   <depend name="include/openfl/utils/IDataOutput.h"/>
+   <depend name="include/openfl/utils/IMemoryRange.h"/>
+  </file>
+  <file name="src/openfl/net/URLLoader.cpp">
+   <depend name="include/List.h"/>
+   <depend name="include/haxe/io/Bytes.h"/>
+   <depend name="include/openfl/Lib.h"/>
+   <depend name="include/openfl/events/ErrorEvent.h"/>
+   <depend name="include/openfl/events/Event.h"/>
+   <depend name="include/openfl/events/EventDispatcher.h"/>
+   <depend name="include/openfl/events/HTTPStatusEvent.h"/>
+   <depend name="include/openfl/events/IEventDispatcher.h"/>
+   <depend name="include/openfl/events/IOErrorEvent.h"/>
+   <depend name="include/openfl/events/ProgressEvent.h"/>
+   <depend name="include/openfl/events/TextEvent.h"/>
+   <depend name="include/openfl/net/URLLoader.h"/>
+   <depend name="include/openfl/net/URLLoaderDataFormat.h"/>
+   <depend name="include/openfl/net/URLRequest.h"/>
+   <depend name="include/openfl/net/URLRequestHeader.h"/>
+   <depend name="include/openfl/net/URLVariables.h"/>
+   <depend name="include/openfl/utils/ByteArray.h"/>
+   <depend name="include/openfl/utils/IDataInput.h"/>
+   <depend name="include/openfl/utils/IDataOutput.h"/>
+   <depend name="include/openfl/utils/IMemoryRange.h"/>
+  </file>
+  <file name="src/openfl/display/Loader.cpp">
+   <depend name="include/haxe/io/Bytes.h"/>
+   <depend name="include/openfl/display/Bitmap.h"/>
+   <depend name="include/openfl/display/BitmapData.h"/>
+   <depend name="include/openfl/display/DisplayObject.h"/>
+   <depend name="include/openfl/display/DisplayObjectContainer.h"/>
+   <depend name="include/openfl/display/IBitmapDrawable.h"/>
+   <depend name="include/openfl/display/InteractiveObject.h"/>
+   <depend name="include/openfl/display/Loader.h"/>
+   <depend name="include/openfl/display/LoaderInfo.h"/>
+   <depend name="include/openfl/display/PixelSnapping.h"/>
+   <depend name="include/openfl/display/Sprite.h"/>
+   <depend name="include/openfl/events/Event.h"/>
+   <depend name="include/openfl/events/EventDispatcher.h"/>
+   <depend name="include/openfl/events/IEventDispatcher.h"/>
+   <depend name="include/openfl/net/URLLoader.h"/>
+   <depend name="include/openfl/net/URLRequest.h"/>
+   <depend name="include/openfl/system/LoaderContext.h"/>
+   <depend name="include/openfl/utils/ByteArray.h"/>
+   <depend name="include/openfl/utils/IDataInput.h"/>
+   <depend name="include/openfl/utils/IDataOutput.h"/>
+   <depend name="include/openfl/utils/IMemoryRange.h"/>
+  </file>
+  <file name="src/openfl/display/LineScaleMode.cpp">
+   <depend name="include/openfl/display/LineScaleMode.h"/>
+  </file>
+  <file name="src/openfl/display/JointStyle.cpp">
+   <depend name="include/openfl/display/JointStyle.h"/>
+  </file>
+  <file name="src/openfl/display/InterpolationMethod.cpp">
+   <depend name="include/openfl/display/InterpolationMethod.h"/>
+  </file>
+  <file name="src/openfl/display/IGraphicsData.cpp">
+   <depend name="include/openfl/display/IGraphicsData.h"/>
+  </file>
+  <file name="src/openfl/display/GraphicsPathWinding.cpp">
+   <depend name="include/openfl/display/GraphicsPathWinding.h"/>
+  </file>
+  <file name="src/openfl/display/Graphics.cpp">
+   <depend name="include/openfl/Lib.h"/>
+   <depend name="include/openfl/display/BitmapData.h"/>
+   <depend name="include/openfl/display/CapsStyle.h"/>
+   <depend name="include/openfl/display/GradientType.h"/>
+   <depend name="include/openfl/display/Graphics.h"/>
+   <depend name="include/openfl/display/GraphicsPathWinding.h"/>
+   <depend name="include/openfl/display/IBitmapDrawable.h"/>
+   <depend name="include/openfl/display/IGraphicsData.h"/>
+   <depend name="include/openfl/display/InterpolationMethod.h"/>
+   <depend name="include/openfl/display/JointStyle.h"/>
+   <depend name="include/openfl/display/LineScaleMode.h"/>
+   <depend name="include/openfl/display/SpreadMethod.h"/>
+   <depend name="include/openfl/display/Tilesheet.h"/>
+   <depend name="include/openfl/display/TriangleCulling.h"/>
+   <depend name="include/openfl/geom/Matrix.h"/>
+  </file>
+  <file name="src/openfl/display/GradientType.cpp">
+   <depend name="include/openfl/display/GradientType.h"/>
+  </file>
+  <file name="src/openfl/display/FrameLabel.cpp">
+   <depend name="include/openfl/display/FrameLabel.h"/>
+   <depend name="include/openfl/events/EventDispatcher.h"/>
+   <depend name="include/openfl/events/IEventDispatcher.h"/>
+  </file>
+  <file name="src/openfl/display/FPS.cpp">
+   <depend name="include/haxe/Timer.h"/>
+   <depend name="include/openfl/display/DisplayObject.h"/>
+   <depend name="include/openfl/display/FPS.h"/>
+   <depend name="include/openfl/display/IBitmapDrawable.h"/>
+   <depend name="include/openfl/display/InteractiveObject.h"/>
+   <depend name="include/openfl/events/Event.h"/>
+   <depend name="include/openfl/events/EventDispatcher.h"/>
+   <depend name="include/openfl/events/IEventDispatcher.h"/>
+   <depend name="include/openfl/text/TextField.h"/>
+   <depend name="include/openfl/text/TextFormat.h"/>
+  </file>
+  <file name="src/openfl/text/TextField.cpp">
+   <depend name="include/StringTools.h"/>
+   <depend name="include/Type.h"/>
+   <depend name="include/openfl/Lib.h"/>
+   <depend name="include/openfl/display/DisplayObject.h"/>
+   <depend name="include/openfl/display/IBitmapDrawable.h"/>
+   <depend name="include/openfl/display/InteractiveObject.h"/>
+   <depend name="include/openfl/events/EventDispatcher.h"/>
+   <depend name="include/openfl/events/IEventDispatcher.h"/>
+   <depend name="include/openfl/text/AntiAliasType.h"/>
+   <depend name="include/openfl/text/GridFitType.h"/>
+   <depend name="include/openfl/text/TextField.h"/>
+   <depend name="include/openfl/text/TextFieldAutoSize.h"/>
+   <depend name="include/openfl/text/TextFieldType.h"/>
+   <depend name="include/openfl/text/TextFormat.h"/>
+   <depend name="include/openfl/text/TextLineMetrics.h"/>
+  </file>
+  <file name="src/openfl/display/DirectRenderer.cpp">
+   <depend name="include/openfl/Lib.h"/>
+   <depend name="include/openfl/display/DirectRenderer.h"/>
+   <depend name="include/openfl/display/DisplayObject.h"/>
+   <depend name="include/openfl/display/IBitmapDrawable.h"/>
+   <depend name="include/openfl/events/Event.h"/>
+   <depend name="include/openfl/events/EventDispatcher.h"/>
+   <depend name="include/openfl/events/IEventDispatcher.h"/>
+   <depend name="include/openfl/geom/Rectangle.h"/>
+  </file>
+  <file name="src/openfl/display/CapsStyle.cpp">
+   <depend name="include/openfl/display/CapsStyle.h"/>
+  </file>
+  <file name="src/openfl/display/BlendMode.cpp">
+   <depend name="include/openfl/display/BlendMode.h"/>
+  </file>
+  <file name="src/openfl/display/OptimizedPerlin.cpp">
+   <depend name="include/Std.h"/>
+   <depend name="include/openfl/display/BitmapData.h"/>
+   <depend name="include/openfl/display/IBitmapDrawable.h"/>
+   <depend name="include/openfl/display/OptimizedPerlin.h"/>
+  </file>
+  <file name="src/openfl/display/BitmapData.cpp">
+   <depend name="include/Std.h"/>
+   <depend name="include/haxe/io/Bytes.h"/>
+   <depend name="include/openfl/Lib.h"/>
+   <depend name="include/openfl/Memory.h"/>
+   <depend name="include/openfl/display/BitmapData.h"/>
+   <depend name="include/openfl/display/BlendMode.h"/>
+   <depend name="include/openfl/display/IBitmapDrawable.h"/>
+   <depend name="include/openfl/display/OptimizedPerlin.h"/>
+   <depend name="include/openfl/filters/BitmapFilter.h"/>
+   <depend name="include/openfl/geom/ColorTransform.h"/>
+   <depend name="include/openfl/geom/Matrix.h"/>
+   <depend name="include/openfl/geom/Point.h"/>
+   <depend name="include/openfl/geom/Rectangle.h"/>
+   <depend name="include/openfl/utils/ByteArray.h"/>
+   <depend name="include/openfl/utils/IDataInput.h"/>
+   <depend name="include/openfl/utils/IDataOutput.h"/>
+   <depend name="include/openfl/utils/IMemoryRange.h"/>
+  </file>
+  <file name="src/openfl/display/Bitmap.cpp">
+   <depend name="include/openfl/display/Bitmap.h"/>
+   <depend name="include/openfl/display/BitmapData.h"/>
+   <depend name="include/openfl/display/DisplayObject.h"/>
+   <depend name="include/openfl/display/Graphics.h"/>
+   <depend name="include/openfl/display/IBitmapDrawable.h"/>
+   <depend name="include/openfl/display/PixelSnapping.h"/>
+   <depend name="include/openfl/events/EventDispatcher.h"/>
+   <depend name="include/openfl/events/IEventDispatcher.h"/>
+   <depend name="include/openfl/geom/Matrix.h"/>
+  </file>
+  <file name="src/openfl/_Vector/Vector_Impl_.cpp">
+   <depend name="include/openfl/_Vector/Vector_Impl_.h"/>
+  </file>
+  <file name="src/openfl/Memory.cpp">
+   <depend name="include/haxe/io/Bytes.h"/>
+   <depend name="include/openfl/Memory.h"/>
+   <depend name="include/openfl/utils/ByteArray.h"/>
+   <depend name="include/openfl/utils/IDataInput.h"/>
+   <depend name="include/openfl/utils/IDataOutput.h"/>
+   <depend name="include/openfl/utils/IMemoryRange.h"/>
+  </file>
+  <file name="src/openfl/AssetType.cpp">
+   <depend name="include/openfl/AssetType.h"/>
+  </file>
+  <file name="src/openfl/AssetData.cpp">
+   <depend name="include/openfl/AssetData.h"/>
+   <depend name="include/openfl/AssetType.h"/>
+  </file>
+  <file name="src/openfl/Assets.cpp">
+   <depend name="include/DefaultAssetLibrary.h"/>
+   <depend name="include/IMap.h"/>
+   <depend name="include/Type.h"/>
+   <depend name="include/haxe/Log.h"/>
+   <depend name="include/haxe/Unserializer.h"/>
+   <depend name="include/haxe/ds/StringMap.h"/>
+   <depend name="include/haxe/io/Bytes.h"/>
+   <depend name="include/openfl/AssetCache.h"/>
+   <depend name="include/openfl/AssetLibrary.h"/>
+   <depend name="include/openfl/AssetType.h"/>
+   <depend name="include/openfl/Assets.h"/>
+   <depend name="include/openfl/display/BitmapData.h"/>
+   <depend name="include/openfl/display/DisplayObject.h"/>
+   <depend name="include/openfl/display/DisplayObjectContainer.h"/>
+   <depend name="include/openfl/display/IBitmapDrawable.h"/>
+   <depend name="include/openfl/display/InteractiveObject.h"/>
+   <depend name="include/openfl/display/MovieClip.h"/>
+   <depend name="include/openfl/display/Sprite.h"/>
+   <depend name="include/openfl/events/Event.h"/>
+   <depend name="include/openfl/events/EventDispatcher.h"/>
+   <depend name="include/openfl/events/IEventDispatcher.h"/>
+   <depend name="include/openfl/media/Sound.h"/>
+   <depend name="include/openfl/text/Font.h"/>
+   <depend name="include/openfl/utils/ByteArray.h"/>
+   <depend name="include/openfl/utils/IDataInput.h"/>
+   <depend name="include/openfl/utils/IDataOutput.h"/>
+   <depend name="include/openfl/utils/IMemoryRange.h"/>
+  </file>
+  <file name="src/openfl/AssetCache.cpp">
+   <depend name="include/IMap.h"/>
+   <depend name="include/StringTools.h"/>
+   <depend name="include/haxe/ds/StringMap.h"/>
+   <depend name="include/openfl/AssetCache.h"/>
+  </file>
+  <file name="src/haxe/zip/Uncompress.cpp">
+   <depend name="include/cpp/Lib.h"/>
+   <depend name="include/haxe/io/Bytes.h"/>
+   <depend name="include/haxe/io/BytesBuffer.h"/>
+   <depend name="include/haxe/io/Error.h"/>
+   <depend name="include/haxe/zip/FlushMode.h"/>
+   <depend name="include/haxe/zip/Uncompress.h"/>
+  </file>
+  <file name="src/haxe/zip/FlushMode.cpp">
+   <depend name="include/haxe/zip/FlushMode.h"/>
+  </file>
+  <file name="src/haxe/zip/Compress.cpp">
+   <depend name="include/Std.h"/>
+   <depend name="include/cpp/Lib.h"/>
+   <depend name="include/haxe/io/Bytes.h"/>
+   <depend name="include/haxe/zip/Compress.h"/>
+   <depend name="include/haxe/zip/FlushMode.h"/>
+  </file>
+  <file name="src/haxe/io/StringInput.cpp">
+   <depend name="include/haxe/io/Bytes.h"/>
+   <depend name="include/haxe/io/BytesInput.h"/>
+   <depend name="include/haxe/io/Input.h"/>
+   <depend name="include/haxe/io/StringInput.h"/>
+  </file>
+  <file name="src/haxe/io/Error.cpp">
+   <depend name="include/haxe/io/Error.h"/>
+  </file>
+  <file name="src/haxe/io/Eof.cpp">
+   <depend name="include/haxe/io/Eof.h"/>
+  </file>
+  <file name="src/haxe/io/BytesInput.cpp">
+   <depend name="include/haxe/io/Bytes.h"/>
+   <depend name="include/haxe/io/BytesInput.h"/>
+   <depend name="include/haxe/io/Eof.h"/>
+   <depend name="include/haxe/io/Error.h"/>
+   <depend name="include/haxe/io/Input.h"/>
+  </file>
+  <file name="src/haxe/io/BytesBuffer.cpp">
+   <depend name="include/haxe/io/Bytes.h"/>
+   <depend name="include/haxe/io/BytesBuffer.h"/>
+  </file>
+  <file name="src/haxe/format/JsonParser.cpp">
+   <depend name="include/Std.h"/>
+   <depend name="include/StringBuf.h"/>
+   <depend name="include/haxe/format/JsonParser.h"/>
+  </file>
+  <file name="src/haxe/ds/StringMap.cpp">
+   <depend name="include/IMap.h"/>
+   <depend name="include/haxe/ds/StringMap.h"/>
+  </file>
+  <file name="src/haxe/ds/ObjectMap.cpp">
+   <depend name="include/IMap.h"/>
+   <depend name="include/haxe/ds/IntMap.h"/>
+   <depend name="include/haxe/ds/ObjectMap.h"/>
+  </file>
+  <file name="src/haxe/ds/IntMap.cpp">
+   <depend name="include/IMap.h"/>
+   <depend name="include/haxe/ds/IntMap.h"/>
+  </file>
+  <file name="src/haxe/Unserializer.cpp">
+   <depend name="include/Date.h"/>
+   <depend name="include/IMap.h"/>
+   <depend name="include/List.h"/>
+   <depend name="include/Std.h"/>
+   <depend name="include/StringTools.h"/>
+   <depend name="include/Type.h"/>
+   <depend name="include/haxe/Unserializer.h"/>
+   <depend name="include/haxe/ds/IntMap.h"/>
+   <depend name="include/haxe/ds/ObjectMap.h"/>
+   <depend name="include/haxe/ds/StringMap.h"/>
+   <depend name="include/haxe/io/Bytes.h"/>
+  </file>
+  <file name="src/haxe/Timer.cpp">
+   <depend name="include/haxe/Log.h"/>
+   <depend name="include/haxe/Timer.h"/>
+   <depend name="include/openfl/Lib.h"/>
+  </file>
+  <file name="src/haxe/Resource.cpp">
+   <depend name="include/haxe/Resource.h"/>
+   <depend name="include/haxe/io/Bytes.h"/>
+  </file>
+  <file name="src/haxe/Log.cpp">
+   <depend name="include/Std.h"/>
+   <depend name="include/haxe/Log.h"/>
+  </file>
+  <file name="src/haxe/CallStack.cpp">
+   <depend name="include/Std.h"/>
+   <depend name="include/StringBuf.h"/>
+   <depend name="include/haxe/CallStack.h"/>
+   <depend name="include/haxe/StackItem.h"/>
+  </file>
+  <file name="src/haxe/StackItem.cpp">
+   <depend name="include/haxe/StackItem.h"/>
+  </file>
+  <file name="src/cpp/vm/Thread.cpp">
+   <depend name="include/cpp/vm/Thread.h"/>
+  </file>
+  <file name="src/cpp/vm/Mutex.cpp">
+   <depend name="include/cpp/vm/Mutex.h"/>
+  </file>
+  <file name="src/cpp/rtti/FieldNumericIntegerLookup.cpp">
+   <depend name="include/cpp/rtti/FieldNumericIntegerLookup.h"/>
+  </file>
+  <file name="src/Type.cpp">
+   <depend name="include/Reflect.h"/>
+   <depend name="include/Type.h"/>
+  </file>
+  <file name="src/StringTools.cpp">
+   <depend name="include/StringTools.h"/>
+  </file>
+  <file name="src/StringBuf.cpp">
+   <depend name="include/Std.h"/>
+   <depend name="include/StringBuf.h"/>
+  </file>
+  <file name="src/Reflect.cpp">
+   <depend name="include/Reflect.h"/>
+  </file>
+  <file name="src/IMap.cpp">
+   <depend name="include/IMap.h"/>
+  </file>
+  <file name="src/List.cpp">
+   <depend name="include/List.h"/>
+  </file>
+  <file name="src/Lambda.cpp">
+   <depend name="include/Lambda.h"/>
+  </file>
+  <file name="src/EReg.cpp">
+   <depend name="include/EReg.h"/>
+   <depend name="include/cpp/Lib.h"/>
+  </file>
+  <file name="src/DefaultAssetLibrary.cpp">
+   <depend name="include/DefaultAssetLibrary.h"/>
+   <depend name="include/IMap.h"/>
+   <depend name="include/Std.h"/>
+   <depend name="include/Type.h"/>
+   <depend name="include/haxe/Log.h"/>
+   <depend name="include/haxe/Timer.h"/>
+   <depend name="include/haxe/Unserializer.h"/>
+   <depend name="include/haxe/ds/StringMap.h"/>
+   <depend name="include/haxe/io/Bytes.h"/>
+   <depend name="include/openfl/AssetLibrary.h"/>
+   <depend name="include/openfl/AssetType.h"/>
+   <depend name="include/openfl/display/BitmapData.h"/>
+   <depend name="include/openfl/display/IBitmapDrawable.h"/>
+   <depend name="include/openfl/events/EventDispatcher.h"/>
+   <depend name="include/openfl/events/IEventDispatcher.h"/>
+   <depend name="include/openfl/media/Sound.h"/>
+   <depend name="include/openfl/media/SoundLoaderContext.h"/>
+   <depend name="include/openfl/net/URLRequest.h"/>
+   <depend name="include/openfl/text/Font.h"/>
+   <depend name="include/openfl/text/FontStyle.h"/>
+   <depend name="include/openfl/text/FontType.h"/>
+   <depend name="include/openfl/utils/ByteArray.h"/>
+   <depend name="include/openfl/utils/IDataInput.h"/>
+   <depend name="include/openfl/utils/IDataOutput.h"/>
+   <depend name="include/openfl/utils/IMemoryRange.h"/>
+  </file>
+  <file name="src/openfl/AssetLibrary.cpp">
+   <depend name="include/haxe/io/Bytes.h"/>
+   <depend name="include/openfl/AssetLibrary.h"/>
+   <depend name="include/openfl/AssetType.h"/>
+   <depend name="include/openfl/display/BitmapData.h"/>
+   <depend name="include/openfl/display/DisplayObject.h"/>
+   <depend name="include/openfl/display/DisplayObjectContainer.h"/>
+   <depend name="include/openfl/display/IBitmapDrawable.h"/>
+   <depend name="include/openfl/display/InteractiveObject.h"/>
+   <depend name="include/openfl/display/MovieClip.h"/>
+   <depend name="include/openfl/display/Sprite.h"/>
+   <depend name="include/openfl/events/EventDispatcher.h"/>
+   <depend name="include/openfl/events/IEventDispatcher.h"/>
+   <depend name="include/openfl/media/Sound.h"/>
+   <depend name="include/openfl/text/Font.h"/>
+   <depend name="include/openfl/utils/ByteArray.h"/>
+   <depend name="include/openfl/utils/IDataInput.h"/>
+   <depend name="include/openfl/utils/IDataOutput.h"/>
+   <depend name="include/openfl/utils/IMemoryRange.h"/>
+  </file>
+  <file name="src/Date.cpp">
+   <depend name="include/Date.h"/>
+   <depend name="include/Std.h"/>
+  </file>
+  <file name="src/DocumentClass.cpp">
+   <depend name="include/AnimationStateTest.h"/>
+   <depend name="include/DocumentClass.h"/>
+   <depend name="include/openfl/Lib.h"/>
+   <depend name="include/openfl/display/DisplayObject.h"/>
+   <depend name="include/openfl/display/DisplayObjectContainer.h"/>
+   <depend name="include/openfl/display/IBitmapDrawable.h"/>
+   <depend name="include/openfl/display/InteractiveObject.h"/>
+   <depend name="include/openfl/display/MovieClip.h"/>
+   <depend name="include/openfl/display/Sprite.h"/>
+   <depend name="include/openfl/display/Stage.h"/>
+   <depend name="include/openfl/events/EventDispatcher.h"/>
+   <depend name="include/openfl/events/IEventDispatcher.h"/>
+  </file>
+  <file name="src/ApplicationMain.cpp">
+   <depend name="include/AnimationStateTest.h"/>
+   <depend name="include/ApplicationMain.h"/>
+   <depend name="include/DocumentClass.h"/>
+   <depend name="include/Reflect.h"/>
+   <depend name="include/Std.h"/>
+   <depend name="include/Type.h"/>
+   <depend name="include/openfl/Lib.h"/>
+   <depend name="include/openfl/display/BitmapData.h"/>
+   <depend name="include/openfl/display/DisplayObject.h"/>
+   <depend name="include/openfl/display/DisplayObjectContainer.h"/>
+   <depend name="include/openfl/display/IBitmapDrawable.h"/>
+   <depend name="include/openfl/display/InteractiveObject.h"/>
+   <depend name="include/openfl/display/Loader.h"/>
+   <depend name="include/openfl/display/LoaderInfo.h"/>
+   <depend name="include/openfl/display/MovieClip.h"/>
+   <depend name="include/openfl/display/Sprite.h"/>
+   <depend name="include/openfl/display/Stage.h"/>
+   <depend name="include/openfl/display/StageAlign.h"/>
+   <depend name="include/openfl/display/StageScaleMode.h"/>
+   <depend name="include/openfl/events/EventDispatcher.h"/>
+   <depend name="include/openfl/events/IEventDispatcher.h"/>
+   <depend name="include/openfl/net/URLLoader.h"/>
+  </file>
+  <file name="src/AnimationStateTest.cpp">
+   <depend name="include/AnimationStateTest.h"/>
+   <depend name="include/haxe/Timer.h"/>
+   <depend name="include/openfl/Assets.h"/>
+   <depend name="include/openfl/Lib.h"/>
+   <depend name="include/openfl/display/DisplayObject.h"/>
+   <depend name="include/openfl/display/DisplayObjectContainer.h"/>
+   <depend name="include/openfl/display/FPS.h"/>
+   <depend name="include/openfl/display/IBitmapDrawable.h"/>
+   <depend name="include/openfl/display/InteractiveObject.h"/>
+   <depend name="include/openfl/display/MovieClip.h"/>
+   <depend name="include/openfl/display/Sprite.h"/>
+   <depend name="include/openfl/display/Stage.h"/>
+   <depend name="include/openfl/events/Event.h"/>
+   <depend name="include/openfl/events/EventDispatcher.h"/>
+   <depend name="include/openfl/events/IEventDispatcher.h"/>
+   <depend name="include/openfl/events/MouseEvent.h"/>
+   <depend name="include/openfl/text/TextField.h"/>
+   <depend name="include/spinehaxe/Bone.h"/>
+   <depend name="include/spinehaxe/Skeleton.h"/>
+   <depend name="include/spinehaxe/SkeletonData.h"/>
+   <depend name="include/spinehaxe/SkeletonJson.h"/>
+   <depend name="include/spinehaxe/animation/AnimationState.h"/>
+   <depend name="include/spinehaxe/animation/AnimationStateData.h"/>
+   <depend name="include/spinehaxe/animation/TrackEntry.h"/>
+   <depend name="include/spinehaxe/atlas/TextureAtlas.h"/>
+   <depend name="include/spinehaxe/atlas/TextureLoader.h"/>
+   <depend name="include/spinehaxe/platform/nme/BitmapDataTextureLoader.h"/>
+   <depend name="include/spinehaxe/platform/nme/renderers/SkeletonRenderer.h"/>
+  </file>
+  <file name="src/openfl/display/Sprite.cpp">
+   <depend name="include/Type.h"/>
+   <depend name="include/openfl/display/DisplayObject.h"/>
+   <depend name="include/openfl/display/DisplayObjectContainer.h"/>
+   <depend name="include/openfl/display/IBitmapDrawable.h"/>
+   <depend name="include/openfl/display/InteractiveObject.h"/>
+   <depend name="include/openfl/display/Sprite.h"/>
+   <depend name="include/openfl/display/Stage.h"/>
+   <depend name="include/openfl/events/EventDispatcher.h"/>
+   <depend name="include/openfl/events/IEventDispatcher.h"/>
+   <depend name="include/openfl/geom/Rectangle.h"/>
+  </file>
+  <file name="src/openfl/display/DisplayObjectContainer.cpp">
+   <depend name="include/Std.h"/>
+   <depend name="include/openfl/Lib.h"/>
+   <depend name="include/openfl/display/DisplayObject.h"/>
+   <depend name="include/openfl/display/DisplayObjectContainer.h"/>
+   <depend name="include/openfl/display/IBitmapDrawable.h"/>
+   <depend name="include/openfl/display/InteractiveObject.h"/>
+   <depend name="include/openfl/display/Stage.h"/>
+   <depend name="include/openfl/errors/ArgumentError.h"/>
+   <depend name="include/openfl/errors/Error.h"/>
+   <depend name="include/openfl/errors/RangeError.h"/>
+   <depend name="include/openfl/events/Event.h"/>
+   <depend name="include/openfl/events/EventDispatcher.h"/>
+   <depend name="include/openfl/events/IEventDispatcher.h"/>
+   <depend name="include/openfl/geom/Point.h"/>
+  </file>
+  <file name="src/openfl/display/InteractiveObject.cpp">
+   <depend name="include/openfl/Lib.h"/>
+   <depend name="include/openfl/display/DisplayObject.h"/>
+   <depend name="include/openfl/display/IBitmapDrawable.h"/>
+   <depend name="include/openfl/display/InteractiveObject.h"/>
+   <depend name="include/openfl/events/EventDispatcher.h"/>
+   <depend name="include/openfl/events/IEventDispatcher.h"/>
+  </file>
+  <file name="src/openfl/display/DisplayObject.cpp">
+   <depend name="include/Type.h"/>
+   <depend name="include/openfl/Lib.h"/>
+   <depend name="include/openfl/display/BlendMode.h"/>
+   <depend name="include/openfl/display/DisplayObject.h"/>
+   <depend name="include/openfl/display/DisplayObjectContainer.h"/>
+   <depend name="include/openfl/display/Graphics.h"/>
+   <depend name="include/openfl/display/IBitmapDrawable.h"/>
+   <depend name="include/openfl/display/InteractiveObject.h"/>
+   <depend name="include/openfl/display/LoaderInfo.h"/>
+   <depend name="include/openfl/display/MovieClip.h"/>
+   <depend name="include/openfl/display/PixelSnapping.h"/>
+   <depend name="include/openfl/display/Sprite.h"/>
+   <depend name="include/openfl/display/Stage.h"/>
+   <depend name="include/openfl/events/Event.h"/>
+   <depend name="include/openfl/events/EventDispatcher.h"/>
+   <depend name="include/openfl/events/EventPhase.h"/>
+   <depend name="include/openfl/events/IEventDispatcher.h"/>
+   <depend name="include/openfl/geom/ColorTransform.h"/>
+   <depend name="include/openfl/geom/Matrix.h"/>
+   <depend name="include/openfl/geom/Point.h"/>
+   <depend name="include/openfl/geom/Rectangle.h"/>
+   <depend name="include/openfl/geom/Transform.h"/>
+   <depend name="include/openfl/net/URLLoader.h"/>
+  </file>
+  <file name="src/openfl/Lib.cpp">
+   <depend name="include/IMap.h"/>
+   <depend name="include/Std.h"/>
+   <depend name="include/Sys.h"/>
+   <depend name="include/Type.h"/>
+   <depend name="include/cpp/Lib.h"/>
+   <depend name="include/haxe/CallStack.h"/>
+   <depend name="include/haxe/Log.h"/>
+   <depend name="include/haxe/StackItem.h"/>
+   <depend name="include/haxe/Timer.h"/>
+   <depend name="include/haxe/ds/StringMap.h"/>
+   <depend name="include/haxe/io/Input.h"/>
+   <depend name="include/openfl/Lib.h"/>
+   <depend name="include/openfl/display/BitmapData.h"/>
+   <depend name="include/openfl/display/DisplayObject.h"/>
+   <depend name="include/openfl/display/DisplayObjectContainer.h"/>
+   <depend name="include/openfl/display/IBitmapDrawable.h"/>
+   <depend name="include/openfl/display/InteractiveObject.h"/>
+   <depend name="include/openfl/display/LoaderInfo.h"/>
+   <depend name="include/openfl/display/ManagedStage.h"/>
+   <depend name="include/openfl/display/MovieClip.h"/>
+   <depend name="include/openfl/display/Sprite.h"/>
+   <depend name="include/openfl/display/Stage.h"/>
+   <depend name="include/openfl/events/ErrorEvent.h"/>
+   <depend name="include/openfl/events/Event.h"/>
+   <depend name="include/openfl/events/EventDispatcher.h"/>
+   <depend name="include/openfl/events/IEventDispatcher.h"/>
+   <depend name="include/openfl/events/TextEvent.h"/>
+   <depend name="include/openfl/events/UncaughtErrorEvent.h"/>
+   <depend name="include/openfl/events/UncaughtErrorEvents.h"/>
+   <depend name="include/openfl/net/URLLoader.h"/>
+   <depend name="include/openfl/net/URLRequest.h"/>
+   <depend name="include/sys/io/Process.h"/>
+  </file>
+  <file name="src/Std.cpp">
+   <depend name="include/Std.h"/>
+  </file>
+  <file name="src/sys/io/_Process/Stdout.cpp">
+   <depend name="include/cpp/Lib.h"/>
+   <depend name="include/haxe/io/Bytes.h"/>
+   <depend name="include/haxe/io/Eof.h"/>
+   <depend name="include/haxe/io/Error.h"/>
+   <depend name="include/haxe/io/Input.h"/>
+   <depend name="include/sys/io/_Process/Stdout.h"/>
+  </file>
+  <file name="src/haxe/io/Input.cpp">
+   <depend name="include/StringBuf.h"/>
+   <depend name="include/haxe/io/Eof.h"/>
+   <depend name="include/haxe/io/Input.h"/>
+  </file>
+  <file name="src/haxe/io/Bytes.cpp">
+   <depend name="include/haxe/io/Bytes.h"/>
+   <depend name="include/haxe/io/Error.h"/>
+  </file>
+  <file name="src/sys/io/_Process/Stdin.cpp">
+   <depend name="include/haxe/io/Bytes.h"/>
+   <depend name="include/haxe/io/Output.h"/>
+   <depend name="include/sys/io/_Process/Stdin.h"/>
+  </file>
+  <file name="src/haxe/io/Output.cpp">
+   <depend name="include/haxe/io/Output.h"/>
+  </file>
+  <file name="src/sys/io/Process.cpp">
+   <depend name="include/cpp/Lib.h"/>
+   <depend name="include/haxe/io/Input.h"/>
+   <depend name="include/haxe/io/Output.h"/>
+   <depend name="include/sys/io/Process.h"/>
+   <depend name="include/sys/io/_Process/Stdin.h"/>
+   <depend name="include/sys/io/_Process/Stdout.h"/>
+  </file>
+  <file name="src/Sys.cpp">
+   <depend name="include/Sys.h"/>
+   <depend name="include/cpp/Lib.h"/>
+  </file>
+  <file name="src/cpp/Lib.cpp">
+   <depend name="include/cpp/Lib.h"/>
+  </file>
+  <file name="src/openfl/display/IBitmapDrawable.cpp">
+   <depend name="include/openfl/display/IBitmapDrawable.h"/>
+   <depend name="include/openfl/geom/ColorTransform.h"/>
+   <depend name="include/openfl/geom/Matrix.h"/>
+   <depend name="include/openfl/geom/Rectangle.h"/>
+  </file>
+  <file name="src/openfl/events/EventDispatcher.cpp">
+   <depend name="include/IMap.h"/>
+   <depend name="include/Type.h"/>
+   <depend name="include/haxe/Log.h"/>
+   <depend name="include/haxe/ds/StringMap.h"/>
+   <depend name="include/openfl/events/ErrorEvent.h"/>
+   <depend name="include/openfl/events/Event.h"/>
+   <depend name="include/openfl/events/EventDispatcher.h"/>
+   <depend name="include/openfl/events/EventPhase.h"/>
+   <depend name="include/openfl/events/IEventDispatcher.h"/>
+   <depend name="include/openfl/events/IOErrorEvent.h"/>
+   <depend name="include/openfl/events/Listener.h"/>
+   <depend name="include/openfl/events/TextEvent.h"/>
+   <depend name="include/openfl/utils/WeakRef.h"/>
+  </file>
+  <file name="src/openfl/events/IEventDispatcher.cpp">
+   <depend name="include/openfl/events/Event.h"/>
+   <depend name="include/openfl/events/IEventDispatcher.h"/>
+  </file>
+  <file name="src/__boot__.cpp">
+  </file>
+  <file name="src/__files__.cpp">
+  </file>
+  <file name="src/__resources__.cpp">
+  </file>
+</files>
+<files id="__lib__">
+<compilerflag value="-Iinclude"/>
+  <file name="src/__lib__.cpp">
+   <depend name="include/ApplicationMain.h"/>
+  </file>
+</files>
+<files id="__main__">
+<compilerflag value="-Iinclude"/>
+  <file name="src/__main__.cpp">
+   <depend name="include/ApplicationMain.h"/>
+  </file>
+</files>
+<set name="HAXE_OUTPUT" value="ApplicationMain" />
+<include name="${HXCPP}/build-tool/BuildCommon.xml"/>
+</xml>

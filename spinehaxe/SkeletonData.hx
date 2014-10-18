@@ -34,21 +34,66 @@ import spinehaxe.Exception;
 import haxe.ds.Vector;
 
 class SkeletonData {
-	public var name:String;
-	public var bones:Array<BoneData>;
+	@:isVar public var name:String;
 	// Ordered parents first.
-	public var slots:Array<SlotData>;
+	public var bones(get, null):Array<BoneData>;
 	// Setup pose draw order.
+	public var slots:Array<SlotData>;
 	public var skins:Array<Skin>;
 	public var defaultSkin:Skin;
 	public var events:Array<EventData>;
 	public var animations:Array<Animation>;
-	// --- Bones.
-	public function addBone(bone:BoneData):Void {
-		if (bone == null)
-			throw new IllegalArgumentException("bone cannot be null.");
-		bones[bones.length] = bone;
+    //TODO:[Yura] Constraints
+	@:isVar public var width(get, set):Float;
+	@:isVar public var height(get, set):Float;
+	@:isVar public var version(get, set):String = "0.0.0";
+	@:isVar public var hash(get, set):String;
+	//@:isVar public var imagePath(get, set):String;
+
+    private inline function get_bones():Array<BoneData> {
+		return this.bones;
 	}
+
+    private inline function get_name():String {
+		return this.version;
+	}
+
+    private inline function set_name(name:String) {
+        return this.name = name;
+    }
+
+    /** Returns the Spine version used to export this data, or null. */
+    private inline function get_version():String {
+		return this.version;
+	}
+
+    private inline function set_version(version:String) {
+        return this.version = version;
+    }
+
+    private inline function get_height():Float {
+		return this.height;
+	}
+
+    private inline function set_height(height:Float) {
+        return this.height = height;
+    }
+
+    private inline function get_width():Float {
+		return this.width;
+	}
+
+    private inline function set_width(width:Float) {
+        return this.width = width;
+    }
+
+    private inline function get_hash():String {
+		return this.hash;
+	}
+
+    private inline function set_hash(hash:String) {
+        return this.hash = hash;
+    }
 
 	/** @return May be null. */
 	public function findBone(boneName:String):BoneData {
