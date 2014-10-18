@@ -95,18 +95,13 @@ class SkeletonData {
         return this.hash = hash;
     }
 
-	/** @return May be null. */
-	public function findBone(boneName:String):BoneData {
+    public function findBone(boneName:String):BoneData {
 		if (boneName == null)
 			throw new IllegalArgumentException("boneName cannot be null.");
-		var i:Int = 0;
-		var n:Int = bones.length;
-		while(i < n) {
-			var bone:BoneData = bones[i];
+        for (bone in bones) {
 			if (bone.name == boneName)
 				return bone;
-			i++;
-		}
+        }
 		return null;
 	}
 
@@ -114,14 +109,11 @@ class SkeletonData {
 	public function findBoneIndex(boneName:String):Int {
 		if (boneName == null)
 			throw new IllegalArgumentException("boneName cannot be null.");
-		var i:Int = 0;
-		var n:Int = bones.length;
-		while(i < n) {
+		for (i in 0...bones.length) {
 			if (bones[i].name == boneName)
 				return i;
-			i++;
-		}
-		return -1;
+        }
+		return null;
 	}
 
 	// --- Slots.

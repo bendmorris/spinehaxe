@@ -8,6 +8,7 @@ class TestMain
 
         // Register all our test cases
         runner.add(new LoadJSONTest());
+        runner.add(new SkeletonDataTest());
         runner.add(new ColorTest());
 
         // Run them and and exit with the right return code
