@@ -113,7 +113,7 @@ class SkeletonData {
 			if (bones[i].name == boneName)
 				return i;
         }
-		return null;
+        return -1;
 	}
 
 	// --- Slots.

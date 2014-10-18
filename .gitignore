@@ -6,6 +6,7 @@
 *.log
 
 # Folder #
+*.*/bin
 samples/bin
 tests/fun/bin
 tests/unit/build
