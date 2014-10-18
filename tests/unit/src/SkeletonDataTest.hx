@@ -48,7 +48,7 @@ class SkeletonDataTest extends TestCase {
         assertEquals(boneDataIndex, this.boneIndex);
     }
 
-    private function generateRandomBoneData():BoneData {
+    public static function generateRandomBoneData():BoneData {
         var boneData:BoneData = new BoneData(Random.string(10, "aeiasdfkjhou"), null);
         boneData.length = Random.int(1, 3);
         boneData.x = Random.int(1, 13);

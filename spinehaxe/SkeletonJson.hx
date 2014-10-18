@@ -117,13 +117,10 @@ class SkeletonJson {
 				if (boneData == null)
 					throw new Exception("Slot bone not found: " + boneName);
 				var slotData:SlotData = new SlotData(slotMap.getStr("name"), boneData);
-				var color:String = slotMap.getStr("color");
-				if (color != null) {
-					slotData.r = toColor(color, 0);
-					slotData.g = toColor(color, 1);
-					slotData.b = toColor(color, 2);
-					slotData.a = toColor(color, 3);
-				}
+
+                var color_str:String = slotMap.getStr("color");
+                if (color_str != null) slotData.color = Color.fromString(color_str);
+				
 				slotData.attachmentName = slotMap.getStr("attachment");
 				slotData.additiveBlending = slotMap.getBool("additive", false);
 				skeletonData.addSlot(slotData);
