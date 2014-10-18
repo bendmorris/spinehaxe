@@ -80,26 +80,27 @@ class SkeletonJson {
 		}
 
         // IK constraints.
-        for (ikMap in root.getNodesArray("ik")) {
-            var parent:BoneData = null;
-            var ikConstraintData:IkConstraintData = new IkConstraintData(ikMap.getString("name"));
+        //for (ikMap in root.getNodesArray("ik")) {
+            //var parent:BoneData = null;
+            //var ikConstraintData:IkConstraintData = new IkConstraintData(ikMap.getString("name"));
 
-            for (boneMap in root.getNodesArray("bones")) {
-                var boneName:String = boneMap.asString();
-                var bone:BoneData  = skeletonData.findBone(boneName);
-                if (bone == null) throw new SerializationException("IK bone not found: " + boneName);
-                ikConstraintData.bones.add(bone);
-            }
+            //for (boneMap in root.getNodesArray("bones")) {
+                //var boneName:String = boneMap.asString();
+                //trace(boneName);
+                //var bone:BoneData  = skeletonData.findBone(boneName);
+                //if (bone == null) throw new SerializationException("IK bone not found: " + boneName);
+                ////ikConstraintData.bones.push(bone);
+            //}
 
-            var targetName:String = ikMap.getString("target");
-            ikConstraintData.target = skeletonData.findBone(targetName);
-            if (ikConstraintData.target == null) throw new SerializationException("Target bone not found: " + targetName);
+            //var targetName:String = ikMap.getString("target");
+            //ikConstraintData.target = skeletonData.findBone(targetName);
+            //if (ikConstraintData.target == null) throw new SerializationException("Target bone not found: " + targetName);
 
-            ikConstraintData.bendDirection = ikMap.getBool("bendPositive", true) ? 1 : -1;
-            ikConstraintData.mix = ikMap.getFloat("mix", 1);
+            //ikConstraintData.bendDirection = ikMap.getBool("bendPositive", true) ? 1 : -1;
+            //ikConstraintData.mix = ikMap.getFloat("mix", 1);
 
-            skeletonData.ikConstraints.add(ikConstraintData);
-        }
+            ////skeletonData.ikConstraints.push(ikConstraintData);
+        //}
 
 		// Slots.
 		var slots = root.getNodesArray("slots");
