@@ -90,12 +90,21 @@ class TextureAtlasData {
 			while (true) {
 				var line:String = null;
 				try{line = reader.readLine();}catch(e:Eof) {break;}
+                //trace(line);
 				if (line == null) break;
 				if (line.trim().length == 0)
 					pageImage = null;
 				else if (pageImage == null) {
 					var file:String = imagesDir + line;
 
+                    //var width:Int = 0;
+                    //var height:Int = 0;
+                    //if (readTuple(reader) == 2) { // size is only optional for an atlas packed with an old TexturePacker.
+                        //width = Std.parseInt(tuple[0]);
+                        //height = Std.parseInt(tuple[1]);
+                        ////readTuple(reader);
+                    //}
+                    //trace(width + " , " + height);
 					var format = /*Format.valueOf*/(readValue(reader));
 
 					readTuple(reader);
