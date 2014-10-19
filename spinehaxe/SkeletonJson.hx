@@ -121,7 +121,6 @@ class SkeletonJson {
 			}
 		}
 
-        trace("read slots");
 		// Skins.
 		var skins:JsonNode = root.getNode("skins");
 		if (skins != null) {
@@ -145,7 +144,6 @@ class SkeletonJson {
 					skeletonData.defaultSkin = skin;
 			}
 		}
-        trace("read skins");
 
 		// Events.
 		var events:Dynamic = root.getNode("events");

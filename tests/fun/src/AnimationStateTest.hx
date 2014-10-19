@@ -7,6 +7,7 @@ import spinehaxe.animation.AnimationStateData;
 import spinehaxe.atlas.TextureAtlas;
 import spinehaxe.platform.nme.BitmapDataTextureLoader;
 import spinehaxe.platform.nme.renderers.SkeletonRenderer;
+import spinehaxe.platform.nme.renderers.SkeletonRendererDebug;
 import spinehaxe.atlas.TextureAtlas;
 import flash.display.Sprite;
 import flash.events.Event;
@@ -19,6 +20,7 @@ import openfl.display.FPS;
 class AnimationStateTest extends Sprite {
 
     var renderer:SkeletonRenderer;
+    var debugRenderer:SkeletonRendererDebug;
 
     var atlas:TextureAtlas;
     var skeleton:Skeleton;
@@ -40,8 +42,8 @@ class AnimationStateTest extends Sprite {
         // Define mixing between animations.
         var stateData = new AnimationStateData(skeletonData);
         stateData.setMixByName("walk", "jump", 0.2);
-        stateData.setMixByName("jump", "walk", 0.4);
-        stateData.setMixByName("jump", "jump", 0.2);
+        //stateData.setMixByName("jump", "walk", 0.4);
+        //stateData.setMixByName("jump", "jump", 0.2);
 
         state = new AnimationState(stateData);
         state.setAnimationByName(0, "walk", true);
@@ -52,12 +54,14 @@ class AnimationStateTest extends Sprite {
         skeleton.y = 450;
         skeleton.flipY = true;
 
-        skeleton.updateWorldTransform();
+        //skeleton.updateWorldTransform();
 
         lastTime = haxe.Timer.stamp();
 
         renderer = new SkeletonRenderer(skeleton);
+        debugRenderer = new SkeletonRendererDebug(skeleton);
         addChild(renderer);
+        addChild(debugRenderer);
         addChild(new FPS());
 
         Lib.current.addEventListener(Event.ENTER_FRAME, render);
@@ -92,6 +96,8 @@ class AnimationStateTest extends Sprite {
 
         renderer.visible = true;
         renderer.draw();
+        debugRenderer.visible = true;
+        debugRenderer.draw();
 
     }
 

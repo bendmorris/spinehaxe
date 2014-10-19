@@ -4,6 +4,7 @@
     <meta title="spinehx - AnimationStateTest" package="org.bitbucket.nitrobin.spinehx.AnimationStateTest" version="1.0.0" company="spinehx" />
     <app main="AnimationStateTest" path="bin" file="spinehx-AnimationStateTest" />
     <window width="320" height="480" fps="200" unless="mobile"/>
+    <window width="640" height="480" fps="40" if="html5"/>
     <window fps="60" if="mobile"/>
     <source path="src" />
     <source path="../../../spinehaxe" />
@@ -11,5 +12,6 @@
     <haxelib name="openfl" />
 
     <assets path="assets" rename="assets" />
+    <assets path="../../../assets" rename="myassets" />
 
 </project>
