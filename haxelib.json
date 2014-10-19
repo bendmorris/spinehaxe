@@ -4,8 +4,8 @@
     "license": "Spine Runtimes Software License",
     "tags": [ "spine", "animation", "cross", "neko", "flash", "js", "cpp"],
     "description": "Spine runtime for Haxe.",
-    "version": "0.1.0",
-    "releasenote": "First haxelib release.",
-    "contributors": [ "bendmorris" ],
+    "version": "0.2.1",
+    "releasenote": "Update and fix for 2.0 version of Spine",
+    "contributors": [ "bendmorris", "Partysun" ],
     "dependencies": {}
 }
