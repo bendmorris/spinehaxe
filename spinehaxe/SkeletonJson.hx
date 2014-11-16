@@ -1,10 +1,10 @@
 /******************************************************************************
  * Spine Runtimes Software License
  * Version 2.1
- * 
+ *
  * Copyright (c) 2013, Esoteric Software
  * All rights reserved.
- * 
+ *
  * You are granted a perpetual, non-exclusive, non-sublicensable and
  * non-transferable license to install, execute and perform the Spine Runtimes
  * Software (the "Software") solely for internal use. Without the written
@@ -15,7 +15,7 @@
  * trademark, patent or other intellectual property or proprietary rights
  * notices on or in the Software, including any copy thereof. Redistributions
  * in binary or source form must include this license and terms.
- * 
+ *
  * THIS SOFTWARE IS PROVIDED BY ESOTERIC SOFTWARE "AS IS" AND ANY EXPRESS OR
  * IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF
  * MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO
@@ -37,6 +37,8 @@ import spinehaxe.animation.CurveTimeline;
 import spinehaxe.animation.DrawOrderTimeline;
 import spinehaxe.animation.EventTimeline;
 //import spinehaxe.animation.FfdTimeline;
+import spinehaxe.animation.FlipXTimeline;
+import spinehaxe.animation.FlipYtimeline;
 import spinehaxe.animation.RotateTimeline;
 import spinehaxe.animation.ScaleTimeline;
 import spinehaxe.animation.Timeline;
@@ -68,7 +70,7 @@ class SkeletonJson {
 		scale = 1;
 		this.attachmentLoader = attachmentLoader;
 	}
-	
+
 	public static function create(atlas:TextureAtlas) {
 		return new SkeletonJson(new AtlasAttachmentLoader(atlas));
 	}
@@ -78,7 +80,7 @@ class SkeletonJson {
 		skeletonData.name = name;
 		if (!parsedJson.exists(name)) parsedJson[name] = JsonUtils.parse(fileData);
 		var root:JsonNode = parsedJson[name];
-		
+
 		// Bones.
 		var boneData:BoneData;
 		for (boneMap in root.getNodesArray("bones")) {
@@ -165,14 +167,14 @@ class SkeletonJson {
 		var animations:Dynamic = root.getNode("animations");
 		for (animationName in animations.fields())
 			readAnimation(animationName, animations.getNode(animationName), skeletonData);
-		
+
 		return skeletonData;
 	}
 
 	function readAttachment(skin:Skin, name:String, map:Dynamic):Attachment {
 		var name2 = map.getStr("name");
 		name = name2 != null ? name2 : name;
-		
+
 		var type:AttachmentType = AttachmentTypes.valueOf(map.getStr("type", "region"));
 		var attachment:Attachment = attachmentLoader.newAttachment(skin, type, name);
 		if (Std.is(attachment, RegionAttachment)) {
@@ -208,11 +210,11 @@ class SkeletonJson {
 				var boneMap:JsonNode = bones.getNode(boneName);
 				for (timelineName in boneMap.fields()) {
 					var values = boneMap.getNodesArray(timelineName);
-					
+
 					if (timelineName == TIMELINE_ROTATE) {
 						var timeline:RotateTimeline = new RotateTimeline(values.length);
 						timeline.boneIndex = boneIndex;
-						
+
 						var frameIndex:Int = 0;
 						for (valueMap in values) {
 							var time = valueMap.getFloat("time");
@@ -248,6 +250,21 @@ class SkeletonJson {
 
 						timelines.push(timeline1);
 						duration = Math.max(duration, timeline1.frames.get(Std.int(timeline1.frameCount * 3 - 3)));
+					}
+
+					else if (timelineName == "flipX" || timelineName == "flipY") {
+						var flipX = timelineName == "flipX";
+						var flipTimeline = flipX ? new FlipXTimeline(values.length) : new FlipYTimeline(values.length);
+						flipTimeline.boneIndex = boneIndex;
+
+						var field = flipX ? "x" : "y";
+						var frameIndex = 0;
+						for (valueMap in values) {
+							flipTimeline.setFrame(frameIndex, valueMap.getFloat("time"), valueMap.getBool(field));
+							frameIndex++;
+						}
+						timelines.push(flipTimeline);
+						duration = Math.max(duration, flipTimeline.frames.get(Std.int((flipTimeline.frames.length/2) * 3 - 3)));
 					}
 
 					else throw new RuntimeException("Invalid timeline type for a bone: " + timelineName + " (" + boneName + ")");
@@ -323,7 +340,7 @@ class SkeletonJson {
 			timelines.push(timeline4);
 			duration = Math.max(duration, timeline4.frames[timeline4.frameCount - 1]);
 		}
-		
+
 		var drawOrderValues:Dynamic = map.getNode("draworder");
 		if (drawOrderValues != null) {
 			var timeline5:DrawOrderTimeline = new DrawOrderTimeline(drawOrderValues.length);
