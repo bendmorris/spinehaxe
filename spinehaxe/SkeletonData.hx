@@ -27,6 +27,7 @@
  * OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  *****************************************************************************/
+
 package spinehaxe;
 
 import spinehaxe.animation.Animation;
@@ -35,15 +36,22 @@ import haxe.ds.Vector;
 
 class SkeletonData {
 	public var name:String;
-	public var bones:Array<BoneData>;
+	public var bones:Array<BoneData> = new Array();
 	// Ordered parents first.
-	public var slots:Array<SlotData>;
+	public var slots:Array<SlotData> = new Array();
 	// Setup pose draw order.
-	public var skins:Array<Skin>;
+	public var skins:Array<Skin> = new Array();
 	public var defaultSkin:Skin;
-	public var events:Array<EventData>;
-	public var animations:Array<Animation>;
+	public var events:Array<EventData> = new Array();
+	public var animations:Array<Animation> = new Array();
+	public var ikConstraints:Array<IkConstraintData> = new Array();
+	public var width:Float = 0;
+	public var height:Float = 0;
+	public var version:String;
+	public var hash:String;
+
 	// --- Bones.
+
 	public function addBone(bone:BoneData):Void {
 		if (bone == null)
 			throw new IllegalArgumentException("bone cannot be null.");
@@ -52,16 +60,11 @@ class SkeletonData {
 
 	/** @return May be null. */
 	public function findBone(boneName:String):BoneData {
-		if (boneName == null)
-			throw new IllegalArgumentException("boneName cannot be null.");
-		var i:Int = 0;
-		var n:Int = bones.length;
-		while(i < n) {
-			var bone:BoneData = bones[i];
-			if (bone.name == boneName)
-				return bone;
-			i++;
-		}
+		if (boneName == null) throw new IllegalArgumentException("boneName cannot be null.");
+
+		for (bone in bones)
+			if (bone.name == boneName) return bone;
+
 		return null;
 	}
 
@@ -69,125 +72,91 @@ class SkeletonData {
 	public function findBoneIndex(boneName:String):Int {
 		if (boneName == null)
 			throw new IllegalArgumentException("boneName cannot be null.");
-		var i:Int = 0;
-		var n:Int = bones.length;
-		while(i < n) {
-			if (bones[i].name == boneName)
-				return i;
-			i++;
-		}
+
+		for (i in 0 ... bones.length)
+			if (bones[i].name == boneName) return i;
+
 		return -1;
 	}
 
 	// --- Slots.
-	public function addSlot(slot:SlotData):Void {
-		if (slot == null)
-			throw new IllegalArgumentException("slot cannot be null.");
-		slots[slots.length] = slot;
-	}
 
 	/** @return May be null. */
 	public function findSlot(slotName:String):SlotData {
-		if (slotName == null)
-			throw new IllegalArgumentException("slotName cannot be null.");
-		var i:Int = 0;
-		var n:Int = slots.length;
-		while(i < n) {
-			var slot:SlotData = slots[i];
-			if (slot.name == slotName)
-				return slot;
-			i++;
-		}
+		if (slotName == null) throw new IllegalArgumentException("slotName cannot be null.");
+
+		for (slot in slots)
+			if (slot.name == slotName) return slot;
+
 		return null;
 	}
 
 	/** @return -1 if the bone was not found. */
 	public function findSlotIndex(slotName:String):Int {
-		if (slotName == null)
-			throw new IllegalArgumentException("slotName cannot be null.");
-		var i:Int = 0;
-		var n:Int = slots.length;
-		while(i < n) {
-			if (slots[i].name == slotName)
-				return i;
-			i++;
-		}
+		if (slotName == null) throw new IllegalArgumentException("slotName cannot be null.");
+
+		for (i in 0 ... slots.length)
+			if (slots[i].name == slotName) return i;
+
 		return -1;
 	}
 
-	// --- Skins.
-	public function addSkin(skin:Skin):Void {
-		if (skin == null)
-			throw new IllegalArgumentException("skin cannot be null.");
-		skins[skins.length] = skin;
-	}
+	// --- Skins.}
 
 	/** @return May be null. */
 	public function findSkin(skinName:String):Skin {
-		if (skinName == null)
-			throw new IllegalArgumentException("skinName cannot be null.");
+		if (skinName == null) throw new IllegalArgumentException("skinName cannot be null.");
+
 		for (skin in skins)
-			if (skin.name == skinName)
-			return skin;
+			if (skin.name == skinName) return skin;
+
 		return null;
 	}
 
 	// --- Events.
-	public function addEvent(eventData:EventData):Void {
-		if (eventData == null)
-			throw new IllegalArgumentException("eventData cannot be null.");
-		events[events.length] = eventData;
-	}
 
 	/** @return May be null. */
 	public function findEvent(eventName:String):EventData {
-		if (eventName == null)
-			throw new IllegalArgumentException("eventName cannot be null.");
-		var i:Int = 0;
-		var n:Int = events.length;
-		while(i < n) {
-			var eventData:EventData = events[i];
-			if (eventData.name == eventName)
-				return eventData;
-			i++;
-		}
+		if (eventName == null) throw new IllegalArgumentException("eventName cannot be null.");
+
+		for (eventData in events)
+			if (eventData.name == eventName) return eventData;
+
 		return null;
 	}
 
 	// --- Animations.
-	public function addAnimation(animation:Animation):Void {
-		if (animation == null)
-			throw new IllegalArgumentException("animation cannot be null.");
-		animations[animations.length] = animation;
-	}
 
 	/** @return May be null. */
 	public function findAnimation(animationName:String):Animation {
 		if (animationName == null)
 			throw new IllegalArgumentException("animationName cannot be null.");
-		var i:Int = 0;
-		var n:Int = animations.length;
-		while(i < n) {
-			var animation:Animation = animations[i];
-			if (animation.name == animationName)
-				return animation;
-			i++;
-		}
+
+		for (animation in animations)
+			if (animation.name == animationName) return animation;
+
+		return null;
+	}
+
+	// --- IK Constraints.
+
+	/** @return May be null. */
+	public function findIkConstraint (ikConstraintName:String) : IkConstraintData {
+		if (ikConstraintName == null) throw new IllegalArgumentException("ikConstraintName cannot be null.");
+
+		for (ikConstraintData in ikConstraints)
+			if (ikConstraintData.name == ikConstraintName) return ikConstraintData;
+
 		return null;
 	}
 
 	// ---
+
 	public function toString():String {
 		return name != (null) ? name : ("" + this);
 	}
 
 
-	public function new() {
-		bones = new Array<BoneData>();
-		slots = new Array<SlotData>();
-		skins = new Array<Skin>();
-		events = new Array<EventData>();
-		animations = new Array<Animation>();
-	}
+	public function new() {}
 }
 

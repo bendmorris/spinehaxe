@@ -49,13 +49,13 @@ class EventTimeline implements Timeline {
 		return frames.length;
 	}
 
-	/** Sets the time and value of the specified keyframe. */	
+	/** Sets the time and value of the specified keyframe. */
 	public function setFrame(frameIndex:Int, time:Float, event:Event):Void {
 		frames[frameIndex] = time;
 		events[frameIndex] = event;
 	}
 
-	/** Fires events for frames > lastTime and <= time. */	
+	/** Fires events for frames > lastTime and <= time. */
 	public function apply(skeleton:Skeleton, lastTime:Float, time:Float, firedEvents:Array<Event>, alpha:Float):Void {
 		if (firedEvents == null)
 			return;
@@ -74,8 +74,8 @@ class EventTimeline implements Timeline {
 		var frameIndex:Int;
 		if (lastTime < frames[0])
 			frameIndex = 0
-		else  {
-			frameIndex = Animation.binarySearch(frames, lastTime, 1);
+		else {
+			frameIndex = Animation.binarySearch1(frames, time) - 1;
 			var frame:Float = frames[frameIndex];
 			while(frameIndex > 0) {
 				// Fire multiple events with the same frame.

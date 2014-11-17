@@ -27,6 +27,7 @@
  * OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  *****************************************************************************/
+
 package spinehaxe;
 
 import spinehaxe.attachments.Attachment;
@@ -36,15 +37,15 @@ class SkeletonBounds {
 	public var width(getWidth, never) : Float;
 	public var height(getHeight, never) : Float;
 
-	var polygonPool : Vector<Polygon>;
-	public var boundingBoxes : Vector<BoundingBoxAttachment>;
-	public var polygons : Vector<Polygon>;
+	var polygonPool : Array<Polygon>;
+	public var boundingBoxes : Array<BoundingBoxAttachment>;
+	public var polygons : Array<Polygon>;
 	public var minX : Float;
 	public var minY : Float;
 	public var maxX : Float;
 	public var maxY : Float;
 	public function update(skeleton : Skeleton, updateAabb : Bool) : Void {
-		var slots : Vector<Slot> = skeleton.slots;
+		var slots : Array<Slot> = skeleton.slots;
 		var slotCount : Int = slots.length;
 		var x : Float = skeleton.x;
 		var y : Float = skeleton.y;
@@ -61,7 +62,7 @@ class SkeletonBounds {
 				i++;
 				continue;
 			}
-;
+
 			boundingBoxes[boundingBoxes.length] = boundingBox;
 			var poolCount : Int = polygonPool.length;
 			if (poolCount > 0) {
@@ -80,15 +81,15 @@ class SkeletonBounds {
 	}
 
 	function aabbCompute() : Void {
-		var minX : Float = int.MAX_VALUE;
-		var minY : Float = int.MAX_VALUE;
-		var maxX : Float = int.MIN_VALUE;
-		var maxY : Float = int.MIN_VALUE;
+		var minX : Float = spinehaxe.MathUtils.MAX_INT;
+		var minY : Float = spinehaxe.MathUtils.MAX_INT;
+		var maxX : Float = spinehaxe.MathUtils.MAX_INT;
+		var maxY : Float = spinehaxe.MathUtils.MAX_INT;
 		var i : Int = 0;
 		var n : Int = polygons.length;
 		while(i < n) {
 			var polygon : Polygon = polygons[i];
-			var vertices : Vector<Float> = polygon.vertices;
+			var vertices : Array<Float> = polygon.vertices;
 			var ii : Int = 0;
 			var nn : Int = vertices.length;
 			while(ii < nn) {
@@ -108,11 +109,13 @@ class SkeletonBounds {
 		this.maxY = maxY;
 	}
 
-	/** Returns true if the axis aligned bounding box contains the point. */	public function aabbContainsPoint(x : Float, y : Float) : Bool {
+	/** Returns true if the axis aligned bounding box contains the point. */
+	public function aabbContainsPoint(x : Float, y : Float) : Bool {
 		return x >= minX && x <= maxX && y >= minY && y <= maxY;
 	}
 
-	/** Returns true if the axis aligned bounding box intersects the line segment. */	public function aabbIntersectsSegment(x1 : Float, y1 : Float, x2 : Float, y2 : Float) : Bool {
+	/** Returns true if the axis aligned bounding box intersects the line segment. */
+	public function aabbIntersectsSegment(x1 : Float, y1 : Float, x2 : Float, y2 : Float) : Bool {
 		if ((x1 <= minX && x2 <= minX) || (y1 <= minY && y2 <= minY) || (x1 >= maxX && x2 >= maxX) || (y1 >= maxY && y2 >= maxY))
 			return false;
 		var m : Float = (y2 - y1) / (x2 - x1);
@@ -131,12 +134,14 @@ class SkeletonBounds {
 		return false;
 	}
 
-	/** Returns true if the axis aligned bounding box intersects the axis aligned bounding box of the specified bounds. */	public function aabbIntersectsSkeleton(bounds : SkeletonBounds) : Bool {
+	/** Returns true if the axis aligned bounding box intersects the axis aligned bounding box of the specified bounds. */
+	public function aabbIntersectsSkeleton(bounds : SkeletonBounds) : Bool {
 		return minX < bounds.maxX && maxX > bounds.minX && minY < bounds.maxY && maxY > bounds.minY;
 	}
 
 	/** Returns the first bounding box attachment that contains the point, or null. When doing many checks, it is usually more
-	 * efficient to only call this method if {@link #aabbContainsPoint(float, float)} returns true. */	public function containsPoint(x : Float, y : Float) : BoundingBoxAttachment {
+	 * efficient to only call this method if {@link #aabbContainsPoint(float, float)} returns true. */
+	public function containsPoint(x : Float, y : Float) : BoundingBoxAttachment {
 		var i : Int = 0;
 		var n : Int = polygons.length;
 		while(i < n) {
@@ -148,7 +153,8 @@ class SkeletonBounds {
 	}
 
 	/** Returns the first bounding box attachment that contains the line segment, or null. When doing many checks, it is usually
-	 * more efficient to only call this method if {@link #aabbIntersectsSegment(float, float, float, float)} returns true. */	public function intersectsSegment(x1 : Float, y1 : Float, x2 : Float, y2 : Float) : BoundingBoxAttachment {
+	 * more efficient to only call this method if {@link #aabbIntersectsSegment(float, float, float, float)} returns true. */
+	public function intersectsSegment(x1 : Float, y1 : Float, x2 : Float, y2 : Float) : BoundingBoxAttachment {
 		var i : Int = 0;
 		var n : Int = polygons.length;
 		while(i < n) {
@@ -172,11 +178,10 @@ class SkeletonBounds {
 		return maxY - minY;
 	}
 
-
 	public function new() {
-		polygonPool = new Vector<Polygon>();
-		boundingBoxes = new Vector<BoundingBoxAttachment>();
-		polygons = new Vector<Polygon>();
+		polygonPool = new Array<Polygon>();
+		boundingBoxes = new Array<BoundingBoxAttachment>();
+		polygons = new Array<Polygon>();
 	}
 }
 

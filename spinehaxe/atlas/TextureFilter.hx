@@ -27,40 +27,16 @@
  * OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  *****************************************************************************/
-package spinehaxe;
 
-import spinehaxe.Exception;
+package spinehaxe.atlas;
 
-class BoneData {
-	public var name:String;
-	public var parent:BoneData;
-
-	public var length:Float = 0;
-	public var x:Float = 0;
-	public var y:Float = 0;
-	public var rotation:Float = 0;
-	public var scaleX:Float = 1;
-	public var scaleY:Float = 1;
-	public var inheritScale:Bool = false;
-	public var inheritRotation:Bool = false;
-	public var flipX:Bool = false;
-	public var flipY:Bool = false;
-
-	/** @param parent May be null. */
-	public function new(name:String, parent:BoneData) {
-		scaleX = 1;
-		scaleY = 1;
-		inheritScale = true;
-		inheritRotation = true;
-		if (name == null)
-			throw new IllegalArgumentException("name cannot be null.");
-		this.name = name;
-		this.parent = parent;
-	}
-
-	public function toString():String {
-		return name;
-	}
-
+@:enum
+abstract TextureFilter(String) from String to String {
+	var Nearest = "nearest";
+	var Linear = "linear";
+	var MipMap = "mipMap";
+	var MipMapNearestNearest = "mipMapNearestNearest";
+	var MipMapLinearNearest = "mipMapLinearNearest";
+	var MipMapNearestLinear = "mipMapNearestLinear";
+	var MipMapLinearLinear = "mipMapLinearLinear";
 }
-

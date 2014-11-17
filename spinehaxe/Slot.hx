@@ -35,29 +35,28 @@ using Lambda;
 
 class Slot {
 	public var data:SlotData;
-	public var skeleton:Skeleton;
+	public var skeleton(get, never):Skeleton;
 	public var bone:Bone;
 	public var attachment(default, set):Attachment;
 	public var attachmentTime(get, set):Float;
 
-	public var r:Float;
-	public var g:Float;
-	public var b:Float;
-	public var a:Float;
-	var _attachmentTime:Float;
+	public var r:Float = 0;
+	public var g:Float = 0;
+	public var b:Float = 0;
+	public var a:Float = 0;
+	var _attachmentTime:Float = 0;
 	public var attachmentVertices:Array<Float> = new Array();
 
-	public function new(data:SlotData, skeleton:Skeleton, bone:Bone) {
-		if (data == null)
-			throw new IllegalArgumentException("data cannot be null.");
-		if (skeleton == null)
-			throw new IllegalArgumentException("skeleton cannot be null.");
-		if (bone == null)
-			throw new IllegalArgumentException("bone cannot be null.");
+	public function new(data:SlotData, bone:Bone) {
+		if (data == null) throw new IllegalArgumentException("data cannot be null.");
+		if (bone == null) throw new IllegalArgumentException("bone cannot be null.");
 		this.data = data;
-		this.skeleton = skeleton;
 		this.bone = bone;
 		setToSetupPose();
+	}
+
+	public inline function get_skeleton() {
+		return bone.skeleton;
 	}
 
 	/** Sets the attachment and resets {@link #getAttachmentTime()}.
@@ -85,7 +84,7 @@ class Slot {
 		g = data.g;
 		b = data.b;
 		a = data.a;
-		attachment = data.attachmentName == (null) ? null:skeleton.getAttachmentForSlotIndex(slotIndex, data.attachmentName);
+		attachment = data.attachmentName == (null) ? null : skeleton.getAttachmentForSlotIndex(slotIndex, data.attachmentName);
 	}
 
 	public function toString():String {

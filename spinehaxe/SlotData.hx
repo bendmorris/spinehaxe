@@ -46,10 +46,8 @@ class SlotData {
 		g = 1;
 		b = 1;
 		a = 1;
-		if (name == null)
-			throw new IllegalArgumentException("name cannot be null.");
-		if (boneData == null)
-			throw new IllegalArgumentException("boneData cannot be null.");
+		if (name == null) throw new IllegalArgumentException("name cannot be null.");
+		if (boneData == null) throw new IllegalArgumentException("boneData cannot be null.");
 		this.name = name;
 		this.boneData = boneData;
 	}

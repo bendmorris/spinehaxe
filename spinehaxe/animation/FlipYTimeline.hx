@@ -27,40 +27,17 @@
  * OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  *****************************************************************************/
-package spinehaxe;
 
-import spinehaxe.Exception;
+package spinehaxe.animation;
 
-class BoneData {
-	public var name:String;
-	public var parent:BoneData;
+import spinehaxe.Bone;
 
-	public var length:Float = 0;
-	public var x:Float = 0;
-	public var y:Float = 0;
-	public var rotation:Float = 0;
-	public var scaleX:Float = 1;
-	public var scaleY:Float = 1;
-	public var inheritScale:Bool = false;
-	public var inheritRotation:Bool = false;
-	public var flipX:Bool = false;
-	public var flipY:Bool = false;
-
-	/** @param parent May be null. */
-	public function new(name:String, parent:BoneData) {
-		scaleX = 1;
-		scaleY = 1;
-		inheritScale = true;
-		inheritRotation = true;
-		if (name == null)
-			throw new IllegalArgumentException("name cannot be null.");
-		this.name = name;
-		this.parent = parent;
+class FlipYTimeline extends FlipXTimeline {
+	public function new (frameCount:Int) {
+		super(frameCount);
 	}
 
-	public function toString():String {
-		return name;
+	override function setFlip (bone:Bone, flip:Bool) : Void {
+		bone.flipY = flip;
 	}
-
 }
-

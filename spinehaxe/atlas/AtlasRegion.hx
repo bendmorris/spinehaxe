@@ -27,40 +27,27 @@
  * OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  *****************************************************************************/
-package spinehaxe;
 
-import spinehaxe.Exception;
+package spinehaxe.atlas;
 
-class BoneData {
+class AtlasRegion {
+	public var page:AtlasPage;
 	public var name:String;
-	public var parent:BoneData;
-
-	public var length:Float = 0;
-	public var x:Float = 0;
-	public var y:Float = 0;
-	public var rotation:Float = 0;
-	public var scaleX:Float = 1;
-	public var scaleY:Float = 1;
-	public var inheritScale:Bool = false;
-	public var inheritRotation:Bool = false;
-	public var flipX:Bool = false;
-	public var flipY:Bool = false;
-
-	/** @param parent May be null. */
-	public function new(name:String, parent:BoneData) {
-		scaleX = 1;
-		scaleY = 1;
-		inheritScale = true;
-		inheritRotation = true;
-		if (name == null)
-			throw new IllegalArgumentException("name cannot be null.");
-		this.name = name;
-		this.parent = parent;
-	}
-
-	public function toString():String {
-		return name;
-	}
-
+	public var x:Int = 0;
+	public var y:Int = 0;
+	public var width:Int = 0;
+	public var height:Int = 0;
+	public var u:Float = 0;
+	public var v:Float = 0;
+	public var u2:Float = 0;
+	public var v2:Float = 0;
+	public var offsetX:Float = 0;
+	public var offsetY:Float = 0;
+	public var originalWidth:Int = 0;
+	public var originalHeight:Int = 0;
+	public var index:Int = 0;
+	public var rotate:Bool = false;
+	public var splits:Array<Int>;
+	public var pads:Array<Int>;
+	public var rendererObject:Dynamic;
 }
-

@@ -30,7 +30,6 @@
 
 package spinehaxe.platform.openfl;
 
-import haxe.ds.Vector;
 import flash.display.Bitmap;
 import flash.display.BitmapData;
 import flash.display.BlendMode;
@@ -47,7 +46,7 @@ import spinehaxe.Bone;
 import spinehaxe.Skeleton;
 import spinehaxe.SkeletonData;
 import spinehaxe.Slot;
-import spinehaxe.atlas.TextureAtlas;
+import spinehaxe.atlas.AtlasRegion;
 import spinehaxe.attachments.RegionAttachment;
 
 class SkeletonSprite extends Sprite {
@@ -56,9 +55,7 @@ class SkeletonSprite extends Sprite {
 
 	public var skeleton:Skeleton;
 	public var timeScale:Float = 1;
-	private var lastTime:Float = 0;
-
-	var wrappers:Map<RegionAttachment, Sprite> = new Map();
+	private var lastTime:Int = 0;
 
 	public function new (skeletonData:SkeletonData) {
 		super();
@@ -72,7 +69,7 @@ class SkeletonSprite extends Sprite {
 	}
 
 	private function enterFrame (event:Event) : Void {
-		var time:Float = haxe.Timer.stamp();
+		var time:Int = Std.int(haxe.Timer.stamp() * 1000);
 		advanceTime((time - lastTime) / 1000);
 		lastTime = time;
 	}
@@ -82,32 +79,28 @@ class SkeletonSprite extends Sprite {
 
 		removeChildren();
 		var drawOrder:Array<Slot> = skeleton.drawOrder;
-		var i:Int = 0, n:Int = drawOrder.length;
-		while (i < n) {
+		for (i in 0 ... drawOrder.length) {
 			var slot:Slot = drawOrder[i];
-			if (slot.attachment == null)
-			{
-				i++;
-				continue;
-			}
-			var regionAttachment:RegionAttachment = cast slot.attachment;
+			if (slot.attachment == null) continue;
+			var regionAttachment:RegionAttachment = cast(slot.attachment, RegionAttachment);
 			if (regionAttachment != null) {
-				var wrapper:Sprite = wrappers[regionAttachment];
-				var region:AtlasRegion = cast regionAttachment.region;
+				var wrapper:Sprite = regionAttachment.wrapper;
+				var region:AtlasRegion = cast regionAttachment.rendererObject;
 				if (wrapper == null) {
-					var bitmapData:BitmapData = cast (region.texture, BitmapDataTexture).bd;
-					var regionWidth:Float = region.rotate ? region.regionHeight : region.regionWidth;
-					var regionHeight:Float = region.rotate ? region.regionWidth : region.regionHeight;
-					var regionData:BitmapData = new BitmapData(Std.int(region.regionWidth), Std.int(region.regionHeight));
-					regionData.copyPixels(bitmapData, new Rectangle(region.regionX, region.regionY, region.regionWidth, region.regionHeight), new Point());
+					var bitmapData:BitmapData = cast(region.page.rendererObject, BitmapData);
+					var regionWidth:Float = region.rotate ? region.height : region.width;
+					var regionHeight:Float = region.rotate ? region.width : region.height;
+					var regionData:BitmapData = new BitmapData(Std.int(regionWidth), Std.int(regionHeight));
+					regionData.copyPixels(bitmapData, new Rectangle(region.x, region.y, regionWidth, regionHeight), new Point());
 
 					var bitmap:Bitmap = new Bitmap(regionData);
 					bitmap.smoothing = true;
 
 					// Rotate and scale using default registration point (top left corner, y-down, CW) instead of image center.
 					bitmap.rotation = -regionAttachment.rotation;
-					bitmap.scaleX = regionAttachment.scaleX * (regionAttachment.width / regionWidth);
-					bitmap.scaleY = regionAttachment.scaleY * (regionAttachment.height / regionHeight);
+					bitmap.scaleX = regionAttachment.scaleX * (regionAttachment.width / region.width);
+					bitmap.scaleY = regionAttachment.scaleY * (regionAttachment.height / region.height);
+					
 
 					// Position using attachment translation, shifted as if scale and rotation were at image center.
 					var radians:Float = -regionAttachment.rotation * Math.PI / 180;
@@ -117,7 +110,7 @@ class SkeletonSprite extends Sprite {
 					var shiftY:Float = -regionAttachment.height / 2 * regionAttachment.scaleY;
 					if (region.rotate) {
 						bitmap.rotation += 90;
-						shiftX += regionHeight * (regionAttachment.width / region.regionWidth);
+						shiftX += regionHeight * (regionAttachment.width / region.width);
 					}
 					bitmap.x = regionAttachment.x + shiftX * cos - shiftY * sin;
 					bitmap.y = -regionAttachment.y + shiftX * sin + shiftY * cos;
@@ -126,7 +119,7 @@ class SkeletonSprite extends Sprite {
 					wrapper = new Sprite();
 					wrapper.transform.colorTransform = new ColorTransform();
 					wrapper.addChild(bitmap);
-					wrappers[regionAttachment] = wrapper;
+					regionAttachment.wrapper = wrapper;
 				}
 
 				wrapper.blendMode = slot.data.additiveBlending ? BlendMode.ADD : BlendMode.NORMAL;
@@ -138,10 +131,12 @@ class SkeletonSprite extends Sprite {
 				colorTransform.alphaMultiplier = skeleton.a * slot.a * regionAttachment.a;
 				wrapper.transform.colorTransform = colorTransform;
 
+				var bone:Bone = slot.bone;
 				var flipX:Int = skeleton.flipX ? -1 : 1;
 				var flipY:Int = skeleton.flipY ? -1 : 1;
+				if (bone.worldFlipX) flipX = -flipX;
+				if (bone.worldFlipY) flipY = -flipY;
 
-				var bone:Bone = slot.bone;
 				wrapper.x = bone.worldX;
 				wrapper.y = bone.worldY;
 				wrapper.rotation = -bone.worldRotation * flipX * flipY;
@@ -149,8 +144,6 @@ class SkeletonSprite extends Sprite {
 				wrapper.scaleY = bone.worldScaleY * flipY;
 				addChild(wrapper);
 			}
-
-			i++;
 		}
 	}
 }

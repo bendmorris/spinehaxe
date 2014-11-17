@@ -36,86 +36,89 @@ import haxe.ds.Vector;
 /** Base class for frames that use an interpolation bezier curve. */class CurveTimeline implements Timeline {
 	public var frameCount(get, never):Int;
 
-	static inline var LINEAR:Float = 0;
-	static inline var STEPPED:Float = -1;
-	static inline var BEZIER_SEGMENTS:Int = 10;
-	var curves:Vector<Float>; // dfx, dfy, ddfx, ddfy, dddfx, dddfy, ...
+	static inline var LINEAR = 0;
+	static inline var STEPPED = 1;
+	static inline var BEZIER = 2;
+	static inline var BEZIER_SEGMENTS = 10;
+	static inline var BEZIER_SIZE:Int = BEZIER_SEGMENTS * 2 - 1;
+
+	var curves:Vector<Float>; // type, x, y, ...
 
 	public function new(frameCount:Int) {
-		curves = ArrayUtils.allocFloat(frameCount*6);
+		curves = new Vector<Float>((frameCount - 1) * BEZIER_SIZE);
+		for (i in 0 ... curves.length) curves[i] = 0;
 	}
 
 	public function apply(skeleton:Skeleton, lastTime:Float, time:Float, firedEvents:Array<Event>, alpha:Float):Void {
 	}
 
 	public function get_frameCount():Int {
-		return cast(curves.length / 6);
+		return Std.int(curves.length / BEZIER_SIZE + 1);
 	}
 
 	public function setLinear(frameIndex:Int):Void {
-		curves[frameIndex * 6] = LINEAR;
+		curves[frameIndex * BEZIER_SIZE] = LINEAR;
 	}
 
 	public function setStepped(frameIndex:Int):Void {
-		curves[frameIndex * 6] = STEPPED;
+		curves[frameIndex * BEZIER_SIZE] = STEPPED;
 	}
 
 	/** Sets the control handle positions for an interpolation bezier curve used to transition from this keyframe to the next.
 	 * cx1 and cx2 are from 0 to 1, representing the percent of time between the two keyframes. cy1 and cy2 are the percent of
-	 * the difference between the keyframe's values. */	public function setCurve(frameIndex:Int, cx1:Float, cy1:Float, cx2:Float, cy2:Float):Void {
-		var subdiv_step:Float = 1 / BEZIER_SEGMENTS;
-		var subdiv_step2:Float = subdiv_step * subdiv_step;
-		var subdiv_step3:Float = subdiv_step2 * subdiv_step;
-		var pre1:Float = 3 * subdiv_step;
-		var pre2:Float = 3 * subdiv_step2;
-		var pre4:Float = 6 * subdiv_step2;
-		var pre5:Float = 6 * subdiv_step3;
-		var tmp1x:Float = -cx1 * 2 + cx2;
-		var tmp1y:Float = -cy1 * 2 + cy2;
-		var tmp2x:Float = (cx1 - cx2) * 3 + 1;
-		var tmp2y:Float = (cy1 - cy2) * 3 + 1;
-		var i:Int = frameIndex * 6;
-		curves[i] = cx1 * pre1 + tmp1x * pre2 + tmp2x * subdiv_step3;
-		curves[i + 1] = cy1 * pre1 + tmp1y * pre2 + tmp2y * subdiv_step3;
-		curves[i + 2] = tmp1x * pre4 + tmp2x * pre5;
-		curves[i + 3] = tmp1y * pre4 + tmp2y * pre5;
-		curves[i + 4] = tmp2x * pre5;
-		curves[i + 5] = tmp2y * pre5;
-	}
+	 * the difference between the keyframe's values. */
+	public function setCurve(frameIndex:Int, cx1:Float, cy1:Float, cx2:Float, cy2:Float):Void {
+		var subdiv1:Float = 1 / BEZIER_SEGMENTS, subdiv2:Float = subdiv1 * subdiv1, subdiv3:Float = subdiv2 * subdiv1;
+		var pre1:Float = 3 * subdiv1, pre2:Float = 3 * subdiv2, pre4:Float = 6 * subdiv2, pre5:Float = 6 * subdiv3;
+		var tmp1x:Float = -cx1 * 2 + cx2, tmp1y:Float = -cy1 * 2 + cy2, tmp2x:Float = (cx1 - cx2) * 3 + 1, tmp2y:Float = (cy1 - cy2) * 3 + 1;
+		var dfx:Float = cx1 * pre1 + tmp1x * pre2 + tmp2x * subdiv3, dfy:Float = cy1 * pre1 + tmp1y * pre2 + tmp2y * subdiv3;
+		var ddfx:Float = tmp1x * pre4 + tmp2x * pre5, ddfy:Float = tmp1y * pre4 + tmp2y * pre5;
+		var dddfx:Float = tmp2x * pre5, dddfy:Float = tmp2y * pre5;
+		var i:Int = frameIndex * BEZIER_SIZE;
+		var curves:Vector<Float> = this.curves;
+		curves[i++] = BEZIER;
 
-	public function getCurvePercent(frameIndex:Int, percent:Float):Float {
-		var curveIndex:Int = frameIndex * 6;
-		var dfx:Float = curves[curveIndex];
-		if (dfx == LINEAR)
-			return percent;
-		if (dfx == STEPPED)
-			return 0;
-		var dfy:Float = curves[curveIndex + 1];
-		var ddfx:Float = curves[curveIndex + 2];
-		var ddfy:Float = curves[curveIndex + 3];
-		var dddfx:Float = curves[curveIndex + 4];
-		var dddfy:Float = curves[curveIndex + 5];
-		var x:Float = dfx;
-		var y:Float = dfy;
-		var i:Int = BEZIER_SEGMENTS - 2;
-		while(true) {
-			if (x >= percent) {
-				var prevX:Float = x - dfx;
-				var prevY:Float = y - dfy;
-				return prevY + (y - prevY) * (percent - prevX) / (x - prevX);
-			}
-			if (i == 0)
-				break;
-			i--;
+		var x:Float = dfx, y:Float = dfy;
+		var n:Int = i + BEZIER_SIZE - 1;
+		while (i < n) {
+			curves[i] = x;
+			curves[i + 1] = y;
 			dfx += ddfx;
 			dfy += ddfy;
 			ddfx += dddfx;
 			ddfy += dddfy;
 			x += dfx;
 			y += dfy;
+			i += 2;
 		}
+	}
 
-		return y + (1 - y) * (percent - x) / (1 - x);
+	public function getCurvePercent (frameIndex:Int, percent:Float):Float {
+		var curves:Vector<Float> = this.curves;
+		var i:Int = frameIndex * BEZIER_SIZE;
+		var type:Float = curves[i];
+		if (type == LINEAR) return percent;
+		if (type == STEPPED) return 0;
+		i++;
+		var x:Float = 0;
+		var start:Int = i, n:Int = i + BEZIER_SIZE - 1;
+		while (i < n) {
+			x = curves[i];
+			if (x >= percent) {
+				var prevX:Float, prevY:Float;
+				if (i == start) {
+					prevX = 0;
+					prevY = 0;
+				} else {
+					prevX = curves[i - 2];
+					prevY = curves[i - 1];
+				}
+				return prevY + (curves[i + 1] - prevY) * (percent - prevX) / (x - prevX);
+			}
+			i += 2;
+		}
+		var y:Float = curves[i - 1];
+		return y + (1 - y) * (percent - x) / (1 - x); // Last point is 1,1.
 	}
 
 }
