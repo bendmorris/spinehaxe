@@ -134,8 +134,8 @@ class SkeletonSprite extends Sprite {
 				var bone:Bone = slot.bone;
 				var flipX:Int = skeleton.flipX ? -1 : 1;
 				var flipY:Int = skeleton.flipY ? -1 : 1;
-				if (bone.worldFlipX) flipX = -flipX;
-				if (bone.worldFlipY) flipY = -flipY;
+				if (bone.flipX) flipX = -flipX;
+				if (bone.flipY) flipY = -flipY;
 
 				wrapper.x = bone.worldX;
 				wrapper.y = bone.worldY;
