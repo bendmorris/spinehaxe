@@ -480,14 +480,13 @@ class SkeletonJson {
 			}
 		}
 
-		var drawOrderValues:JsonNode = map.getNode("drawOrder");
+		var drawOrderValues:Array<{slot:String, offset: Int}> = map.getNode("drawOrder");
 		if (drawOrderValues == null) drawOrderValues = map.getNode("draworder");
 		if (drawOrderValues != null && drawOrderValues.length > 0) {
 			var drawOrderTimeline:DrawOrderTimeline = new DrawOrderTimeline(drawOrderValues.length);
 			var slotCount:Int = skeletonData.slots.length;
 			frameIndex = 0;
-			for (drawOrderValue in drawOrderValues.fields()) {
-				var drawOrderMap = drawOrderValues.getNode(drawOrderValue);
+			for (drawOrderMap in drawOrderValues) {
 				var drawOrder:Vector<Int> = null;
 				if (drawOrderMap.hasOwnProperty("offsets")) {
 					drawOrder = new Vector<Int>(slotCount);
