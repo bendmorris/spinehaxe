@@ -39,7 +39,7 @@ class MeshAttachment extends Attachment {
 	public var vertices:Array<Float>;
 	public var uvs:Vector<Float>;
 	public var regionUVs:Array<Float>;
-	public var triangles:Array<UInt>;
+	public var triangles:Array<Int>;
 	public var hullLength:Int = 0;
 	public var r:Float = 1;
 	public var g:Float = 1;

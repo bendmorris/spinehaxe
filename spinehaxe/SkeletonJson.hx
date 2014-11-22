@@ -222,7 +222,8 @@ class SkeletonJson {
 			if (mesh == null) return null;
 			mesh.path = path; 
 			mesh.vertices = map.getFloatArray("vertices", scale);
-			mesh.triangles = map.getUintArray("triangles");
+			mesh.triangles = map.getIntArray("triangles");
+			
 			mesh.regionUVs = map.getFloatArray("uvs", 1);
 			mesh.updateUVs();
 
@@ -235,7 +236,7 @@ class SkeletonJson {
 			}
 
 			mesh.hullLength = map.getInt("hull") * 2;
-			if (map.hasOwnPropertY("edges")) mesh.edges = map.getIntArray("edges");
+			if (map.hasOwnProperty("edges")) mesh.edges = map.getIntArray("edges");
 			mesh.width = map.getFloat("width") * scale;
 			mesh.height = map.getFloat("height") * scale;
 			return mesh;
@@ -263,7 +264,7 @@ class SkeletonJson {
 			}
 			skinnedMesh.bones = bones;
 			skinnedMesh.weights = weights;
-			skinnedMesh.triangles = map.getUintArray("triangles");
+			skinnedMesh.triangles = map.getIntArray("triangles");
 			skinnedMesh.regionUVs = uvs;
 			skinnedMesh.updateUVs();
 			
@@ -446,7 +447,7 @@ class SkeletonJson {
 					frameIndex = 0;
 					for (valueMap in values) {
 						var vertices:Array<Float>;
-						if (!valueMap.hasownProperty("vertices")) {
+						if (!valueMap.hasOwnProperty("vertices")) {
 							if (Std.is(attachment, MeshAttachment))
 								vertices = cast(attachment, MeshAttachment).vertices;
 							else
@@ -466,7 +467,7 @@ class SkeletonJson {
 							if (Std.is(attachment, MeshAttachment)) {
 								var meshVertices:Array<Float> = cast(attachment, MeshAttachment).vertices;
 								for (i in 0 ... vertexCount)
-									vertices[i] += meshVertices[i];
+									vertices[i] = meshVertices[i];
 							}
 						}
 						

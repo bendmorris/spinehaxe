@@ -39,7 +39,7 @@ class SkinnedMeshAttachment extends Attachment {
 	public var weights:Array<Float>;
 	public var uvs:Vector<Float>;
 	public var regionUVs:Array<Float>;
-	public var triangles:Array<UInt>;
+	public var triangles:Array<Int>;
 	public var hullLength:Int;
 	public var r:Float = 1;
 	public var g:Float = 1;

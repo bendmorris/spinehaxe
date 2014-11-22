@@ -121,7 +121,7 @@ class RegionAttachment extends Attachment implements Dynamic<Dynamic> {
 		offset[Y4] = localYCos + localX2Sin;
 	}
 
-	public function computeWorldVertices (x:Float, y:Float, bone:Bone, worldVertices:Array<Float>) : Void {
+	public function computeWorldVertices (x:Float, y:Float, bone:Bone, worldVertices:Vector<Float>) : Void {
 		x += bone.worldX;
 		y += bone.worldY;
 		var m00:Float = bone.m00;
@@ -136,6 +136,7 @@ class RegionAttachment extends Attachment implements Dynamic<Dynamic> {
 		var y3:Float = offset[Y3];
 		var x4:Float = offset[X4];
 		var y4:Float = offset[Y4];
+		
 		worldVertices[X1] = x1 * m00 + y1 * m01 + x;
 		worldVertices[Y1] = x1 * m10 + y1 * m11 + y;
 		worldVertices[X2] = x2 * m00 + y2 * m01 + x;
