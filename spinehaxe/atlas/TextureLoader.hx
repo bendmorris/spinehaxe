@@ -1,4 +1,7 @@
 package spinehaxe.atlas;
+
 interface TextureLoader {
-	public function loadTexture(textureFile:String, format:String, useMipMaps:Bool):Texture;
+	function loadPage (page:AtlasPage, path:String) : Void;
+	function loadRegion (region:AtlasRegion) : Void;
+	function unloadPage (page:AtlasPage) : Void;
 }

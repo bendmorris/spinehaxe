@@ -105,6 +105,25 @@ class Animation {
 		return 0;
 	}
 
+	/** @param target After the first and before the last entry. */
+	static public function binarySearch1 (values:Vector<Float>, target:Float):Int {
+		var low:Int = 0;
+		var high:Int = values.length - 2;
+		if (high == 0)
+			return 1;
+		var current:Int = high >>> 1;
+		while (true) {
+			if (values[current + 1] <= target)
+				low = current + 1;
+			else
+				high = current;
+			if (low == high)
+				return low + 1;
+			current = (low + high) >>> 1;
+		}
+		return 0; // Can't happen.
+	}
+
 	static public function linearSearch(values:Array<Float>, target:Float, step:Int):Int {
 		var i:Int = 0;
 		var last:Int = values.length - step;

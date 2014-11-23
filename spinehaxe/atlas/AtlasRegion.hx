@@ -27,47 +27,27 @@
  * OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  *****************************************************************************/
-package spinehaxe.animation;
 
-import spinehaxe.Event;
-import spinehaxe.Skeleton;
-import haxe.ds.Vector;
+package spinehaxe.atlas;
 
-class AttachmentTimeline implements Timeline {
-	public var frameCount(get, never):Int;
-
-	public var slotIndex:Int;
-	public var frames:Vector<Float>; // time, ...
-	public var attachmentNames:Vector<String>;
-
-	public function new(frameCount:Int) {
-		frames = ArrayUtils.allocFloat(frameCount);
-		attachmentNames = new Vector<String>(frameCount);
-	}
-
-	public function get_frameCount():Int {
-		return frames.length;
-	}
-
-	/** Sets the time and value of the specified keyframe. */
-	public function setFrame(frameIndex:Int, time:Float, attachmentName:String):Void {
-		frames[frameIndex] = time;
-		attachmentNames[frameIndex] = attachmentName;
-	}
-
-	public function apply(skeleton:Skeleton, lastTime:Float, time:Float, firedEvents:Array<Event>, alpha:Float):Void {
-		if (time < frames[0]) {
-			if (lastTime > time) apply(skeleton, lastTime, spinehaxe.MathUtils.MAX_INT, null, 0);
-			return;
-		} else if (lastTime > time) {
-			lastTime = -1;
-		}
-
-		var frameIndex:Int = time >= frames[frames.length - 1] ? frames.length - 1 : Animation.binarySearch1(frames, time) - 1;
-		if (frames[frameIndex] < lastTime) return;
-
-		var attachmentName:String = attachmentNames[frameIndex];
-		skeleton.slots[slotIndex].attachment = attachmentName == (null) ? null:skeleton.getAttachmentForSlotIndex(slotIndex, attachmentName);
-	}
-
+class AtlasRegion {
+	public var page:AtlasPage;
+	public var name:String;
+	public var x:Int = 0;
+	public var y:Int = 0;
+	public var width:Int = 0;
+	public var height:Int = 0;
+	public var u:Float = 0;
+	public var v:Float = 0;
+	public var u2:Float = 0;
+	public var v2:Float = 0;
+	public var offsetX:Float = 0;
+	public var offsetY:Float = 0;
+	public var originalWidth:Int = 0;
+	public var originalHeight:Int = 0;
+	public var index:Int = 0;
+	public var rotate:Bool = false;
+	public var splits:Array<Int>;
+	public var pads:Array<Int>;
+	public var rendererObject:Dynamic;
 }

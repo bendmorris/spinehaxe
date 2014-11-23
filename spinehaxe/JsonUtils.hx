@@ -1,6 +1,8 @@
 package spinehaxe;
+
 import haxe.Json;
 import Reflect;
+import haxe.ds.Vector;
 
 typedef JsonNode = Dynamic;
 
@@ -51,6 +53,23 @@ class JsonUtils {
 		   return defaultValue;
 		}
 		return cast value;
+	}
+
+	static private function getFloatArray (map:JsonNode, name:String, scale:Float) : Array<Float> {
+		var values:Array<Float> = Reflect.getProperty(map, name);
+		if (scale != 1) {
+			for (i in 0 ... values.length)
+				values[i] *= scale;
+		}
+		return values;
+	}
+
+	static private function getIntArray (map:JsonNode, name:String) : Array<Int> {
+		return cast Reflect.getProperty(map, name);
+	}
+
+	static private function getUintArray (map:JsonNode, name:String) : Array<UInt> {
+		return cast Reflect.getProperty(map, name);
 	}
 
 	public static function hasOwnProperty(node:JsonNode, field:String) {

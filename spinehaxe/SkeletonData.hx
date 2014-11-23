@@ -27,6 +27,7 @@
  * OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  *****************************************************************************/
+
 package spinehaxe;
 
 import spinehaxe.animation.Animation;
@@ -34,74 +35,37 @@ import spinehaxe.Exception;
 import haxe.ds.Vector;
 
 class SkeletonData {
-	@:isVar public var name:String;
+
+	public var name:String;
+	public var bones:Array<BoneData> = new Array();
 	// Ordered parents first.
-	public var bones(get, null):Array<BoneData>;
+	public var slots:Array<SlotData> = new Array();
 	// Setup pose draw order.
-	public var slots:Array<SlotData>;
-	public var skins:Array<Skin>;
+	public var skins:Array<Skin> = new Array();
 	public var defaultSkin:Skin;
-	public var events:Array<EventData>;
-	public var animations:Array<Animation>;
-    //TODO:[Yura] Constraints
-	@:isVar public var width(get, set):Float;
-	@:isVar public var height(get, set):Float;
-	@:isVar public var version(get, set):String = "0.0.0";
-	@:isVar public var hash(get, set):String;
-	//@:isVar public var imagePath(get, set):String;
+	public var events:Array<EventData> = new Array();
+	public var animations:Array<Animation> = new Array();
+	public var ikConstraints:Array<IkConstraintData> = new Array();
+	public var width:Float = 0;
+	public var height:Float = 0;
+	public var version:String;
+	public var hash:String;
 
-    private inline function get_bones():Array<BoneData> {
-		return this.bones;
+	// --- Bones.
+
+	public function addBone(bone:BoneData):Void {
+		if (bone == null)
+			throw new IllegalArgumentException("bone cannot be null.");
+		bones[bones.length] = bone;
 	}
 
-    private inline function get_name():String {
-		return this.version;
-	}
+	/** @return May be null. */
+	public function findBone(boneName:String):BoneData {
+		if (boneName == null) throw new IllegalArgumentException("boneName cannot be null.");
 
-    private inline function set_name(name:String) {
-        return this.name = name;
-    }
+		for (bone in bones)
+			if (bone.name == boneName) return bone;
 
-    /** Returns the Spine version used to export this data, or null. */
-    private inline function get_version():String {
-		return this.version;
-	}
-
-    private inline function set_version(version:String) {
-        return this.version = version;
-    }
-
-    private inline function get_height():Float {
-		return this.height;
-	}
-
-    private inline function set_height(height:Float) {
-        return this.height = height;
-    }
-
-    private inline function get_width():Float {
-		return this.width;
-	}
-
-    private inline function set_width(width:Float) {
-        return this.width = width;
-    }
-
-    private inline function get_hash():String {
-		return this.hash;
-	}
-
-    private inline function set_hash(hash:String) {
-        return this.hash = hash;
-    }
-
-    public function findBone(boneName:String):BoneData {
-		if (boneName == null)
-			throw new IllegalArgumentException("boneName cannot be null.");
-        for (bone in bones) {
-			if (bone.name == boneName)
-				return bone;
-        }
 		return null;
 	}
 
@@ -109,122 +73,91 @@ class SkeletonData {
 	public function findBoneIndex(boneName:String):Int {
 		if (boneName == null)
 			throw new IllegalArgumentException("boneName cannot be null.");
-		for (i in 0...bones.length) {
-			if (bones[i].name == boneName)
-				return i;
-        }
-        return -1;
+
+		for (i in 0 ... bones.length)
+			if (bones[i].name == boneName) return i;
+
+		return -1;
 	}
 
 	// --- Slots.
-	public function addSlot(slot:SlotData):Void {
-		if (slot == null)
-			throw new IllegalArgumentException("slot cannot be null.");
-		slots[slots.length] = slot;
-	}
 
 	/** @return May be null. */
 	public function findSlot(slotName:String):SlotData {
-		if (slotName == null)
-			throw new IllegalArgumentException("slotName cannot be null.");
-		var i:Int = 0;
-		var n:Int = slots.length;
-		while(i < n) {
-			var slot:SlotData = slots[i];
-			if (slot.name == slotName)
-				return slot;
-			i++;
-		}
+		if (slotName == null) throw new IllegalArgumentException("slotName cannot be null.");
+
+		for (slot in slots)
+			if (slot.name == slotName) return slot;
+
 		return null;
 	}
 
 	/** @return -1 if the bone was not found. */
 	public function findSlotIndex(slotName:String):Int {
-		if (slotName == null)
-			throw new IllegalArgumentException("slotName cannot be null.");
-		var i:Int = 0;
-		var n:Int = slots.length;
-		while(i < n) {
-			if (slots[i].name == slotName)
-				return i;
-			i++;
-		}
+		if (slotName == null) throw new IllegalArgumentException("slotName cannot be null.");
+
+		for (i in 0 ... slots.length)
+			if (slots[i].name == slotName) return i;
+
 		return -1;
 	}
 
-	// --- Skins.
-	public function addSkin(skin:Skin):Void {
-		if (skin == null)
-			throw new IllegalArgumentException("skin cannot be null.");
-		skins[skins.length] = skin;
-	}
+	// --- Skins.}
 
 	/** @return May be null. */
 	public function findSkin(skinName:String):Skin {
-		if (skinName == null)
-			throw new IllegalArgumentException("skinName cannot be null.");
+		if (skinName == null) throw new IllegalArgumentException("skinName cannot be null.");
+
 		for (skin in skins)
-			if (skin.name == skinName)
-			return skin;
+			if (skin.name == skinName) return skin;
+
 		return null;
 	}
 
 	// --- Events.
-	public function addEvent(eventData:EventData):Void {
-		if (eventData == null)
-			throw new IllegalArgumentException("eventData cannot be null.");
-		events[events.length] = eventData;
-	}
 
 	/** @return May be null. */
 	public function findEvent(eventName:String):EventData {
-		if (eventName == null)
-			throw new IllegalArgumentException("eventName cannot be null.");
-		var i:Int = 0;
-		var n:Int = events.length;
-		while(i < n) {
-			var eventData:EventData = events[i];
-			if (eventData.name == eventName)
-				return eventData;
-			i++;
-		}
+		if (eventName == null) throw new IllegalArgumentException("eventName cannot be null.");
+
+		for (eventData in events)
+			if (eventData.name == eventName) return eventData;
+
 		return null;
 	}
 
 	// --- Animations.
-	public function addAnimation(animation:Animation):Void {
-		if (animation == null)
-			throw new IllegalArgumentException("animation cannot be null.");
-		animations[animations.length] = animation;
-	}
 
 	/** @return May be null. */
 	public function findAnimation(animationName:String):Animation {
 		if (animationName == null)
 			throw new IllegalArgumentException("animationName cannot be null.");
-		var i:Int = 0;
-		var n:Int = animations.length;
-		while(i < n) {
-			var animation:Animation = animations[i];
-			if (animation.name == animationName)
-				return animation;
-			i++;
-		}
+
+		for (animation in animations)
+			if (animation.name == animationName) return animation;
+
+		return null;
+	}
+
+	// --- IK Constraints.
+
+	/** @return May be null. */
+	public function findIkConstraint (ikConstraintName:String) : IkConstraintData {
+		if (ikConstraintName == null) throw new IllegalArgumentException("ikConstraintName cannot be null.");
+
+		for (ikConstraintData in ikConstraints)
+			if (ikConstraintData.name == ikConstraintName) return ikConstraintData;
+
 		return null;
 	}
 
 	// ---
+
 	public function toString():String {
 		return name != (null) ? name : ("" + this);
 	}
 
 
-	public function new() {
-		bones = new Array<BoneData>();
-		slots = new Array<SlotData>();
-		skins = new Array<Skin>();
-		events = new Array<EventData>();
-		animations = new Array<Animation>();
-	}
+	public function new() {}
 }
 

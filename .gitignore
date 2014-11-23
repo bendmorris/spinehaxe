@@ -1,12 +1,5 @@
-# Compiled source #
-###################
-*.swf
-
-# Logs and databases #
-*.log
-
-# Folder #
-*.*/bin
+# Folder
+bin
 samples/bin
 tests/fun/bin
 tests/unit/build
@@ -17,4 +10,6 @@ ehthumbs.db
 Icon?
 Thumbs.db
 
-
+#IDEs
+*.idea
+*.iml

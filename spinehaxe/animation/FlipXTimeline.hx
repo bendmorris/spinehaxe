@@ -27,47 +27,48 @@
  * OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  *****************************************************************************/
+
 package spinehaxe.animation;
 
+import spinehaxe.Bone;
 import spinehaxe.Event;
 import spinehaxe.Skeleton;
 import haxe.ds.Vector;
 
-class AttachmentTimeline implements Timeline {
+class FlipXTimeline implements Timeline {
+	public var boneIndex:Int;
+	public var frames:Vector<Float>; // time, flip, ...
 	public var frameCount(get, never):Int;
 
-	public var slotIndex:Int;
-	public var frames:Vector<Float>; // time, ...
-	public var attachmentNames:Vector<String>;
-
-	public function new(frameCount:Int) {
-		frames = ArrayUtils.allocFloat(frameCount);
-		attachmentNames = new Vector<String>(frameCount);
+	public function new (frameCount:Int) {
+		frames = new Vector<Float>(frameCount * 2);
 	}
 
-	public function get_frameCount():Int {
-		return frames.length;
+	public function get_frameCount() : Int {
+		return Std.int(frames.length / 2);
 	}
 
-	/** Sets the time and value of the specified keyframe. */
-	public function setFrame(frameIndex:Int, time:Float, attachmentName:String):Void {
+	/** Sets the time and angle of the specified keyframe. */
+	public function setFrame (frameIndex:Int, time:Float, flip:Bool):Void {
+		frameIndex *= 2;
 		frames[frameIndex] = time;
-		attachmentNames[frameIndex] = attachmentName;
+		frames[frameIndex + 1] = flip ? 1 : 0;
 	}
 
-	public function apply(skeleton:Skeleton, lastTime:Float, time:Float, firedEvents:Array<Event>, alpha:Float):Void {
+	public function apply (skeleton:Skeleton, lastTime:Float, time:Float, firedEvents:Array<Event>, alpha:Float):Void {
 		if (time < frames[0]) {
 			if (lastTime > time) apply(skeleton, lastTime, spinehaxe.MathUtils.MAX_INT, null, 0);
 			return;
-		} else if (lastTime > time) {
+		} else if (lastTime > time) //
 			lastTime = -1;
-		}
 
-		var frameIndex:Int = time >= frames[frames.length - 1] ? frames.length - 1 : Animation.binarySearch1(frames, time) - 1;
+		var frameIndex:Int = (time >= frames[frames.length - 2] ? frames.length : Animation.binarySearch(frames, time, 2)) - 2;
 		if (frames[frameIndex] < lastTime) return;
 
-		var attachmentName:String = attachmentNames[frameIndex];
-		skeleton.slots[slotIndex].attachment = attachmentName == (null) ? null:skeleton.getAttachmentForSlotIndex(slotIndex, attachmentName);
+		setFlip(skeleton.bones[boneIndex], frames[frameIndex + 1] != 0);
 	}
 
+	function setFlip (bone:Bone, flip:Bool):Void {
+		bone.flipX = flip;
+	}
 }

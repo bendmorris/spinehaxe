@@ -35,6 +35,8 @@ import spinehaxe.Skeleton;
 import haxe.ds.Vector;
 
 class ScaleTimeline extends TranslateTimeline {
+	static inline var FRAME_X:Int = 1;
+	static inline var FRAME_Y:Int = 2;
 
 	public function new(frameCount:Int) {
 		super(frameCount);
@@ -47,8 +49,8 @@ class ScaleTimeline extends TranslateTimeline {
 		var bone:Bone = skeleton.bones[boneIndex];
 		if (time >= frames[frames.length - 3]) {
 			// Time is after last frame.
-			bone.scaleX += (bone.data.scaleX - 1 + frames[frames.length - 2] - bone.scaleX) * alpha;
-			bone.scaleY += (bone.data.scaleY - 1 + frames[frames.length - 1] - bone.scaleY) * alpha;
+			bone.scaleX += (bone.data.scaleX * frames[frames.length - 2] - bone.scaleX) * alpha;
+			bone.scaleY += (bone.data.scaleY * frames[frames.length - 1] - bone.scaleY) * alpha;
 			return;
 		}
 		// Interpolate between the previous frame and the current frame.
@@ -58,8 +60,8 @@ class ScaleTimeline extends TranslateTimeline {
 		var frameTime:Float = frames[frameIndex];
 		var percent:Float = 1 - (time - frameTime) / (frames[frameIndex + TranslateTimeline.PREV_FRAME_TIME] - frameTime);
 		percent = getCurvePercent(Math.floor(frameIndex / 3 - 1), percent < (0) ? 0 : (percent > (1) ? 1 : percent));
-		bone.scaleX += (bone.data.scaleX - 1 + prevFrameX + (frames[frameIndex + TranslateTimeline.FRAME_X] - prevFrameX) * percent - bone.scaleX) * alpha;
-		bone.scaleY += (bone.data.scaleY - 1 + prevFrameY + (frames[frameIndex + TranslateTimeline.FRAME_Y] - prevFrameY) * percent - bone.scaleY) * alpha;
+		bone.scaleX += (bone.data.scaleX * (prevFrameX + (frames[frameIndex + FRAME_X] - prevFrameX) * percent) - bone.scaleX) * alpha;
+		bone.scaleY += (bone.data.scaleY * (prevFrameY + (frames[frameIndex + FRAME_Y] - prevFrameY) * percent) - bone.scaleY) * alpha;
 	}
 
 }

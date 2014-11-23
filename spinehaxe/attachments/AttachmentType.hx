@@ -24,16 +24,12 @@
  ******************************************************************************/
 
 package spinehaxe.attachments;
-enum AttachmentType {
-	region; regionSequence; boundingbox;
-}
-class AttachmentTypes{
-	public static function valueOf(t:String, def:AttachmentType = null):AttachmentType{
-		switch(t) {
-			case "region":return region;
-			case "regionSequence":return regionSequence;
-			case "boundingbox":return boundingbox;
-			default:return def;
-		}
-	}
+
+@:enum
+abstract AttachmentType(String) from String to String {
+	var Region = "region";
+	var RegionSequence = "regionsequence";
+	var BoundingBox = "boundingbox";
+	var Mesh = "mesh";
+	var SkinnedMesh = "skinnedmesh";
 }

@@ -1,59 +1,48 @@
-/*******************************************************************************
+/******************************************************************************
+ * Spine Runtimes Software License
+ * Version 2.1
+ * 
  * Copyright (c) 2013, Esoteric Software
  * All rights reserved.
- *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions are met:
- *
- * 1. Redistributions of source code must retain the above copyright notice, this
- *	list of conditions and the following disclaimer.
- * 2. Redistributions in binary form must reproduce the above copyright notice,
- *	this list of conditions and the following disclaimer in the documentation
- *	and/or other materials provided with the distribution.
- *
- * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
- * ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
- * WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
- * DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR
- * ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
- * (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
- * LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
- * ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
- * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
- * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
- ******************************************************************************/
+ * 
+ * You are granted a perpetual, non-exclusive, non-sublicensable and
+ * non-transferable license to install, execute and perform the Spine Runtimes
+ * Software (the "Software") solely for internal use. Without the written
+ * permission of Esoteric Software (typically granted by licensing Spine), you
+ * may not (a) modify, translate, adapt or otherwise create derivative works,
+ * improvements of the Software or develop new applications using the Software
+ * or (b) remove, delete, alter or obscure any trademarks or any copyright,
+ * trademark, patent or other intellectual property or proprietary rights
+ * notices on or in the Software, including any copy thereof. Redistributions
+ * in binary or source form must include this license and terms.
+ * 
+ * THIS SOFTWARE IS PROVIDED BY ESOTERIC SOFTWARE "AS IS" AND ANY EXPRESS OR
+ * IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF
+ * MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO
+ * EVENT SHALL ESOTERIC SOFTARE BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+ * SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS;
+ * OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+ * WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR
+ * OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
+ * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ *****************************************************************************/
 
 package spinehaxe.attachments;
 
-import spinehaxe.atlas.TextureRegion;
-import spinehaxe.Exception;
-import spinehaxe.atlas.TextureAtlas;
-import spinehaxe.ArrayUtils;
+import spinehaxe.Bone;
 import haxe.ds.Vector;
 
-class RegionAttachment extends Attachment {
-	public static inline var X1 = 0;
-	public static inline var Y1 = 1;
-	public static inline var C1 = 2;
-	public static inline var U1 = 3;
-	public static inline var V1 = 4;
-	public static inline var X2 = 5;
-	public static inline var Y2 = 6;
-	public static inline var C2 = 7;
-	public static inline var U2 = 8;
-	public static inline var V2 = 9;
-	public static inline var X3 = 10;
-	public static inline var Y3 = 11;
-	public static inline var C3 = 12;
-	public static inline var U3 = 13;
-	public static inline var V3 = 14;
-	public static inline var X4 = 15;
-	public static inline var Y4 = 16;
-	public static inline var C4 = 17;
-	public static inline var U4 = 18;
-	public static inline var V4 = 19;
+class RegionAttachment extends Attachment implements Dynamic<Dynamic> {
+	public static inline var X1:Int = 0;
+	public static inline var Y1:Int = 1;
+	public static inline var X2:Int = 2;
+	public static inline var Y2:Int = 3;
+	public static inline var X3:Int = 4;
+	public static inline var Y3:Int = 5;
+	public static inline var X4:Int = 6;
+	public static inline var Y4:Int = 7;
 
-	public var region:TextureRegion;
 	public var x:Float = 0;
 	public var y:Float = 0;
 	public var scaleX:Float = 1;
@@ -65,42 +54,55 @@ class RegionAttachment extends Attachment {
 	public var g:Float = 1;
 	public var b:Float = 1;
 	public var a:Float = 1;
+
 	public var path:String;
-	public var vertices:Vector<Float>;
-	public var offset:Vector<Float>;
+	public var rendererObject:Dynamic;
+	public var regionOffsetX:Float = 0; // Pixels stripped from the bottom left, unrotated.
+	public var regionOffsetY:Float = 0;
+	public var regionWidth:Float = 0; // Unrotated, stripped size.
+	public var regionHeight:Float = 0;
+	public var regionOriginalWidth:Float = 0; // Unrotated, unstripped size.
+	public var regionOriginalHeight:Float = 0;
+
+	public var offset:Vector<Float> = new Vector<Float>(8);
+	public var uvs:Vector<Float> = new Vector<Float>(8);
 
 	public function new (name:String) {
 		super(name);
-		vertices = ArrayUtils.allocFloat(20);
-		offset = ArrayUtils.allocFloat(8);
 	}
 
-	public function updateOffset ():Void {
-		var localX2:Float = width / 2;
-		var localY2:Float = height / 2;
-		var localX:Float = -localX2;
-		var localY:Float = -localY2;
-		if (Std.is(region, AtlasRegion)) {
-			var region:AtlasRegion = cast(this.region, AtlasRegion);
-			if (region.rotate) {
-				localX += region.offsetX / region.originalWidth * height;
-				localY += region.offsetY / region.originalHeight * width;
-				localX2 -= (region.originalWidth - region.offsetX - region.packedHeight) / region.originalWidth * height;
-				localY2 -= (region.originalHeight - region.offsetY - region.packedWidth) / region.originalHeight * width;
-			} else {
-				localX += region.offsetX / region.originalWidth * width;
-				localY += region.offsetY / region.originalHeight * height;
-				localX2 -= (region.originalWidth - region.offsetX - region.packedWidth) / region.originalWidth * width;
-				localY2 -= (region.originalHeight - region.offsetY - region.packedHeight) / region.originalHeight * height;
-			}
+	public function setUVs (u:Float, v:Float, u2:Float, v2:Float, rotate:Bool) : Void {
+		if (rotate) {
+			uvs[X2] = u;
+			uvs[Y2] = v2;
+			uvs[X3] = u;
+			uvs[Y3] = v;
+			uvs[X4] = u2;
+			uvs[Y4] = v;
+			uvs[X1] = u2;
+			uvs[Y1] = v2;
+		} else {
+			uvs[X1] = u;
+			uvs[Y1] = v2;
+			uvs[X2] = u;
+			uvs[Y2] = v;
+			uvs[X3] = u2;
+			uvs[Y3] = v;
+			uvs[X4] = u2;
+			uvs[Y4] = v2;
 		}
-		localX *= scaleX;
-		localY *= scaleY;
-		localX2 *= scaleX;
-		localY2 *= scaleY;
-		var rotation:Float = MathUtils.degToRad(rotation);
-		var cos:Float = Math.cos(rotation);
-		var sin:Float = Math.sin(rotation);
+	}
+
+	public function updateOffset () : Void {
+		var regionScaleX:Float = width / regionOriginalWidth * scaleX;
+		var regionScaleY:Float = height / regionOriginalHeight * scaleY;
+		var localX:Float = -width / 2 * scaleX + regionOffsetX * regionScaleX;
+		var localY:Float = -height / 2 * scaleY + regionOffsetY * regionScaleY;
+		var localX2:Float = localX + regionWidth * regionScaleX;
+		var localY2:Float = localY + regionHeight * regionScaleY;
+		var radians:Float = rotation * Math.PI / 180;
+		var cos:Float = Math.cos(radians);
+		var sin:Float = Math.sin(radians);
 		var localXCos:Float = localX * cos + x;
 		var localXSin:Float = localX * sin;
 		var localYCos:Float = localY * cos + y;
@@ -109,77 +111,39 @@ class RegionAttachment extends Attachment {
 		var localX2Sin:Float = localX2 * sin;
 		var localY2Cos:Float = localY2 * cos + y;
 		var localY2Sin:Float = localY2 * sin;
-		offset[0] = localXCos - localYSin;
-		offset[1] = localYCos + localXSin;
-		offset[2] = localXCos - localY2Sin;
-		offset[3] = localY2Cos + localXSin;
-		offset[4] = localX2Cos - localY2Sin;
-		offset[5] = localY2Cos + localX2Sin;
-		offset[6] = localX2Cos - localYSin;
-		offset[7] = localYCos + localX2Sin;
+		offset[X1] = localXCos - localYSin;
+		offset[Y1] = localYCos + localXSin;
+		offset[X2] = localXCos - localY2Sin;
+		offset[Y2] = localY2Cos + localXSin;
+		offset[X3] = localX2Cos - localY2Sin;
+		offset[Y3] = localY2Cos + localX2Sin;
+		offset[X4] = localX2Cos - localYSin;
+		offset[Y4] = localYCos + localX2Sin;
 	}
 
-	public function setRegion (region:TextureRegion):Void {
-		if (region == null) throw new IllegalArgumentException("region cannot be null.");
-		this.region = region;
-		if (Std.is(region, AtlasRegion) && (cast(region,AtlasRegion)).rotate) {
-			vertices[U2] = region.u;
-			vertices[V2] = region.v2;
-			vertices[U3] = region.u;
-			vertices[V3] = region.v;
-			vertices[U4] = region.u2;
-			vertices[V4] = region.v;
-			vertices[U1] = region.u2;
-			vertices[V1] = region.v2;
-		} else {
-			vertices[U1] = region.u;
-			vertices[V1] = region.v2;
-			vertices[U2] = region.u;
-			vertices[V2] = region.v;
-			vertices[U3] = region.u2;
-			vertices[V3] = region.v;
-			vertices[U4] = region.u2;
-			vertices[V4] = region.v2;
-		}
-		updateOffset();
-	}
-
-	public function updateVertices (slot:Slot):Void {
-		var skeleton:Skeleton = slot.skeleton;
-		/*var skeletonColor:Color = skeleton.color;
-		var slotColor:Color = slot.color;
-		var color:Float = NumberUtils.intToFloatColor( //
-			(Math.floor(255 * skeletonColor.a * slotColor.a) << 24) //
-				| (Math.floor(255 * skeletonColor.b * slotColor.b) << 16) //
-				| (Math.floor(255 * skeletonColor.g * slotColor.g) << 8) //
-				| (Math.floor(255 * skeletonColor.r * slotColor.r)));*/
-		var color:Float = 1;
-		vertices[C1] = color;
-		vertices[C2] = color;
-		vertices[C3] = color;
-		vertices[C4] = color;
-
-		var bone:Bone = slot.bone;
-		var x:Float = bone.worldX + skeleton.x;
-		var y:Float = bone.worldY + skeleton.y;
+	public function computeWorldVertices (x:Float, y:Float, bone:Bone, worldVertices:Vector<Float>) : Void {
+		x += bone.worldX;
+		y += bone.worldY;
 		var m00:Float = bone.m00;
 		var m01:Float = bone.m01;
 		var m10:Float = bone.m10;
 		var m11:Float = bone.m11;
-		vertices[X1] = offset[0] * m00 + offset[1] * m01 + x;
-		vertices[Y1] = offset[0] * m10 + offset[1] * m11 + y;
-		vertices[X2] = offset[2] * m00 + offset[3] * m01 + x;
-		vertices[Y2] = offset[2] * m10 + offset[3] * m11 + y;
-		vertices[X3] = offset[4] * m00 + offset[5] * m01 + x;
-		vertices[Y3] = offset[4] * m10 + offset[5] * m11 + y;
-		vertices[X4] = offset[6] * m00 + offset[7] * m01 + x;
-		vertices[Y4] = offset[6] * m10 + offset[7] * m11 + y;
+		var x1:Float = offset[X1];
+		var y1:Float = offset[Y1];
+		var x2:Float = offset[X2];
+		var y2:Float = offset[Y2];
+		var x3:Float = offset[X3];
+		var y3:Float = offset[Y3];
+		var x4:Float = offset[X4];
+		var y4:Float = offset[Y4];
+		
+		worldVertices[X1] = x1 * m00 + y1 * m01 + x;
+		worldVertices[Y1] = x1 * m10 + y1 * m11 + y;
+		worldVertices[X2] = x2 * m00 + y2 * m01 + x;
+		worldVertices[Y2] = x2 * m10 + y2 * m11 + y;
+		worldVertices[X3] = x3 * m00 + y3 * m01 + x;
+		worldVertices[Y3] = x3 * m10 + y3 * m11 + y;
+		worldVertices[X4] = x4 * m00 + y4 * m01 + x;
+		worldVertices[Y4] = x4 * m10 + y4 * m11 + y;
 	}
 }
-
-class NumberUtils {
-	public static function intToFloatColor(value:Int):Float {
-		return value;//TODO
-	}
-}
-

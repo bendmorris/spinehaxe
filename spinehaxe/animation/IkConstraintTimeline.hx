@@ -27,47 +27,56 @@
  * OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  *****************************************************************************/
+
 package spinehaxe.animation;
 
 import spinehaxe.Event;
+import spinehaxe.IkConstraint;
 import spinehaxe.Skeleton;
 import haxe.ds.Vector;
 
-class AttachmentTimeline implements Timeline {
-	public var frameCount(get, never):Int;
+class IkConstraintTimeline extends CurveTimeline {
+	inline static var PREV_FRAME_TIME = -3;
+	inline static var PREV_FRAME_MIX = -2;
+	inline static var PREV_FRAME_BEND_DIRECTION = -1;
+	inline static var FRAME_MIX = 1;
 
-	public var slotIndex:Int;
-	public var frames:Vector<Float>; // time, ...
-	public var attachmentNames:Vector<String>;
+	public var ikConstraintIndex:Int;
+	public var frames:Vector<Float>; // time, mix, bendDirection, ...
 
-	public function new(frameCount:Int) {
-		frames = ArrayUtils.allocFloat(frameCount);
-		attachmentNames = new Vector<String>(frameCount);
+	public function new (frameCount:Int) {
+		super(frameCount);
+		frames = new Vector<Float>(frameCount * 3);
 	}
 
-	public function get_frameCount():Int {
-		return frames.length;
-	}
-
-	/** Sets the time and value of the specified keyframe. */
-	public function setFrame(frameIndex:Int, time:Float, attachmentName:String):Void {
+	/** Sets the time, mix and bend direction of the specified keyframe. */
+	public function setFrame (frameIndex:Int, time:Float, mix:Float, bendDirection:Int) : Void {
+		frameIndex *= 3;
 		frames[frameIndex] = time;
-		attachmentNames[frameIndex] = attachmentName;
+		frames[frameIndex + 1] = mix;
+		frames[frameIndex + 2] = bendDirection;
 	}
 
-	public function apply(skeleton:Skeleton, lastTime:Float, time:Float, firedEvents:Array<Event>, alpha:Float):Void {
-		if (time < frames[0]) {
-			if (lastTime > time) apply(skeleton, lastTime, spinehaxe.MathUtils.MAX_INT, null, 0);
+	override public function apply (skeleton:Skeleton, lastTime:Float, time:Float, firedEvents:Array<Event>, alpha:Float) : Void {
+		if (time < frames[0]) return; // Time is before first frame.
+
+		var ikConstraint:IkConstraint = skeleton.ikConstraints[ikConstraintIndex];
+
+		if (time >= frames[frames.length - 3]) { // Time is after last frame.
+			ikConstraint.mix += (frames[frames.length - 2] - ikConstraint.mix) * alpha;
+			ikConstraint.bendDirection = Std.int(frames[frames.length - 1]);
 			return;
-		} else if (lastTime > time) {
-			lastTime = -1;
 		}
 
-		var frameIndex:Int = time >= frames[frames.length - 1] ? frames.length - 1 : Animation.binarySearch1(frames, time) - 1;
-		if (frames[frameIndex] < lastTime) return;
+		// Interpolate between the previous frame and the current frame.
+		var frameIndex:Int = Animation.binarySearch(frames, time, 3);
+		var prevFrameMix:Float = frames[frameIndex + PREV_FRAME_MIX];
+		var frameTime:Float = frames[frameIndex];
+		var percent:Float = 1 - (time - frameTime) / (frames[frameIndex + PREV_FRAME_TIME] - frameTime);
+		percent = getCurvePercent(Std.int(frameIndex / 3 - 1), percent < 0 ? 0 : (percent > 1 ? 1 : percent));
 
-		var attachmentName:String = attachmentNames[frameIndex];
-		skeleton.slots[slotIndex].attachment = attachmentName == (null) ? null:skeleton.getAttachmentForSlotIndex(slotIndex, attachmentName);
+		var mix:Float = prevFrameMix + (frames[frameIndex + FRAME_MIX] - prevFrameMix) * percent;
+		ikConstraint.mix += (mix - ikConstraint.mix) * alpha;
+		ikConstraint.bendDirection = Std.int(frames[frameIndex + PREV_FRAME_BEND_DIRECTION]);
 	}
-
 }

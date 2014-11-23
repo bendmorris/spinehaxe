@@ -35,43 +35,47 @@ import spinehaxe.Exception;
 /** Stores attachments by slot index and attachment name. */
 class Skin {
 	public var name:String;
+	public var attachments:Array<Map<String, Attachment>> = new Array();
 
-	var attachments:Map<String, Attachment>;
 	public function new(name:String) {
-		attachments = new Map();
-		if (name == null)
-			throw new IllegalArgumentException("name cannot be null.");
+		if (name == null) throw new IllegalArgumentException("name cannot be null.");
 		this.name = name;
 	}
 
 	public function addAttachment(slotIndex:Int, name:String, attachment:Attachment):Void {
-		if (attachment == null)
-			throw new IllegalArgumentException("attachment cannot be null.");
-		attachments[slotIndex + ":" + name] = attachment;
+		if (attachment == null) throw new IllegalArgumentException("attachment cannot be null.");
+		if (attachments[slotIndex] == null) attachments[slotIndex] = new Map();
+		attachments[slotIndex][name] = attachment;
 	}
 
-	/** @return May be null. */	public function getAttachment(slotIndex:Int, name:String):Attachment {
-		return attachments[slotIndex + ":" + name];
+	/** @return May be null. */
+	public function getAttachment(slotIndex:Int, name:String):Attachment {
+		if (slotIndex > attachments.length) return null;
+		return attachments[slotIndex][name];
 	}
 
 	public function toString():String {
 		return name;
 	}
 
-	/** Attach each attachment in this skin if the corresponding attachment in the old skin is currently attached. */	public function attachAll(skeleton:Skeleton, oldSkin:Skin):Void {
-		for (key in Reflect.fields(oldSkin.attachments)) {
-			var colon:Int = key.indexOf(":");
-			var slotIndex:Int = Std.parseInt(key.substring(0, colon));
-			var name:String = key.substring(colon + 1);
-			var slot:Slot = skeleton.slots[slotIndex];
-			if (slot.attachment != null && slot.attachment.name == name) {
-				var attachment:Attachment = getAttachment(slotIndex, name);
-				if (attachment != null)
-					slot.attachment = attachment;
+	/** Attach each attachment in this skin if the corresponding attachment in the old skin is currently attached. */
+	public function attachAll (skeleton:Skeleton, oldSkin:Skin) : Void {
+		var slotIndex:Int = 0;
+		for (slot in skeleton.slots) {
+			var slotAttachment:Attachment = slot.attachment;
+			if (slotAttachment != null && slotIndex < oldSkin.attachments.length) {
+				var dictionary:Map<String, Attachment> = oldSkin.attachments[slotIndex];
+				for (name in dictionary.keys()) {
+					var skinAttachment:Attachment = dictionary[name];
+					if (slotAttachment == skinAttachment) {
+						var attachment:Attachment = getAttachment(slotIndex, name);
+						if (attachment != null) slot.attachment = attachment;
+						break;
+					}
+				}
 			}
+			slotIndex++;
 		}
-
 	}
 
 }
-

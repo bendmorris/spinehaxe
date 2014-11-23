@@ -33,19 +33,19 @@ import spinehaxe.Exception;
 import spinehaxe.Color;
 
 class BoneData {
-	public var parent:BoneData;
 	public var name:String;
+	public var parent:BoneData;
 
-	public var length:Float;
-	public var x:Float;
-	public var y:Float;
-	public var rotation:Float;
-	public var scaleX:Float;
-	public var scaleY:Float;
-	public var inheritScale:Bool;
-	public var inheritRotation:Bool;
-    public var flipX:Bool;
-    public var flipY:Bool;
+	public var length:Float = 0;
+	public var x:Float = 0;
+	public var y:Float = 0;
+	public var rotation:Float = 0;
+	public var scaleX:Float = 1;
+	public var scaleY:Float = 1;
+	public var inheritScale:Bool = false;
+	public var inheritRotation:Bool = false;
+	public var flipX:Bool = false;
+	public var flipY:Bool = false;
 
     // Nonessential.
     public var color:Color = new Color(0.61, 0.61, 0.61, 1);
@@ -62,21 +62,21 @@ class BoneData {
 		this.parent = parent;
 	}
 
-    //TODO:[Yura] в haxe нету перегруженных конструкторов, а значит надо сделать иной подход к реализации
-    //public function new(bone:BoneData, parent:BoneData) {
-		//if (bone == null)
-			//throw new IllegalArgumentException("bone cannot be null.");
-		//this.parent = parent;
+    //TODO:
+    //public static function fromBoneData(bone:BoneData, parent:BoneData):BoneData {
+        //if (bone == null)
+            //throw new IllegalArgumentException("bone cannot be null.");
+        //this.parent = parent;
         //name = bone.name;
         //length = bone.length;
         //x = bone.x;
         //y = bone.y;
         //rotation = bone.rotation;
-		//scaleX = bone.scaleX;
-		//scaleY = bone.scaleY;
+        //scaleX = bone.scaleX;
+        //scaleY = bone.scaleY;
         //flipX = bone.flipX;
         //flipY = bone.flipY;
-	//}
+    //}
 
 	public function toString():String {
 		return name;

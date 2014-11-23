@@ -1,8 +1,7 @@
 package spinehaxe;
 
 class MathUtils {
-	public function new() {
-	}
+	public inline static var MAX_INT = 2147483647; // 2**31 - 1
 
 	/**
 	 * Converts specified angle in radians to degrees.

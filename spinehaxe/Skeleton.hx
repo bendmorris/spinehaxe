@@ -36,46 +36,111 @@ using Lambda;
 class Skeleton {
 	public var data:SkeletonData;
 	public var bones:Array<Bone>;
-	public var rootBone(get, never):Bone;
 	public var slots:Array<Slot>;
 	public var drawOrder:Array<Slot>;
+	public var ikConstraints:Array<IkConstraint>;
+	var _boneCache:Array<Array<Bone>> = new Array();
+	public var rootBone(get, never):Bone;
 	public var skin:Skin;
-	public var skinName(never, set):String;
+	public var skinName(get, set):String;
 
 	public var r:Float = 1;
 	public var g:Float = 1;
 	public var b:Float = 1;
 	public var a:Float = 1;
 	public var time:Float = 0;
-	public var flipX:Bool;
-	public var flipY:Bool;
+	public var flipX:Bool = false;
+	public var flipY:Bool = false;
 	public var x:Float = 0;
 	public var y:Float = 0;
+
 	public function new(data:SkeletonData) {
 		if (data == null)
 			throw new IllegalArgumentException("data cannot be null.");
 		this.data = data;
 
-		this.bones = new Array<Bone>();
+		bones = new Array<Bone>();
 		for (boneData in data.bones) {
-			var parent:Bone = boneData.parent == (null) ? null : this.bones[ArrayUtils.indexOf(data.bones, boneData.parent)];
-			this.bones[this.bones.length] = new Bone(boneData, parent);
+			var parent:Bone = boneData.parent == (null) ? null : bones[ArrayUtils.indexOf(data.bones, boneData.parent)];
+			bones[bones.length] = new Bone(boneData, this, parent);
 		}
 
 		slots = new Array<Slot>();
 		drawOrder = new Array<Slot>();
 		for (slotData in data.slots) {
 			var bone:Bone = bones[ArrayUtils.indexOf(data.bones, slotData.boneData)];
-			var slot:Slot = new Slot(slotData, this, bone);
+			var slot:Slot = new Slot(slotData, bone);
 			slots[slots.length] = slot;
 			drawOrder[drawOrder.length] = slot;
 		}
+
+		ikConstraints = new Array<IkConstraint>();
+		for (ikConstraintData in data.ikConstraints)
+		{
+			ikConstraints[ikConstraints.length] = new IkConstraint(ikConstraintData, this);
+		}
+
+		updateCache();
 	}
 
-	/** Updates the world transform for each bone. */
+/** Caches information about bones and IK constraints. Must be called if bones or IK constraints are added or removed. */
+	public function updateCache() : Void {
+		var ikConstraintsCount:Int = ikConstraints.length;
+
+		var arrayCount:Int = ikConstraintsCount + 1;
+		if (_boneCache.length > arrayCount) _boneCache.splice(arrayCount, _boneCache.length - arrayCount);
+		for (cachedBones in _boneCache)
+			cachedBones.splice(0, cachedBones.length);
+		while (_boneCache.length < arrayCount)
+			_boneCache[_boneCache.length] = new Array<Bone>();
+
+		var nonIkBones:Array<Bone> = _boneCache[0];
+
+		var continueOuter:Bool = false;
+		for (bone in bones) {
+			var current:Bone = bone;
+			do {
+				var ii:Int = 0;
+				for (ikConstraint in ikConstraints) {
+					var parent:Bone = ikConstraint.bones[0];
+					var child:Bone = ikConstraint.bones[ikConstraint.bones.length - 1];
+					while (true) {
+						if (continueOuter) break;
+						if (current == child) {
+							_boneCache[ii].push(bone);
+							_boneCache[ii + 1].push(bone);
+							continueOuter = true;
+							continue;
+						}
+						if (child == parent) break;
+						child = child.parent;
+					}
+					if (continueOuter) break;
+					ii++;
+				}
+				if (continueOuter) break;
+				current = current.parent;
+			} while (current != null);
+			if (continueOuter) {
+				continueOuter = false;
+				continue;
+			}
+			nonIkBones[nonIkBones.length] = bone;
+		}
+	}
+
+	/** Updates the world transform for each bone and applies IK constraints. */
 	public function updateWorldTransform():Void {
 		for (bone in bones)
-			bone.updateWorldTransform(flipX, flipY);
+			bone.rotationIK = bone.rotation;
+		var i:Int = 0, last:Int = _boneCache.length - 1;
+		while (true) {
+			for (bone in _boneCache[i])
+				bone.updateWorldTransform();
+			if (i == last) break;
+			ikConstraints[i].apply();
+			i++;
+		}
 	}
 
 	/** Sets the bones and slots to their setup pose values. */
@@ -87,6 +152,11 @@ class Skeleton {
 	public function setBonesToSetupPose():Void {
 		for (bone in bones)
 			bone.setToSetupPose();
+
+		for (ikConstraint in ikConstraints) {
+			ikConstraint.bendDirection = ikConstraint.data.bendDirection;
+			ikConstraint.mix = ikConstraint.data.mix;
+		}
 	}
 
 	public function setSlotsToSetupPose():Void {
@@ -98,8 +168,7 @@ class Skeleton {
 	}
 
 	public function get_rootBone():Bone {
-		if (bones.length == 0)
-			return null;
+		if (bones.length == 0) return null;
 		return bones[0];
 	}
 
@@ -108,8 +177,7 @@ class Skeleton {
 		if (boneName == null)
 			throw new IllegalArgumentException("boneName cannot be null.");
 		for (bone in bones)
-			if (bone.data.name == boneName)
-			return bone;
+			if (bone.data.name == boneName) return bone;
 		return null;
 	}
 
@@ -119,8 +187,7 @@ class Skeleton {
 			throw new IllegalArgumentException("boneName cannot be null.");
 		var i:Int = 0;
 		for (bone in bones) {
-			if (bone.data.name == boneName)
-				return i;
+			if (bone.data.name == boneName) return i;
 			i++;
 		}
 
@@ -132,8 +199,7 @@ class Skeleton {
 		if (slotName == null)
 			throw new IllegalArgumentException("slotName cannot be null.");
 		for (slot in slots)
-			if (slot.data.name == slotName)
-			return slot;
+			if (slot.data.name == slotName) return slot;
 		return null;
 	}
 
@@ -143,12 +209,15 @@ class Skeleton {
 			throw new IllegalArgumentException("slotName cannot be null.");
 		var i:Int = 0;
 		for (slot in slots) {
-			if (slot.data.name == slotName)
-				return i;
+			if (slot.data.name == slotName) return i;
 			i++;
 		}
 
 		return -1;
+	}
+
+	public function get_skinName():String {
+		return skin.name;
 	}
 
 	public function set_skinName(skinName:String):String {
@@ -219,6 +288,14 @@ class Skeleton {
 		}
 
 		throw new IllegalArgumentException("Slot not found: " + slotName);
+	}
+
+	/** @return May be null. */
+	public function findIkConstraint (ikConstraintName:String) : IkConstraint {
+		if (ikConstraintName == null) throw new IllegalArgumentException("ikConstraintName cannot be null.");
+		for (ikConstraint in ikConstraints)
+		if (ikConstraint.data.name == ikConstraintName) return ikConstraint;
+		return null;
 	}
 
 	public function update(delta:Float):Void {
