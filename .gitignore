@@ -13,3 +13,5 @@ Thumbs.db
 #IDEs
 *.idea
 *.iml
+
+project.xml.hxml
