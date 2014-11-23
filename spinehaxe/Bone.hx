@@ -6,6 +6,7 @@ import spinehaxe.Skeleton;
 import haxe.ds.Vector;
 
 class Bone {
+
 	public static var yDown:Bool = false;
 
 	public var data:BoneData;
@@ -41,52 +42,7 @@ class Bone {
 		this.parent = parent;
 		setToSetupPose();
 	}
-
-    /** Computes the world SRT using the parent bone and the local SRT. */
-    public function updateWorldTransform(flipX:Bool, flipY:Bool):Void {
-        var skeleton:Skeleton = this.skeleton;
-        var parent:Bone = this.parent;
-        var x:Float = this.x;
-        var y:Float = this.y;
-        if (parent != null) {
-            worldX = x * parent.m00 + y * parent.m01 + parent.worldX;
-            worldY = x * parent.m10 + y * parent.m11 + parent.worldY;
-            if (data.inheritScale) {
-                worldScaleX = parent.worldScaleX * scaleX;
-                worldScaleY = parent.worldScaleY * scaleY;
-            } else  {
-                worldScaleX = scaleX;
-                worldScaleY = scaleY;
-            }
-
-            worldRotation = (data.inheritRotation) ? parent.worldRotation + rotation : rotation;
-        }
-
-        else  {
-            worldX = flipX ? -x : x;
-            worldY = flipY != yDown ? -y : y;
-            worldScaleX = scaleX;
-            worldScaleY = scaleY;
-            worldRotation = rotation;
-        }
-
-        var radians:Float = worldRotation * (Math.PI / 180);
-        var cos:Float = Math.cos(radians);
-        var sin:Float = Math.sin(radians);
-        m00 = cos * worldScaleX;
-        m10 = sin * worldScaleX;
-        m01 = -sin * worldScaleY;
-        m11 = cos * worldScaleY;
-        if (flipX) {
-            m00 = -m00;
-            m01 = -m01;
-        }
-        if (flipY != yDown) {
-            m10 = -m10;
-            m11 = -m11;
-        }
-    }
-
+    
 	/** Computes the world SRT using the parent bone and the local SRT. */
 	public function updateWorldTransform():Void {
 		if (parent != null) {
