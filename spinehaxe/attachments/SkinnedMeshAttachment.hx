@@ -32,14 +32,14 @@ package spinehaxe.attachments;
 
 import spinehaxe.Slot;
 import spinehaxe.Bone;
-import haxe.ds.Vector;
+import openfl.Vector;
 
-class SkinnedMeshAttachment extends Attachment {
+class SkinnedMeshAttachment extends Attachment implements Dynamic<Dynamic> {
 	public var bones:Array<Int>;
 	public var weights:Array<Float>;
 	public var uvs:Vector<Float>;
-	public var regionUVs:Array<Float>;
-	public var triangles:Array<Int>;
+	public var regionUVs:Vector<Float>;
+	public var triangles:Vector<Int>;
 	public var hullLength:Int;
 	public var r:Float = 1;
 	public var g:Float = 1;
@@ -72,7 +72,7 @@ class SkinnedMeshAttachment extends Attachment {
 	public function updateUVs() : Void {
 		var width:Float = regionU2 - regionU, height:Float = regionV2 - regionV;
 		var i:Int, n:Int = regionUVs.length;
-		if (uvs == null || uvs.length != n) uvs = new Vector<Float>(n);
+		if (uvs == null || uvs.length != n) uvs = ArrayUtils.allocFloat(n, true);
 		if (regionRotate) {
 			var i = 0;
 			while (i < n) {
@@ -90,11 +90,11 @@ class SkinnedMeshAttachment extends Attachment {
 		}
 	}
 
-	public function computeWorldVertices (x:Float, y:Float, slot:Slot, worldVertices:Array<Float>) : Void {
+	public function computeWorldVertices (x:Float, y:Float, slot:Slot, worldVertices:Vector<Float>) : Void {
 		var skeletonBones:Array<Bone> = slot.skeleton.bones;
 		var weights:Array<Float> = this.weights;
 		var bones:Array<Int> = this.bones;
-
+		
 		var w:Int = 0, v:Int = 0, b:Int = 0, f:Int = 0, n:Int = bones.length, nn:Int = 0;
 		var wx:Float = 0, wy:Float = 0, bone:Bone, vx:Float = 0, vy:Float = 0, weight:Float = 0;
 		if (slot.attachmentVertices.length == 0) {
@@ -117,7 +117,7 @@ class SkinnedMeshAttachment extends Attachment {
 				w += 2;
 			}
 		} else {
-			var ffd:Array<Float> = slot.attachmentVertices;
+			var ffd:Vector<Float> = slot.attachmentVertices;
 			while (v < n) {
 				wx = 0;
 				wy = 0;

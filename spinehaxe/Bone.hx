@@ -30,7 +30,7 @@
 package spinehaxe;
 
 import spinehaxe.Exception;
-import haxe.ds.Vector;
+import openfl.Vector;
 
 class Bone {
 	public static var yDown:Bool = false;
@@ -78,7 +78,6 @@ class Bone {
 				worldScaleX = parent.worldScaleX * scaleX;
 				worldScaleY = parent.worldScaleY * scaleY;
 			}
-
 			else  {
 				worldScaleX = scaleX;
 				worldScaleY = scaleY;
@@ -88,7 +87,6 @@ class Bone {
 			worldFlipX = parent.worldFlipX != flipX;
 			worldFlipY = parent.worldFlipY != flipY;
 		}
-
 		else  {
 			var skeletonFlipX:Bool = skeleton.flipX, skeletonFlipY:Bool = skeleton.flipY;
 			worldX = skeletonFlipX ? -x : x;
@@ -152,6 +150,4 @@ class Bone {
 	public function toString():String {
 		return data.name;
 	}
-
 }
-

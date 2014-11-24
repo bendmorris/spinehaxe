@@ -32,8 +32,7 @@ package spinehaxe.atlas;
 
 import spinehaxe.atlas.Format;
 import spinehaxe.Exception.IllegalArgumentException;
-import haxe.ds.Vector;
-
+import openfl.Vector;
 
 class Atlas {
 	private var pages:Array<AtlasPage> = new Array<AtlasPage>();
@@ -51,7 +50,7 @@ class Atlas {
 		this.textureLoader = textureLoader;
 
 		var reader:Reader = new Reader(atlasText);
-		var tuple:Vector<String> = new Vector(4);
+		var tuple:Array<String> = new Array<String>();
 		var page:AtlasPage = null;
 		while (true) {
 			var line:String = reader.readLine();
@@ -164,7 +163,8 @@ class Reader {
 	private var index:Int = 0;
 
 	public function new (text:String) {
-		lines = text.split("\n");
+		var regex:EReg = new EReg("[ \t]*((\r\n)|\r|\n)[ \t]*", "g");
+		lines = regex.split(text);
 	}
 
 	public function trim (value:String) : String {
@@ -186,7 +186,7 @@ class Reader {
 	}
 
 	/** Returns the number of tuple values read (1, 2 or 4). */
-	public function readTuple (tuple:Vector<String>) : Int {
+	public function readTuple (tuple:Array<String>) : Int {
 		var line:String = readLine();
 		var colon:Int = line.indexOf(":");
 		if (colon == -1)

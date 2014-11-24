@@ -35,8 +35,9 @@ import spinehaxe.Exception;
 class AnimationStateData {
 	public var skeletonData:SkeletonData;
 
-	var animationToMixTime:Map<String, Float>;
-	public var defaultMix:Float;
+	private var animationToMixTime:Map<String, Float>;
+	public var defaultMix:Float = 0;
+	
 	public function new(skeletonData:SkeletonData) {
 		animationToMixTime = new Map();
 		defaultMix = 0;
@@ -65,9 +66,6 @@ class AnimationStateData {
 		var key = from.name + ":" + to.name;
 		if (!animationToMixTime.exists(key))
 			return defaultMix;
-		var time:Dynamic = animationToMixTime[key];
-		return time;
+		return animationToMixTime[key];
 	}
-
 }
-

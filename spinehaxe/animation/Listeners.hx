@@ -47,13 +47,12 @@ class Listeners {
 			throw new IllegalArgumentException("listener cannot be null.");
 		listeners.remove(listener);
 	}
-
-
+	
 	public function new() {
 		listeners = new Array<Function>();
 	}
 	
-	public function invoke (i:Int, ?arg:Dynamic=null) {
+	public function invoke (i:Int, ?arg:Dynamic = null) {
 		for (listener in listeners)
 			listener(i, arg);
 	}

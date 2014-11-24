@@ -31,6 +31,7 @@
 package spinehaxe;
 
 import spinehaxe.Exception.IllegalArgumentException;
+
 class IkConstraintData {
 	public var name:String;
 	public var bones:Array<BoneData> = new Array<BoneData>();

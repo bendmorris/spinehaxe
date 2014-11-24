@@ -31,7 +31,7 @@
 package spinehaxe.attachments;
 
 import spinehaxe.Bone;
-import haxe.ds.Vector;
+import openfl.Vector;
 
 class RegionAttachment extends Attachment implements Dynamic<Dynamic> {
 	public static inline var X1:Int = 0;
@@ -64,11 +64,13 @@ class RegionAttachment extends Attachment implements Dynamic<Dynamic> {
 	public var regionOriginalWidth:Float = 0; // Unrotated, unstripped size.
 	public var regionOriginalHeight:Float = 0;
 
-	public var offset:Vector<Float> = new Vector<Float>(8);
-	public var uvs:Vector<Float> = new Vector<Float>(8);
+	public var offset:Vector<Float>;
+	public var uvs:Vector<Float>;
 
 	public function new (name:String) {
 		super(name);
+		offset = ArrayUtils.allocFloat(8);
+		uvs = ArrayUtils.allocFloat(8);
 	}
 
 	public function setUVs (u:Float, v:Float, u2:Float, v2:Float, rotate:Bool) : Void {

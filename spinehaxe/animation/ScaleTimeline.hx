@@ -32,7 +32,7 @@ package spinehaxe.animation;
 import spinehaxe.Bone;
 import spinehaxe.Event;
 import spinehaxe.Skeleton;
-import haxe.ds.Vector;
+import openfl.Vector;
 
 class ScaleTimeline extends TranslateTimeline {
 	static inline var FRAME_X:Int = 1;
@@ -59,10 +59,8 @@ class ScaleTimeline extends TranslateTimeline {
 		var prevFrameY:Float = frames[frameIndex - 1];
 		var frameTime:Float = frames[frameIndex];
 		var percent:Float = 1 - (time - frameTime) / (frames[frameIndex + TranslateTimeline.PREV_FRAME_TIME] - frameTime);
-		percent = getCurvePercent(Math.floor(frameIndex / 3 - 1), percent < (0) ? 0 : (percent > (1) ? 1 : percent));
+		percent = getCurvePercent(Math.floor(frameIndex / 3 - 1), (percent < 0) ? 0 : (percent > (1) ? 1 : percent));
 		bone.scaleX += (bone.data.scaleX * (prevFrameX + (frames[frameIndex + FRAME_X] - prevFrameX) * percent) - bone.scaleX) * alpha;
 		bone.scaleY += (bone.data.scaleY * (prevFrameY + (frames[frameIndex + FRAME_Y] - prevFrameY) * percent) - bone.scaleY) * alpha;
 	}
-
 }
-

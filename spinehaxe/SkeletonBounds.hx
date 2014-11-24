@@ -34,34 +34,33 @@ import spinehaxe.attachments.Attachment;
 import spinehaxe.attachments.BoundingBoxAttachment;
 
 class SkeletonBounds {
-	public var width(getWidth, never) : Float;
-	public var height(getHeight, never) : Float;
+	public var width(get, never) : Float;
+	public var height(get, never) : Float;
 
-	var polygonPool : Array<Polygon>;
+	private var polygonPool : Array<Polygon>;
+	
 	public var boundingBoxes : Array<BoundingBoxAttachment>;
 	public var polygons : Array<Polygon>;
 	public var minX : Float;
 	public var minY : Float;
 	public var maxX : Float;
 	public var maxY : Float;
+	
 	public function update(skeleton : Skeleton, updateAabb : Bool) : Void {
 		var slots : Array<Slot> = skeleton.slots;
 		var slotCount : Int = slots.length;
 		var x : Float = skeleton.x;
 		var y : Float = skeleton.y;
 		boundingBoxes.length = 0;
-		for (polygon in polygons/* AS3HX WARNING could not determine type for var: polygon exp: EIdent(polygons) type: Vector<Polygon>*/)
+		for (polygon in polygons)
 			polygonPool[polygonPool.length] = polygon;
 		polygons.length = 0;
-		var i : Int = 0;
-		while(i < slotCount) {
+		
+		for (i in 0...slotCount) {
 			var slot : Slot = slots[i];
 			var boundingBox : BoundingBoxAttachment = try cast(slot.attachment, BoundingBoxAttachment) catch(e:Dynamic) null;
 			if (boundingBox == null)
-				 {
-				i++;
 				continue;
-			}
 
 			boundingBoxes[boundingBoxes.length] = boundingBox;
 			var poolCount : Int = polygonPool.length;
@@ -69,12 +68,11 @@ class SkeletonBounds {
 				polygon = polygonPool[poolCount - 1];
 				polygonPool.splice(poolCount - 1, 1);
 			}
-
 			else polygon = new Polygon();
+			
 			polygons[polygons.length] = polygon;
 			polygon.vertices.length = boundingBox.vertices.length;
 			boundingBox.computeWorldVertices(x, y, slot.bone, polygon.vertices);
-			i++;
 		}
 		if (updateAabb)
 			aabbCompute();
@@ -170,11 +168,11 @@ class SkeletonBounds {
 		return index == -(1) ? null : polygons[index];
 	}
 
-	public function getWidth() : Float {
+	private function get_width() : Float {
 		return maxX - minX;
 	}
 
-	public function getHeight() : Float {
+	private function get_height() : Float {
 		return maxY - minY;
 	}
 
@@ -184,4 +182,3 @@ class SkeletonBounds {
 		polygons = new Array<Polygon>();
 	}
 }
-

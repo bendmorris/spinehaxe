@@ -33,20 +33,20 @@ package spinehaxe.animation;
 import spinehaxe.Event;
 import spinehaxe.IkConstraint;
 import spinehaxe.Skeleton;
-import haxe.ds.Vector;
+import openfl.Vector;
 
 class IkConstraintTimeline extends CurveTimeline {
-	inline static var PREV_FRAME_TIME = -3;
-	inline static var PREV_FRAME_MIX = -2;
-	inline static var PREV_FRAME_BEND_DIRECTION = -1;
-	inline static var FRAME_MIX = 1;
+	inline static var PREV_FRAME_TIME:Int = -3;
+	inline static var PREV_FRAME_MIX:Int = -2;
+	inline static var PREV_FRAME_BEND_DIRECTION:Int = -1;
+	inline static var FRAME_MIX:Int = 1;
 
 	public var ikConstraintIndex:Int;
 	public var frames:Vector<Float>; // time, mix, bendDirection, ...
 
 	public function new (frameCount:Int) {
 		super(frameCount);
-		frames = new Vector<Float>(frameCount * 3);
+		frames = ArrayUtils.allocFloat(frameCount * 3, true);
 	}
 
 	/** Sets the time, mix and bend direction of the specified keyframe. */
