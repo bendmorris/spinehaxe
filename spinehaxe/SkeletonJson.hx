@@ -192,7 +192,7 @@ class SkeletonJson {
 	private function readAttachment (skin:Skin, name:String, map:Dynamic) : Attachment {
 		name = map.getStr("name", name);
 
-		var type:AttachmentType = map.getStr("type",  "region");
+		var type:AttachmentType = map.getStr("type", "region");
 		var path:String = map.getStr("path", name);
 
 		var scale:Float = this.scale;
@@ -457,14 +457,15 @@ class SkeletonJson {
 								vertices = ArrayUtils.allocFloat(vertexCount, true);
 						} else {
 							var verticesValue:Vector<Float> = valueMap.getFloatArray("vertices", 1);
-							vertices = new Vector<Float>();
 							var start:Int = valueMap.getInt("offset");
+							trace(i + "; " + start);
 							var n:Int = verticesValue.length;
+							vertices = ArrayUtils.allocFloat(vertexCount, true);
 							if (scale == 1) {
 								for (i in 0 ... n)
 									vertices[i + start] = verticesValue[i];
 							} else {
-								for (i in 0 ... n)
+								for (i in 0... n)
 									vertices[i + start] = verticesValue[i] * scale;
 							}
 							if (Std.is(attachment, MeshAttachment)) {

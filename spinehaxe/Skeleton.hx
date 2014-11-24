@@ -161,6 +161,7 @@ class Skeleton {
 
 	public function setSlotsToSetupPose():Void {
 		var i:Int = 0;
+		drawOrder.splice(0, drawOrder.length);
 		for (slot in slots) {
 			drawOrder[i++] = slot;
 			slot.setToSetupPose();
