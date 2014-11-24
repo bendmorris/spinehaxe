@@ -1,4 +1,17 @@
+# Folder
 bin
-*.idea
+samples/bin
+tests/fun/bin
+tests/unit/build
+
+# OS generated files #
 .DS_Store
+ehthumbs.db
+Icon?
+Thumbs.db
+
+#IDEs
+*.idea
 *.iml
+
+project.xml.hxml

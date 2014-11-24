@@ -30,6 +30,7 @@
 package spinehaxe;
 
 import spinehaxe.Exception;
+import spinehaxe.Color;
 
 class BoneData {
 	public var name:String;
@@ -46,21 +47,43 @@ class BoneData {
 	public var flipX:Bool = false;
 	public var flipY:Bool = false;
 
+    // Nonessential.
+    public var color:Color = new Color(0.61, 0.61, 0.61, 1);
+
 	/** @param parent May be null. */
 	public function new(name:String, parent:BoneData) {
+		if (name == null)
+			throw new IllegalArgumentException("name cannot be null.");
 		scaleX = 1;
 		scaleY = 1;
 		inheritScale = true;
 		inheritRotation = true;
-		if (name == null)
-			throw new IllegalArgumentException("name cannot be null.");
 		this.name = name;
 		this.parent = parent;
 	}
+
+    //TODO:
+    //public static function fromBoneData(bone:BoneData, parent:BoneData):BoneData {
+        //if (bone == null)
+            //throw new IllegalArgumentException("bone cannot be null.");
+        //this.parent = parent;
+        //name = bone.name;
+        //length = bone.length;
+        //x = bone.x;
+        //y = bone.y;
+        //rotation = bone.rotation;
+        //scaleX = bone.scaleX;
+        //scaleY = bone.scaleY;
+        //flipX = bone.flipX;
+        //flipY = bone.flipY;
+    //}
 
 	public function toString():String {
 		return name;
 	}
 
-}
+    public function getColor():Color {
+        return this.color;
+    }
 
+}

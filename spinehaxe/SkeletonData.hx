@@ -35,6 +35,7 @@ import spinehaxe.Exception;
 import haxe.ds.Vector;
 
 class SkeletonData {
+
 	public var name:String;
 	public var bones:Array<BoneData> = new Array();
 	// Ordered parents first.

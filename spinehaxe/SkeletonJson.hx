@@ -50,6 +50,7 @@ import spinehaxe.attachments.AttachmentType;
 import spinehaxe.attachments.BoundingBoxAttachment;
 import spinehaxe.attachments.MeshAttachment;
 import spinehaxe.attachments.RegionAttachment;
+import spinehaxe.Color;
 import spinehaxe.attachments.SkinnedMeshAttachment;
 import spinehaxe.JsonUtils;
 import haxe.ds.Vector;
@@ -100,7 +101,10 @@ class SkeletonJson {
 			boneData.flipY = boneMap.getBool("flipY", false);
 			boneData.inheritScale = boneMap.getBool("inheritScale", true);
 			boneData.inheritRotation = boneMap.getBool("inheritRotation", true);
-			skeletonData.bones[skeletonData.bones.length] = boneData;
+            var color_str:String = boneMap.getStr("color");
+            if (color_str != null) boneData.color = Color.fromString(color_str);
+
+            skeletonData.bones.push(boneData);
 		}
 
 		// IK constraints.
@@ -131,13 +135,8 @@ class SkeletonJson {
 			if (boneData == null) throw "Slot bone not found: " + boneName;
 			var slotData:SlotData = new SlotData(slotMap.getStr("name"), boneData);
 
-			var color:String = slotMap.getStr("color");
-			if (color != null) {
-				slotData.r = toColor(color, 0);
-				slotData.g = toColor(color, 1);
-				slotData.b = toColor(color, 2);
-				slotData.a = toColor(color, 3);
-			}
+			var color_str:String = slotMap.getStr("color");
+            if (color_str != null) slotData.color = Color.fromString(color_str);
 
 			slotData.attachmentName = slotMap.getStr("attachment");
 			slotData.additiveBlending = slotMap.getBool("additive");

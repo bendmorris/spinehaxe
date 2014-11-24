@@ -80,11 +80,11 @@ class Slot {
 
 	public function setToSetupPose():Void {
 		var slotIndex:Int = ArrayUtils.indexOf(skeleton.data.slots, data);
-		r = data.r;
-		g = data.g;
-		b = data.b;
-		a = data.a;
-		attachment = data.attachmentName == (null) ? null : skeleton.getAttachmentForSlotIndex(slotIndex, data.attachmentName);
+		r = data.color.r;
+		g = data.color.g;
+		b = data.color.b;
+		a = data.color.a;
+		attachment = data.attachmentName == (null) ? null:skeleton.getAttachmentForSlotIndex(slotIndex, data.attachmentName);
 	}
 
 	public function toString():String {

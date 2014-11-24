@@ -31,21 +31,15 @@ package spinehaxe;
 
 import spinehaxe.Exception;
 
+
 class SlotData {
 	public var name:String;
 	public var boneData:BoneData;
-
-	public var r:Float;
-	public var g:Float;
-	public var b:Float;
-	public var a:Float;
+	public var color:Color = Color.WHITE;
 	public var attachmentName:String;
 	public var additiveBlending:Bool;
+
 	public function new(name:String, boneData:BoneData) {
-		r = 1;
-		g = 1;
-		b = 1;
-		a = 1;
 		if (name == null) throw new IllegalArgumentException("name cannot be null.");
 		if (boneData == null) throw new IllegalArgumentException("boneData cannot be null.");
 		this.name = name;
@@ -57,4 +51,3 @@ class SlotData {
 	}
 
 }
-

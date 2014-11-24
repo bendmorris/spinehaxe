@@ -31,7 +31,9 @@
 package spinehaxe;
 
 import spinehaxe.Exception.IllegalArgumentException;
+
 class IkConstraintData {
+
 	public var name:String;
 	public var bones:Array<BoneData> = new Array<BoneData>();
 	public var target:BoneData;
@@ -46,4 +48,5 @@ class IkConstraintData {
 	public function toString () : String {
 		return name;
 	}
+
 }

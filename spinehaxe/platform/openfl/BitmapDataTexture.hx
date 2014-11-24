@@ -1,7 +1,7 @@
 package spinehaxe.platform.openfl;
+
 import spinehaxe.atlas.Texture;
 import flash.display.BitmapData;
-
 import openfl.Assets;
 
 class BitmapDataTexture implements Texture {
