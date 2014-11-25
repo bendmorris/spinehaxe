@@ -31,13 +31,13 @@ class JsonUtils {
 	public static function getInt(node:JsonNode, field:String, defaultValue:Int=0):Int {
 		var value:Dynamic = getDynamic(node, field);
 		if (value == null) return defaultValue;
-		return Std.parseInt(value);
+		return cast(value, Int);
 	}
 
 	public static function getFloat(node:JsonNode, field:String, defaultValue:Float=0):Float {
 		var value:Dynamic = getDynamic(node, field);
 		if (value == null) return defaultValue;
-		return Std.parseFloat(value);
+		return cast(value, Float);
 	}
 
 	public static function getStr(node:JsonNode, field:String, defaultValue:String=null):String {
