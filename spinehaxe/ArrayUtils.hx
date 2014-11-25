@@ -1,22 +1,18 @@
 package spinehaxe;
-import haxe.ds.Vector;
+import openfl.Vector;
 
 class ArrayUtils {
-	public static function allocFloat(n:Int):Vector<Float> {
+	public static function allocFloat(n:Int, fixed:Bool = false):Vector<Float> {
 #if (neko || js)
-		var v:Vector<Float> = new Vector(n);
-		for (i in 0 ... n) v.set(i, 0);
+		var v:Vector<Float> = new Vector(n, fixed);
+		for (i in 0 ... n) v[i] = 0;
 		return v;
 #else
-		return new Vector<Float>(n);
+		return new Vector<Float>(n, fixed);
 #end
 	}
 
 	public static function allocString(n:Int):Vector<String> {
 		return new Vector<String>(n);
-	}
-
-	public static function indexOf<T>(arr:Array<T>, v:T):Int {
-		return arr.indexOf(v);
 	}
 }

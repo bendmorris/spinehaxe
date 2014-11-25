@@ -31,7 +31,7 @@ package spinehaxe.animation;
 
 import spinehaxe.Event;
 import spinehaxe.Skeleton;
-import haxe.ds.Vector;
+import openfl.Vector;
 
 class AttachmentTimeline implements Timeline {
 	public var frameCount(get, never):Int;
@@ -41,8 +41,8 @@ class AttachmentTimeline implements Timeline {
 	public var attachmentNames:Vector<String>;
 
 	public function new(frameCount:Int) {
-		frames = ArrayUtils.allocFloat(frameCount);
-		attachmentNames = new Vector<String>(frameCount);
+		frames = ArrayUtils.allocFloat(frameCount, true);
+		attachmentNames = new Vector<String>(frameCount, true);
 	}
 
 	public function get_frameCount():Int {
@@ -67,7 +67,6 @@ class AttachmentTimeline implements Timeline {
 		if (frames[frameIndex] < lastTime) return;
 
 		var attachmentName:String = attachmentNames[frameIndex];
-		skeleton.slots[slotIndex].attachment = attachmentName == (null) ? null:skeleton.getAttachmentForSlotIndex(slotIndex, attachmentName);
+		skeleton.slots[slotIndex].attachment = (attachmentName == null) ? null:skeleton.getAttachmentForSlotIndex(slotIndex, attachmentName);
 	}
-
 }

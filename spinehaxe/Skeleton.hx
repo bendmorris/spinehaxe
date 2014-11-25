@@ -41,7 +41,7 @@ class Skeleton {
 	public var ikConstraints:Array<IkConstraint>;
 	var _boneCache:Array<Array<Bone>> = new Array();
 	public var rootBone(get, never):Bone;
-	public var skin:Skin;
+	public var skin(default, set):Skin;
 	public var skinName(get, set):String;
 
 	public var r:Float = 1;
@@ -61,14 +61,14 @@ class Skeleton {
 
 		bones = new Array<Bone>();
 		for (boneData in data.bones) {
-			var parent:Bone = boneData.parent == (null) ? null : bones[ArrayUtils.indexOf(data.bones, boneData.parent)];
+			var parent:Bone = (boneData.parent == null) ? null : bones[data.bones.indexOf(boneData.parent)];
 			bones[bones.length] = new Bone(boneData, this, parent);
 		}
 
 		slots = new Array<Slot>();
 		drawOrder = new Array<Slot>();
 		for (slotData in data.slots) {
-			var bone:Bone = bones[ArrayUtils.indexOf(data.bones, slotData.boneData)];
+			var bone:Bone = bones[data.bones.indexOf(slotData.boneData)];
 			var slot:Slot = new Slot(slotData, bone);
 			slots[slots.length] = slot;
 			drawOrder[drawOrder.length] = slot;
@@ -83,7 +83,7 @@ class Skeleton {
 		updateCache();
 	}
 
-/** Caches information about bones and IK constraints. Must be called if bones or IK constraints are added or removed. */
+	/** Caches information about bones and IK constraints. Must be called if bones or IK constraints are added or removed. */
 	public function updateCache() : Void {
 		var ikConstraintsCount:Int = ikConstraints.length;
 
@@ -161,6 +161,7 @@ class Skeleton {
 
 	public function setSlotsToSetupPose():Void {
 		var i:Int = 0;
+		drawOrder.splice(0, drawOrder.length);
 		for (slot in slots) {
 			drawOrder[i++] = slot;
 			slot.setToSetupPose();
@@ -231,7 +232,7 @@ class Skeleton {
 	/** Sets the skin used to look up attachments not found in the {@link SkeletonData#getDefaultSkin() default skin}. Attachments
 	 * from the new skin are attached if the corresponding attachment from the old skin was attached.
 	 * @param newSkin May be null. */
-	public function setSkin(newSkin:Skin):Skin {
+	private function set_skin(newSkin:Skin):Skin {
 		if (newSkin != null) {
 			if (skin != null)
 				newSkin.attachAll(this, skin);
@@ -303,8 +304,6 @@ class Skeleton {
 	}
 
 	public function toString():String {
-		return data.name != (null) ? data.name : ("" + this);
+		return (data.name != null) ? data.name : ("" + this);
 	}
-
 }
-

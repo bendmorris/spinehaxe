@@ -58,28 +58,3 @@ class TrackEntry {
 	public function new() {
 	}
 }
-
-class TrackEntryPool {
-	var objs:Array<TrackEntry>;
-	
-	public function new() {
-		objs = [];
-	}
-	
-	public function free(obj:TrackEntry) {
-		obj.next = obj.previous = null;
-		obj.animation = null;
-		obj.onStart = obj.onEnd = obj.onComplete = obj.onEvent = null;
-		obj.lastTime = -1;
-		obj.timeScale = 1;
-		obj.time = 0;
-		objs.push(obj);
-	}
-	
-	public function get() {
-		if (objs.length > 0) {
-			return objs.pop();
-		}
-		return new TrackEntry();
-	}
-}

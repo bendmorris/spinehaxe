@@ -30,13 +30,14 @@
 package spinehaxe.attachments;
 
 import spinehaxe.Bone;
-import haxe.ds.Vector;
+import openfl.Vector;
 
 class BoundingBoxAttachment extends Attachment {
 	public var vertices:Array<Float>;
+	
 	public function new(name:String) {
-		vertices = new Array<Float>();
 		super(name);
+		vertices = new Array<Float>();
 	}
 
 	public function computeWorldVertices(x:Float, y:Float, bone:Bone, worldVertices:Vector<Float>):Void {
@@ -57,6 +58,4 @@ class BoundingBoxAttachment extends Attachment {
 			i += 2;
 		}
 	}
-
 }
-

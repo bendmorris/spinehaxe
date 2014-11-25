@@ -38,17 +38,15 @@ using Lambda;
 class AnimationState {
 	public var data:AnimationStateData;
 	public var tracks:Array<TrackEntry>;
-	var trackEntryPool:TrackEntryPool;
 	public var events:Array<Event>;
 	public var onStart:Listeners;
 	public var onEnd:Listeners;
 	public var onComplete:Listeners;
 	public var onEvent:Listeners;
-	public var timeScale:Float = 0;
-	public var clearWhenFinished:Bool=true;
+	public var timeScale:Float = 1;
+	
 	public function new(data:AnimationStateData) {
 		tracks = new Array<TrackEntry>();
-		trackEntryPool = new TrackEntryPool();
 		events = new Array<Event>();
 		onStart = new Listeners();
 		onEnd = new Listeners();
@@ -62,11 +60,10 @@ class AnimationState {
 
 	public function update(delta:Float):Void {
 		delta *= timeScale;
-		var i:Int = 0;
-		while(i < tracks.length) {
+		var n:Int = tracks.length;
+		for (i in 0...n) {
 			var current:TrackEntry = tracks[i];
 			if (current == null) {
-				i++;
 				continue;
 			}
 
@@ -83,23 +80,22 @@ class AnimationState {
 				if (next.time >= 0) setCurrent(i, next);
 			} else {
 				// End non-looping animation when it reaches its end time and there is no next entry.
-				if (clearWhenFinished && !current.loop && current.lastTime >= current.endTime)
+				if (!current.loop && current.lastTime >= current.endTime)
 					clearTrack(i);
 			}
-
-			i++;
 		}
 	}
 	
 	public function apply(skeleton:Skeleton):Void {
-		var i:Int = 0;
-		while(i < tracks.length) {
+		var n:Int = tracks.length;
+		for (i in 0...n) {
 			var current:TrackEntry = tracks[i];
 			if (current == null) {
-				i++;
 				continue;
 			}
-
+			
+			events.splice(0, events.length);
+			
 			var time:Float = current.time;
 			var lastTime:Float = current.lastTime;
 			var endTime:Float = current.endTime;
@@ -121,14 +117,12 @@ class AnimationState {
 				var alpha:Float = current.mixTime / current.mixDuration * current.mix;
 				if (alpha >= 1) {
 					alpha = 1;
-					trackEntryPool.free(previous);
 					current.previous = null;
 				}
 				current.animation.mix(skeleton, current.lastTime, time, loop, events, alpha);
 			}
 
-			while (events.length > 0) {
-				var event = events.pop();
+			for (event in events) {
 				if (current.onEvent != null)
 					current.onEvent(i, event);
 				onEvent.invoke(i, event);
@@ -136,23 +130,20 @@ class AnimationState {
 
 			// Check if completed the animation or a loop iteration.
 			if ((loop) ? (endTime == 0 || lastTime % endTime > time % endTime):(lastTime < endTime && time >= endTime)) {
-				var count:Int = cast(time / endTime);
+				var count:Int = Std.int(time / endTime);
 				if (current.onComplete != null)
 					current.onComplete(i, count);
 				onComplete.invoke(i, count);
 			}
-;
+			
 			current.lastTime = current.time;
-			i++;
 		}
 	}
 
 	public function clearTracks():Void {
-		var i:Int = 0;
 		var n:Int = tracks.length;
-		while(i < n) {
+		for (i in 0...n) {
 			clearTrack(i);
-			i++;
 		}
 		tracks = new Array();
 	}
@@ -166,17 +157,8 @@ class AnimationState {
 		if (current.onEnd != null)
 			current.onEnd(trackIndex);
 		onEnd.invoke(trackIndex);
+		
 		tracks[trackIndex] = null;
-		freeAll(current);
-		if (current.previous != null) trackEntryPool.free(current.previous);
-	}
-
-	function freeAll(entry:TrackEntry) {
-		while (entry != null) {
-			var next = entry.next;
-			trackEntryPool.free(entry);
-			entry = next;
-		}
 	}
 
 	function expandToIndex(index:Int):TrackEntry {
@@ -220,14 +202,14 @@ class AnimationState {
 
 	/** Set the current animation. Any queued animations are cleared. */
 	public function setAnimation(trackIndex:Int, animation:Animation, loop:Bool):TrackEntry {
-		var entry:TrackEntry = trackEntryPool.get();
+		var entry:TrackEntry = new TrackEntry();
 		entry.animation = animation;
 		entry.loop = loop;
 		entry.endTime = animation.duration;
 		setCurrent(trackIndex, entry);
 		return entry;
 	}
-
+	
 	public function addAnimationByName(trackIndex:Int, animationName:String, loop:Bool, delay:Float):TrackEntry {
 		var animation:Animation = data.skeletonData.findAnimation(animationName);
 		if (animation == null)
@@ -238,7 +220,7 @@ class AnimationState {
 	/** Adds an animation to be played delay seconds after the current or last queued animation.
 	 * @param delay May be <= 0 to use duration of previous animation minus any mix duration plus the negative delay. */
 	public function addAnimation(trackIndex:Int, animation:Animation, loop:Bool, delay:Float):TrackEntry {
-		var entry:TrackEntry = trackEntryPool.get();
+		var entry:TrackEntry = new TrackEntry();
 		entry.animation = animation;
 		entry.loop = loop;
 		entry.endTime = animation.duration;
@@ -247,8 +229,8 @@ class AnimationState {
 			while(last.next != null)last = last.next;
 			last.next = entry;
 		}
-
 		else tracks[trackIndex] = entry;
+		
 		if (delay <= 0) {
 			if (last != null)
 				delay += last.endTime - data.getMix(last.animation, animation)
@@ -280,4 +262,3 @@ class AnimationState {
 		return buffer;
 	}
 }
-

@@ -31,22 +31,22 @@ package spinehaxe.animation;
 
 import spinehaxe.Event;
 import spinehaxe.Skeleton;
-import haxe.ds.Vector;
+import openfl.Vector;
 
-/** Base class for frames that use an interpolation bezier curve. */class CurveTimeline implements Timeline {
-	public var frameCount(get, never):Int;
-
-	static inline var LINEAR = 0;
-	static inline var STEPPED = 1;
-	static inline var BEZIER = 2;
-	static inline var BEZIER_SEGMENTS = 10;
+/** Base class for frames that use an interpolation bezier curve. */
+class CurveTimeline implements Timeline {
+	static inline var LINEAR:Int = 0;
+	static inline var STEPPED:Int = 1;
+	static inline var BEZIER:Int = 2;
+	static inline var BEZIER_SEGMENTS:Int = 10;
 	static inline var BEZIER_SIZE:Int = BEZIER_SEGMENTS * 2 - 1;
-
+	
+	public var frameCount(get, never):Int;
+	
 	var curves:Vector<Float>; // type, x, y, ...
 
 	public function new(frameCount:Int) {
-		curves = new Vector<Float>((frameCount - 1) * BEZIER_SIZE);
-		for (i in 0 ... curves.length) curves[i] = 0;
+		curves = ArrayUtils.allocFloat((frameCount - 1) * BEZIER_SIZE, true);
 	}
 
 	public function apply(skeleton:Skeleton, lastTime:Float, time:Float, firedEvents:Array<Event>, alpha:Float):Void {
@@ -120,6 +120,4 @@ import haxe.ds.Vector;
 		var y:Float = curves[i - 1];
 		return y + (1 - y) * (percent - x) / (1 - x); // Last point is 1,1.
 	}
-
 }
-

@@ -25,7 +25,8 @@
 
 package spinehaxe.attachments;
 
-import spinehaxe.Exception;
+import spinehaxe.Exception.IllegalArgumentException;
+
 class Attachment {
 	public var name:String;
 
@@ -33,11 +34,6 @@ class Attachment {
 		if (name == null) throw new IllegalArgumentException("name cannot be null.");
 		this.name = name;
 	}
-
-	public function getName ():String {
-		return name;
-	}
-
 	public function toString ():String {
 		return name;
 	}

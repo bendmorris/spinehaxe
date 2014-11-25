@@ -32,7 +32,7 @@ package spinehaxe.animation;
 import spinehaxe.Event;
 import spinehaxe.Skeleton;
 import spinehaxe.Slot;
-import haxe.ds.Vector;
+import openfl.Vector;
 
 class DrawOrderTimeline implements Timeline {
 	public var frameCount(get, never):Int;
@@ -41,19 +41,20 @@ class DrawOrderTimeline implements Timeline {
 	public var drawOrders:Vector<Vector<Int>>;
 
 	public function new(frameCount:Int) {
-		frames = ArrayUtils.allocFloat(frameCount);
-		drawOrders = new Vector<Vector<Int>>(frameCount);
+		frames = ArrayUtils.allocFloat(frameCount, true);
+		drawOrders = new Vector<Vector<Int>>(frameCount, true);
 	}
 
 	public function get_frameCount():Int {
 		return frames.length;
 	}
 
-	/** Sets the time and value of the specified keyframe. */	public function setFrame(frameIndex:Int, time:Float, drawOrder:Vector<Int>):Void {
+	/** Sets the time and value of the specified keyframe. */	
+	public function setFrame(frameIndex:Int, time:Float, drawOrder:Vector<Int>):Void {
 		frames[frameIndex] = time;
 		drawOrders[frameIndex] = drawOrder;
 	}
-
+	
 	public function apply(skeleton:Skeleton, lastTime:Float, time:Float, firedEvents:Array<Event>, alpha:Float):Void {
 		if (time < frames[0])
 			return;
@@ -61,7 +62,7 @@ class DrawOrderTimeline implements Timeline {
 		var frameIndex:Int;
 		if (time >= frames[frames.length - 1])
 			// Time is after last frame.
-			frameIndex = frames.length - 1
+			frameIndex = frames.length - 1;
 		else
 			frameIndex = Animation.binarySearch1(frames, time) - 1;
 		var drawOrder:Array<Slot> = skeleton.drawOrder;
@@ -72,13 +73,9 @@ class DrawOrderTimeline implements Timeline {
 			for (slot in skeleton.slots)
 				drawOrder[i++] = slot;
 		}
-
 		else  {
 			for (setupIndex in drawOrderToSetupIndex)
 				drawOrder[i++] = skeleton.slots[setupIndex];
 		}
-
 	}
-
 }
-

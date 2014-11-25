@@ -51,7 +51,7 @@ class Skin {
 	/** @return May be null. */
 	public function getAttachment(slotIndex:Int, name:String):Attachment {
 		if (slotIndex > attachments.length) return null;
-		return attachments[slotIndex][name];
+		return (attachments[slotIndex] != null) ? attachments[slotIndex][name] : null;
 	}
 
 	public function toString():String {
@@ -77,5 +77,4 @@ class Skin {
 			slotIndex++;
 		}
 	}
-
 }
