@@ -28,7 +28,7 @@ class BitmapDataTextureLoader implements TextureLoader {
 	}
 
 	public function unloadPage (page:AtlasPage) : Void {
-		cast(page.rendererObject, BitmapData).dispose();
+		page.rendererObject.dispose();
 	}
 
 	public function loadTexture(textureFile:String, format, useMipMaps):Texture {

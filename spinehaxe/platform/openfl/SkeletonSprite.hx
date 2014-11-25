@@ -30,17 +30,18 @@
 
 package spinehaxe.platform.openfl;
 
-import flash.display.Bitmap;
-import flash.display.BitmapData;
-import flash.display.BlendMode;
-import flash.display.DisplayObject;
-import flash.display.DisplayObjectContainer;
-import flash.display.Sprite;
-import flash.events.Event;
-import flash.geom.ColorTransform;
-import flash.geom.Matrix;
-import flash.geom.Point;
-import flash.geom.Rectangle;
+import openfl.display.Bitmap;
+import openfl.display.BitmapData;
+import openfl.display.BlendMode;
+import openfl.display.Sprite;
+import openfl.events.Event;
+import openfl.geom.ColorTransform;
+import openfl.geom.Matrix;
+import openfl.geom.Point;
+import openfl.geom.Rectangle;
+import openfl.Vector;
+import spinehaxe.attachments.MeshAttachment;
+import spinehaxe.attachments.SkinnedMeshAttachment;
 
 import spinehaxe.Bone;
 import spinehaxe.Skeleton;
@@ -56,9 +57,28 @@ class SkeletonSprite extends Sprite {
 	public var skeleton:Skeleton;
 	public var timeScale:Float = 1;
 	private var lastTime:Int = 0;
-
-	public function new (skeletonData:SkeletonData) {
+	
+	public var renderMeshes(default, set):Bool;
+	
+	private var _tempVertices:Vector<Float>;
+	private var _quadTriangles:Vector<Int>;
+	
+	public function new (skeletonData:SkeletonData, renderMeshes:Bool = false) {
 		super();
+		
+		this.renderMeshes = renderMeshes;
+		
+		if (renderMeshes)
+		{
+			_tempVertices = new Vector<Float>(8);		
+			_quadTriangles = new Vector<Int>();
+			_quadTriangles[0] = 0;// = Vector.fromArray([0, 1, 2, 2, 3, 0]);
+			_quadTriangles[1] = 1;
+			_quadTriangles[2] = 2;
+			_quadTriangles[3] = 2;
+			_quadTriangles[4] = 3;
+			_quadTriangles[5] = 0;
+		}
 
 		Bone.yDown = true;
 
@@ -77,17 +97,29 @@ class SkeletonSprite extends Sprite {
 	public function advanceTime (delta:Float) : Void {
 		skeleton.update(delta * timeScale);
 
+		if (!renderMeshes)
+		{
+			renderRegions();
+		}
+		else
+		{
+			renderTriangles();
+		}
+	}
+	
+	private function renderRegions():Void
+	{
 		removeChildren();
 		var drawOrder:Array<Slot> = skeleton.drawOrder;
 		for (i in 0 ... drawOrder.length) {
 			var slot:Slot = drawOrder[i];
-			if (slot.attachment == null) continue;
+			if (slot.attachment == null || !Std.is(slot.attachment, RegionAttachment)) continue;
 			var regionAttachment:RegionAttachment = cast(slot.attachment, RegionAttachment);
 			if (regionAttachment != null) {
 				var wrapper:Sprite = regionAttachment.wrapper;
 				var region:AtlasRegion = cast regionAttachment.rendererObject;
 				if (wrapper == null) {
-					var bitmapData:BitmapData = cast(region.page.rendererObject, BitmapData);
+					var bitmapData:BitmapData = cast region.page.rendererObject;
 					var regionWidth:Float = region.rotate ? region.height : region.width;
 					var regionHeight:Float = region.rotate ? region.width : region.height;
 					var regionData:BitmapData = new BitmapData(Std.int(regionWidth), Std.int(regionHeight));
@@ -145,5 +177,78 @@ class SkeletonSprite extends Sprite {
 				addChild(wrapper);
 			}
 		}
+	}
+	
+	private function renderTriangles():Void
+	{
+		var drawOrder:Array<Slot> = skeleton.drawOrder;
+		var n:Int = drawOrder.length;
+		var worldVertices:Vector<Float> = _tempVertices;
+		var triangles:Vector<Int> = null;
+		var uvs:Vector<Float> = null;
+		var verticesLength:Int;
+		var atlasRegion:AtlasRegion;
+		var bitmapData:BitmapData = null;
+		var slot:Slot;
+		
+		graphics.clear();
+		
+		for (i in 0...n) 
+		{
+			slot = drawOrder[i];
+			triangles = null;
+			uvs = null;
+			atlasRegion = null;
+			bitmapData = null;
+			
+			if (slot.attachment != null)
+			{
+				if (Std.is(slot.attachment, RegionAttachment))
+				{
+					var region:RegionAttachment = cast slot.attachment;
+					verticesLength = 8;
+					if (worldVertices.length < verticesLength) worldVertices.length = verticesLength;
+					region.computeWorldVertices(0, 0, slot.bone, worldVertices);
+					uvs = region.uvs;
+					triangles = _quadTriangles;
+					atlasRegion = cast(region.rendererObject, AtlasRegion);
+				}
+				else if (Std.is(slot.attachment, MeshAttachment)) 
+				{
+					var mesh:MeshAttachment = cast(slot.attachment, MeshAttachment);
+					verticesLength = mesh.vertices.length;
+					if (worldVertices.length < verticesLength) worldVertices.length = verticesLength;
+					mesh.computeWorldVertices(0, 0, slot, worldVertices);
+					uvs = mesh.uvs;
+					triangles = mesh.triangles;
+					atlasRegion = cast(mesh.rendererObject, AtlasRegion);
+				}
+				else if (Std.is(slot.attachment, SkinnedMeshAttachment))
+				{
+					var skinnedMesh:SkinnedMeshAttachment = cast(slot.attachment, SkinnedMeshAttachment);
+					verticesLength = skinnedMesh.uvs.length;
+					if (worldVertices.length < verticesLength) worldVertices.length = verticesLength;
+					skinnedMesh.computeWorldVertices(0, 0, slot, worldVertices);
+					uvs = skinnedMesh.uvs;
+					triangles = skinnedMesh.triangles;
+					atlasRegion = cast(skinnedMesh.rendererObject, AtlasRegion);
+				}
+				
+				if (atlasRegion != null)
+				{
+					bitmapData = cast atlasRegion.page.rendererObject;
+					graphics.beginBitmapFill(bitmapData, null, false, true);
+					graphics.drawTriangles(worldVertices, triangles, uvs);
+					graphics.endFill();
+				}
+			}
+		}
+	}
+	
+	private function set_renderMeshes(value:Bool):Bool
+	{
+		removeChildren();
+		graphics.clear();
+		return renderMeshes = value;
 	}
 }

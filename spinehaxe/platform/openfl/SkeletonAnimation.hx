@@ -37,8 +37,8 @@ import spinehaxe.animation.AnimationStateData;
 class SkeletonAnimation extends SkeletonSprite {
 	public var state:AnimationState;
 
-	public function new (skeletonData:SkeletonData, stateData:AnimationStateData = null) {
-		super(skeletonData);
+	public function new (skeletonData:SkeletonData, stateData:AnimationStateData = null, renderMeshes:Bool = false) {
+		super(skeletonData, renderMeshes);
 		state = new AnimationState(stateData == null ? new AnimationStateData(skeletonData) : stateData);
 	}
 
