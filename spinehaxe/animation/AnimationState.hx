@@ -135,7 +135,7 @@ class AnimationState {
 			}
 
 			// Check if completed the animation or a loop iteration.
-			if ((loop) ? (lastTime % endTime > time % endTime):(lastTime < endTime && time >= endTime)) {
+			if ((loop) ? (endTime == 0 || lastTime % endTime > time % endTime):(lastTime < endTime && time >= endTime)) {
 				var count:Int = cast(time / endTime);
 				if (current.onComplete != null)
 					current.onComplete(i, count);
