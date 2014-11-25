@@ -458,7 +458,6 @@ class SkeletonJson {
 						} else {
 							var verticesValue:Vector<Float> = valueMap.getFloatArray("vertices", 1);
 							var start:Int = valueMap.getInt("offset");
-							trace(i + "; " + start);
 							var n:Int = verticesValue.length;
 							vertices = ArrayUtils.allocFloat(vertexCount, true);
 							if (scale == 1) {
