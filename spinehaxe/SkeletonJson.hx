@@ -72,7 +72,7 @@ class SkeletonJson {
 		skeletonData.name = name;
 
 		// Skeleton.
-		if (root.hasOwnProperty("skeletonMap")) {
+		if (root.hasOwnProperty("skeleton")) {
 			var skeletonMap:Dynamic = root.skeleton;
 			skeletonData.hash = skeletonMap.getStr("hash");
 			skeletonData.version = skeletonMap.getStr("spine");
