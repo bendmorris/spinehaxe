@@ -286,9 +286,9 @@ class SkeletonJson {
 			return skinnedMesh;
 		case AttachmentType.BoundingBox:
 			var box:BoundingBoxAttachment = attachmentLoader.newBoundingBoxAttachment(skin, name);
-			vertices = box.vertices;
-			for (point in map.getFloatArray("vertices", 1))
-				vertices[vertices.length] = point * scale;
+			for (point in map.getFloatArray("vertices", 1)) {
+				box.vertices.push(point * scale);
+      }
 			return box;
 		default:
 			throw "Attachment type not implemented: " + type;
