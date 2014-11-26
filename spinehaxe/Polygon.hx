@@ -29,15 +29,13 @@
  *****************************************************************************/
 package spinehaxe;
 
-import openfl.Vector;
-
 class Polygon {
 
-	public var vertices : Vector<Float>;
+	public var vertices : Array<Float>;
 	
 	public function new()
 	{
-		vertices = new Vector<Float>();
+		vertices = new Array<Float>();
 	}
 	
 	/** Returns true if the polygon contains the point. */	
