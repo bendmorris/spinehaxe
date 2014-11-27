@@ -61,6 +61,7 @@ class SkeletonSprite extends Sprite {
 	public var renderMeshes(default, set):Bool;
 	
 	private var _tempVertices:Vector<Float>;
+	private var _tempVerticesArray:Array<Float>;
 	private var _quadTriangles:Vector<Int>;
 	
 	public function new (skeletonData:SkeletonData, renderMeshes:Bool = false) {
@@ -70,7 +71,9 @@ class SkeletonSprite extends Sprite {
 		
 		if (renderMeshes)
 		{
-			_tempVertices = new Vector<Float>(8);		
+			_tempVertices = ArrayUtils.allocFloat(8);
+			_tempVertices.fixed = false;
+			_tempVerticesArray = new Array<Float>();
 			_quadTriangles = new Vector<Int>();
 			_quadTriangles[0] = 0;// = Vector.fromArray([0, 1, 2, 2, 3, 0]);
 			_quadTriangles[1] = 1;
@@ -186,7 +189,7 @@ class SkeletonSprite extends Sprite {
 		var worldVertices:Vector<Float> = _tempVertices;
 		var triangles:Vector<Int> = null;
 		var uvs:Vector<Float> = null;
-		var verticesLength:Int;
+		var verticesLength:Int = 0;
 		var atlasRegion:AtlasRegion;
 		var bitmapData:BitmapData = null;
 		var slot:Slot;
@@ -208,7 +211,7 @@ class SkeletonSprite extends Sprite {
 					var region:RegionAttachment = cast slot.attachment;
 					verticesLength = 8;
 					if (worldVertices.length < verticesLength) worldVertices.length = verticesLength;
-					region.computeWorldVertices(0, 0, slot.bone, worldVertices);
+					region.computeWorldVertices(0, 0, slot.bone, _tempVerticesArray);
 					uvs = region.uvs;
 					triangles = _quadTriangles;
 					atlasRegion = cast(region.rendererObject, AtlasRegion);
@@ -218,7 +221,7 @@ class SkeletonSprite extends Sprite {
 					var mesh:MeshAttachment = cast(slot.attachment, MeshAttachment);
 					verticesLength = mesh.vertices.length;
 					if (worldVertices.length < verticesLength) worldVertices.length = verticesLength;
-					mesh.computeWorldVertices(0, 0, slot, worldVertices);
+					mesh.computeWorldVertices(0, 0, slot, _tempVerticesArray);
 					uvs = mesh.uvs;
 					triangles = mesh.triangles;
 					atlasRegion = cast(mesh.rendererObject, AtlasRegion);
@@ -228,7 +231,7 @@ class SkeletonSprite extends Sprite {
 					var skinnedMesh:SkinnedMeshAttachment = cast(slot.attachment, SkinnedMeshAttachment);
 					verticesLength = skinnedMesh.uvs.length;
 					if (worldVertices.length < verticesLength) worldVertices.length = verticesLength;
-					skinnedMesh.computeWorldVertices(0, 0, slot, worldVertices);
+					skinnedMesh.computeWorldVertices(0, 0, slot, _tempVerticesArray);
 					uvs = skinnedMesh.uvs;
 					triangles = skinnedMesh.triangles;
 					atlasRegion = cast(skinnedMesh.rendererObject, AtlasRegion);
@@ -238,6 +241,13 @@ class SkeletonSprite extends Sprite {
 				{
 					bitmapData = cast atlasRegion.page.rendererObject;
 					graphics.beginBitmapFill(bitmapData, null, false, true);
+					
+					worldVertices.splice(0, worldVertices.length);
+					for (i in 0...verticesLength)
+					{
+						worldVertices.push(_tempVerticesArray[i]);
+					}
+					
 					graphics.drawTriangles(worldVertices, triangles, uvs);
 					graphics.endFill();
 				}

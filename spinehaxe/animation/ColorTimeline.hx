@@ -32,7 +32,7 @@ package spinehaxe.animation;
 import spinehaxe.Event;
 import spinehaxe.Skeleton;
 import spinehaxe.Slot;
-import openfl.Vector;
+import haxe.ds.Vector;
 
 class ColorTimeline extends CurveTimeline {
 
@@ -41,13 +41,12 @@ class ColorTimeline extends CurveTimeline {
 	static inline var FRAME_G:Int = 2;
 	static inline var FRAME_B:Int = 3;
 	static inline var FRAME_A:Int = 4;
-	
 	public var slotIndex:Int;
 	public var frames:Vector<Float>; // time, r, g, b, a, ...
 
 	public function new(frameCount:Int) {
 		super(frameCount);
-		frames = ArrayUtils.allocFloat(frameCount * 5, true);
+		frames = ArrayUtils.allocFloat(frameCount*5);
 	}
 
 	/** Sets the time and value of the specified keyframe. */
@@ -100,5 +99,8 @@ class ColorTimeline extends CurveTimeline {
 			slot.b = b;
 			slot.a = a;
 		}
+
 	}
+
 }
+

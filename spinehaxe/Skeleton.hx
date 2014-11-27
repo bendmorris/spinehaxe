@@ -61,7 +61,7 @@ class Skeleton {
 
 		bones = new Array<Bone>();
 		for (boneData in data.bones) {
-			var parent:Bone = (boneData.parent == null) ? null : bones[data.bones.indexOf(boneData.parent)];
+			var parent:Bone = boneData.parent == (null) ? null : bones[data.bones.indexOf(boneData.parent)];
 			bones[bones.length] = new Bone(boneData, this, parent);
 		}
 
@@ -306,4 +306,6 @@ class Skeleton {
 	public function toString():String {
 		return (data.name != null) ? data.name : ("" + this);
 	}
+
 }
+

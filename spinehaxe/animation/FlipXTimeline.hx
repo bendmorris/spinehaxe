@@ -33,7 +33,7 @@ package spinehaxe.animation;
 import spinehaxe.Bone;
 import spinehaxe.Event;
 import spinehaxe.Skeleton;
-import openfl.Vector;
+import haxe.ds.Vector;
 
 class FlipXTimeline implements Timeline {
 	public var boneIndex:Int;
@@ -41,9 +41,9 @@ class FlipXTimeline implements Timeline {
 	public var frameCount(get, never):Int;
 
 	public function new (frameCount:Int) {
-		frames = ArrayUtils.allocFloat(frameCount * 2, true);
+		frames = ArrayUtils.allocFloat(frameCount * 2);
 	}
-	
+
 	public function get_frameCount() : Int {
 		return Std.int(frames.length / 2);
 	}

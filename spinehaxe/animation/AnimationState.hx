@@ -60,12 +60,10 @@ class AnimationState {
 
 	public function update(delta:Float):Void {
 		delta *= timeScale;
-		var n:Int = tracks.length;
-		for (i in 0...n) {
+		for (i in 0...tracks.length) {
 			var current:TrackEntry = tracks[i];
-			if (current == null) {
+			if (current == null)
 				continue;
-			}
 
 			current.time += delta * current.timeScale;
 			if (current.previous != null) {
@@ -87,12 +85,10 @@ class AnimationState {
 	}
 	
 	public function apply(skeleton:Skeleton):Void {
-		var n:Int = tracks.length;
-		for (i in 0...n) {
+		for (i in 0...tracks.length) {
 			var current:TrackEntry = tracks[i];
-			if (current == null) {
+			if (current == null)
 				continue;
-			}
 			
 			events.splice(0, events.length);
 			
@@ -157,7 +153,6 @@ class AnimationState {
 		if (current.onEnd != null)
 			current.onEnd(trackIndex);
 		onEnd.invoke(trackIndex);
-		
 		tracks[trackIndex] = null;
 	}
 
@@ -209,7 +204,7 @@ class AnimationState {
 		setCurrent(trackIndex, entry);
 		return entry;
 	}
-	
+
 	public function addAnimationByName(trackIndex:Int, animationName:String, loop:Bool, delay:Float):TrackEntry {
 		var animation:Animation = data.skeletonData.findAnimation(animationName);
 		if (animation == null)
@@ -262,3 +257,4 @@ class AnimationState {
 		return buffer;
 	}
 }
+

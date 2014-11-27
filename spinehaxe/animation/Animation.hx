@@ -29,17 +29,17 @@
  *****************************************************************************/
 package spinehaxe.animation;
 
-import openfl.Vector;
 import spinehaxe.Event;
 import spinehaxe.Skeleton;
 import spinehaxe.Exception;
+import haxe.ds.Vector;
 
 class Animation {
-	public var timelines:Vector<Timeline>;
+	public var timelines:Array<Timeline>;
 	public var name:String;
+
 	public var duration:Float = 0;
-	
-	public function new(name:String, timelines:Vector<Timeline>, duration:Float) {
+	public function new(name:String, timelines:Array<Timeline>, duration:Float) {
 		if (name == null)
 			throw new IllegalArgumentException("name cannot be null.");
 		if (timelines == null)
@@ -57,9 +57,8 @@ class Animation {
 			time %= duration;
 			lastTime %= duration;
 		}
-		
 		var n:Int = timelines.length;
-		for (i in 0...n) {
+		for(i in 0...n) {
 			timelines[i].apply(skeleton, lastTime, time, events, 1);
 		}
 	}
@@ -73,7 +72,6 @@ class Animation {
 			time %= duration;
 			lastTime %= duration;
 		}
-		
 		var n:Int = timelines.length;
 		for (i in 0...n) {
 			timelines[i].apply(skeleton, lastTime, time, events, alpha);
@@ -99,6 +97,7 @@ class Animation {
 				return (low + 1) * step;
 			current = (low + high) >>> 1;
 		}
+
 		return 0;
 	}
 
@@ -121,7 +120,7 @@ class Animation {
 		return 0; // Can't happen.
 	}
 
-	static public function linearSearch(values:Vector<Float>, target:Float, step:Int):Int {
+	static public function linearSearch(values:Array<Float>, target:Float, step:Int):Int {
 		var i:Int = 0;
 		var last:Int = values.length - step;
 		while(i <= last) {
@@ -131,4 +130,6 @@ class Animation {
 		}
 		return -1;
 	}
+
 }
+

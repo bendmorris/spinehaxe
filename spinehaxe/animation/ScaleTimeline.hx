@@ -32,7 +32,7 @@ package spinehaxe.animation;
 import spinehaxe.Bone;
 import spinehaxe.Event;
 import spinehaxe.Skeleton;
-import openfl.Vector;
+import haxe.ds.Vector;
 
 class ScaleTimeline extends TranslateTimeline {
 	static inline var FRAME_X:Int = 1;
@@ -63,4 +63,6 @@ class ScaleTimeline extends TranslateTimeline {
 		bone.scaleX += (bone.data.scaleX * (prevFrameX + (frames[frameIndex + FRAME_X] - prevFrameX) * percent) - bone.scaleX) * alpha;
 		bone.scaleY += (bone.data.scaleY * (prevFrameY + (frames[frameIndex + FRAME_Y] - prevFrameY) * percent) - bone.scaleY) * alpha;
 	}
+
 }
+

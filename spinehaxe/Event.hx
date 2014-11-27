@@ -29,7 +29,7 @@
  *****************************************************************************/
 package spinehaxe;
 
-import spinehaxe.Exception.IllegalArgumentException;
+import spinehaxe.Exception;
 
 class Event {
 	public var data:EventData;
@@ -46,4 +46,6 @@ class Event {
 	public function toString():String {
 		return data.name;
 	}
+
 }
+

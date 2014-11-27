@@ -30,7 +30,7 @@
 package spinehaxe;
 
 import spinehaxe.Exception;
-import openfl.Vector;
+import haxe.ds.Vector;
 
 class Bone {
 	public static var yDown:Bool = false;
@@ -150,4 +150,6 @@ class Bone {
 	public function toString():String {
 		return data.name;
 	}
+
 }
+

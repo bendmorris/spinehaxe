@@ -37,13 +37,14 @@ class JsonUtils {
 	public static function getFloat(node:JsonNode, field:String, defaultValue:Float=0):Float {
 		var value:Dynamic = getDynamic(node, field);
 		if (value == null) return defaultValue;
+		if (Std.is(value, Int)) return cast(value, Int);
 		return cast(value, Float);
 	}
 
 	public static function getStr(node:JsonNode, field:String, defaultValue:String=null):String {
 		var value:Dynamic = getDynamic(node, field);
 		if (value == null) return defaultValue;
-		return Std.string(value);
+		return cast(value, String);
 	}
 
 	public static function getBool(node:JsonNode, field:String, defaultValue:Bool = false):Bool {

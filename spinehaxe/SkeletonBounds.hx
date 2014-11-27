@@ -37,15 +37,13 @@ class SkeletonBounds {
 	public var width(get, never) : Float;
 	public var height(get, never) : Float;
 
-	private var polygonPool : Array<Polygon>;
-	
+	var polygonPool : Array<Polygon>;
 	public var boundingBoxes : Array<BoundingBoxAttachment>;
 	public var polygons : Array<Polygon>;
 	public var minX : Float;
 	public var minY : Float;
 	public var maxX : Float;
 	public var maxY : Float;
-	
 	public function update(skeleton : Skeleton, updateAabb : Bool) : Void {
 		var slots : Array<Slot> = skeleton.slots;
 		var slotCount : Int = slots.length;
@@ -55,12 +53,13 @@ class SkeletonBounds {
 		for (polygon in polygons)
 			polygonPool[polygonPool.length] = polygon;
 		polygons.length = 0;
-		
 		for (i in 0...slotCount) {
 			var slot : Slot = slots[i];
 			var boundingBox : BoundingBoxAttachment = try cast(slot.attachment, BoundingBoxAttachment) catch(e:Dynamic) null;
 			if (boundingBox == null)
+			{
 				continue;
+			}
 
 			boundingBoxes[boundingBoxes.length] = boundingBox;
 			var poolCount : Int = polygonPool.length;
@@ -68,8 +67,8 @@ class SkeletonBounds {
 				polygon = polygonPool[poolCount - 1];
 				polygonPool.splice(poolCount - 1, 1);
 			}
+
 			else polygon = new Polygon();
-			
 			polygons[polygons.length] = polygon;
 			polygon.vertices.length = boundingBox.vertices.length;
 			boundingBox.computeWorldVertices(x, y, slot.bone, polygon.vertices);
@@ -182,3 +181,4 @@ class SkeletonBounds {
 		polygons = new Array<Polygon>();
 	}
 }
+

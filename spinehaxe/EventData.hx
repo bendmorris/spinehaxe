@@ -46,4 +46,6 @@ class EventData {
 	public function toString():String {
 		return name;
 	}
+
 }
+
