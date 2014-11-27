@@ -1,10 +1,10 @@
 /******************************************************************************
  * Spine Runtimes Software License
  * Version 2.1
- * 
+ *
  * Copyright (c) 2013, Esoteric Software
  * All rights reserved.
- * 
+ *
  * You are granted a perpetual, non-exclusive, non-sublicensable and
  * non-transferable license to install, execute and perform the Spine Runtimes
  * Software (the "Software") solely for internal use. Without the written
@@ -15,7 +15,7 @@
  * trademark, patent or other intellectual property or proprietary rights
  * notices on or in the Software, including any copy thereof. Redistributions
  * in binary or source form must include this license and terms.
- * 
+ *
  * THIS SOFTWARE IS PROVIDED BY ESOTERIC SOFTWARE "AS IS" AND ANY EXPRESS OR
  * IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF
  * MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO
@@ -32,7 +32,7 @@ package spinehaxe.animation;
 import spinehaxe.Event;
 import spinehaxe.Skeleton;
 import spinehaxe.Slot;
-import openfl.Vector;
+import haxe.ds.Vector;
 
 class DrawOrderTimeline implements Timeline {
 	public var frameCount(get, never):Int;
@@ -41,20 +41,20 @@ class DrawOrderTimeline implements Timeline {
 	public var drawOrders:Vector<Vector<Int>>;
 
 	public function new(frameCount:Int) {
-		frames = ArrayUtils.allocFloat(frameCount, true);
-		drawOrders = new Vector<Vector<Int>>(frameCount, true);
+		frames = ArrayUtils.allocFloat(frameCount);
+		drawOrders = new Vector<Vector<Int>>(frameCount);
 	}
 
 	public function get_frameCount():Int {
 		return frames.length;
 	}
 
-	/** Sets the time and value of the specified keyframe. */	
+	/** Sets the time and value of the specified keyframe. */
 	public function setFrame(frameIndex:Int, time:Float, drawOrder:Vector<Int>):Void {
 		frames[frameIndex] = time;
 		drawOrders[frameIndex] = drawOrder;
 	}
-	
+
 	public function apply(skeleton:Skeleton, lastTime:Float, time:Float, firedEvents:Array<Event>, alpha:Float):Void {
 		if (time < frames[0])
 			return;
@@ -73,9 +73,11 @@ class DrawOrderTimeline implements Timeline {
 			for (slot in skeleton.slots)
 				drawOrder[i++] = slot;
 		}
+
 		else  {
 			for (setupIndex in drawOrderToSetupIndex)
 				drawOrder[i++] = skeleton.slots[setupIndex];
 		}
+
 	}
 }

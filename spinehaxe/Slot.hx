@@ -1,10 +1,10 @@
 /******************************************************************************
  * Spine Runtimes Software License
  * Version 2.1
- * 
+ *
  * Copyright (c) 2013, Esoteric Software
  * All rights reserved.
- * 
+ *
  * You are granted a perpetual, non-exclusive, non-sublicensable and
  * non-transferable license to install, execute and perform the Spine Runtimes
  * Software (the "Software") solely for internal use. Without the written
@@ -15,7 +15,7 @@
  * trademark, patent or other intellectual property or proprietary rights
  * notices on or in the Software, including any copy thereof. Redistributions
  * in binary or source form must include this license and terms.
- * 
+ *
  * THIS SOFTWARE IS PROVIDED BY ESOTERIC SOFTWARE "AS IS" AND ANY EXPRESS OR
  * IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF
  * MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO
@@ -29,7 +29,7 @@
  *****************************************************************************/
 package spinehaxe;
 
-import openfl.Vector;
+import haxe.ds.Vector;
 import spinehaxe.attachments.Attachment;
 import spinehaxe.Exception;
 using Lambda;
@@ -46,7 +46,7 @@ class Slot {
 	public var b:Float = 0;
 	public var a:Float = 0;
 	var _attachmentTime:Float = 0;
-	public var attachmentVertices:Vector<Float> = new Vector<Float>();
+	public var attachmentVertices:Array<Float> = new Array();
 
 	public function new(data:SlotData, bone:Bone) {
 		if (data == null) throw new IllegalArgumentException("data cannot be null.");

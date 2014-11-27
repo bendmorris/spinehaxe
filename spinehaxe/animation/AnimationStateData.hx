@@ -1,10 +1,10 @@
 /******************************************************************************
  * Spine Runtimes Software License
  * Version 2.1
- * 
+ *
  * Copyright (c) 2013, Esoteric Software
  * All rights reserved.
- * 
+ *
  * You are granted a perpetual, non-exclusive, non-sublicensable and
  * non-transferable license to install, execute and perform the Spine Runtimes
  * Software (the "Software") solely for internal use. Without the written
@@ -15,7 +15,7 @@
  * trademark, patent or other intellectual property or proprietary rights
  * notices on or in the Software, including any copy thereof. Redistributions
  * in binary or source form must include this license and terms.
- * 
+ *
  * THIS SOFTWARE IS PROVIDED BY ESOTERIC SOFTWARE "AS IS" AND ANY EXPRESS OR
  * IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF
  * MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO
@@ -37,7 +37,7 @@ class AnimationStateData {
 
 	private var animationToMixTime:Map<String, Float>;
 	public var defaultMix:Float = 0;
-	
+
 	public function new(skeletonData:SkeletonData) {
 		animationToMixTime = new Map();
 		defaultMix = 0;
@@ -66,6 +66,7 @@ class AnimationStateData {
 		var key = from.name + ":" + to.name;
 		if (!animationToMixTime.exists(key))
 			return defaultMix;
+
 		return animationToMixTime[key];
 	}
 }

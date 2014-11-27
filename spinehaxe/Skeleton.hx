@@ -1,10 +1,10 @@
 /******************************************************************************
  * Spine Runtimes Software License
  * Version 2.1
- * 
+ *
  * Copyright (c) 2013, Esoteric Software
  * All rights reserved.
- * 
+ *
  * You are granted a perpetual, non-exclusive, non-sublicensable and
  * non-transferable license to install, execute and perform the Spine Runtimes
  * Software (the "Software") solely for internal use. Without the written
@@ -15,7 +15,7 @@
  * trademark, patent or other intellectual property or proprietary rights
  * notices on or in the Software, including any copy thereof. Redistributions
  * in binary or source form must include this license and terms.
- * 
+ *
  * THIS SOFTWARE IS PROVIDED BY ESOTERIC SOFTWARE "AS IS" AND ANY EXPRESS OR
  * IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF
  * MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO
@@ -51,8 +51,8 @@ class Skeleton {
 	public var time:Float = 0;
 	public var flipX:Bool = false;
 	public var flipY:Bool = false;
-	public var x:Float = 0;
-	public var y:Float = 0;
+	public var x(default, set):Float = 0;
+	public var y(default, set):Float = 0;
 
 	public function new(data:SkeletonData) {
 		if (data == null)
@@ -61,7 +61,7 @@ class Skeleton {
 
 		bones = new Array<Bone>();
 		for (boneData in data.bones) {
-			var parent:Bone = (boneData.parent == null) ? null : bones[data.bones.indexOf(boneData.parent)];
+			var parent:Bone = boneData.parent == (null) ? null : bones[data.bones.indexOf(boneData.parent)];
 			bones[bones.length] = new Bone(boneData, this, parent);
 		}
 
@@ -248,6 +248,16 @@ class Skeleton {
 			}
 		}
 		return skin = newSkin;
+	}
+
+	private function set_x(value:Float):Float
+	{
+		return x = value;
+	}
+
+	private function set_y(value:Float):Float
+	{
+		return y = value;
 	}
 
 	/** @return May be null. */

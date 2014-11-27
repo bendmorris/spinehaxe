@@ -34,22 +34,22 @@ import spinehaxe.Event;
 import spinehaxe.Skeleton;
 import spinehaxe.Slot;
 import spinehaxe.attachments.Attachment;
-import openfl.Vector;
+import haxe.ds.Vector;
 
 class FfdTimeline extends CurveTimeline {
 	public var slotIndex:Int;
 	public var frames:Vector<Float>;
-	public var frameVertices:Vector<Vector<Float>>;
+	public var frameVertices:Vector<Array<Float>>;
 	public var attachment:Attachment;
 
 	public function new (frameCount:Int) {
 		super(frameCount);
-		frames = ArrayUtils.allocFloat(frameCount, true);
-		frameVertices = new Vector<Vector<Float>>(frameCount, true);
+		frames = ArrayUtils.allocFloat(frameCount);
+		frameVertices = new Vector<Array<Float>>(frameCount);
 	}
 
 	/** Sets the time and value of the specified keyframe. */
-	public function setFrame (frameIndex:Int, time:Float, vertices:Vector<Float>) : Void {
+	public function setFrame (frameIndex:Int, time:Float, vertices:Array<Float>) : Void {
 		frames[frameIndex] = time;
 		frameVertices[frameIndex] = vertices;
 	}
@@ -57,19 +57,19 @@ class FfdTimeline extends CurveTimeline {
 	override public function apply (skeleton:Skeleton, lastTime:Float, time:Float, firedEvents:Array<Event>, alpha:Float) : Void {
 		var slot:Slot = skeleton.slots[slotIndex];
 		if (slot.attachment != attachment) return;
+
 		var frames:Vector<Float> = this.frames;
-		if (time < frames[0]) 
-		{
-			return; // Time is before first frame.
-		}
-		
-		var frameVertices:Vector<Vector<Float>> = this.frameVertices;
+		if (time < frames[0]) return; // Time is before first frame.
+
+		var frameVertices:Vector<Array<Float>> = this.frameVertices;
 		var vertexCount:Int = frameVertices[0].length;
-		var vertices:Vector<Float> = slot.attachmentVertices;
+
+		var vertices:Array<Float> = slot.attachmentVertices;
 		if (vertices.length != vertexCount) alpha = 1; // Don't mix from uninitialized slot vertices.
-		
+
+		var i:Int = 0;
 		if (time >= frames[frames.length - 1]) { // Time is after last frame.
-			var lastVertices:Vector<Float> = frameVertices[frames.length - 1];
+			var lastVertices:Array<Float> = frameVertices[frames.length - 1];
 			if (alpha < 1) {
 				for (i in 0 ... vertexCount)
 					vertices[i] += (lastVertices[i] - vertices[i]) * alpha;
@@ -77,18 +77,17 @@ class FfdTimeline extends CurveTimeline {
 				for (i in 0 ... vertexCount)
 					vertices[i] = lastVertices[i];
 			}
-			
 			return;
 		}
-		
+
 		// Interpolate between the previous frame and the current frame.
 		var frameIndex:Int = Animation.binarySearch1(frames, time);
 		var frameTime:Float = frames[frameIndex];
 		var percent:Float = 1 - (time - frameTime) / (frames[frameIndex - 1] - frameTime);
 		percent = getCurvePercent(frameIndex - 1, percent < 0 ? 0 : (percent > 1 ? 1 : percent));
-		
-		var prevVertices:Vector<Float> = frameVertices[frameIndex - 1];
-		var nextVertices:Vector<Float> = frameVertices[frameIndex];
+
+		var prevVertices:Array<Float> = frameVertices[frameIndex - 1];
+		var nextVertices:Array<Float> = frameVertices[frameIndex];
 
 		var prev:Float;
 		if (alpha < 1) {

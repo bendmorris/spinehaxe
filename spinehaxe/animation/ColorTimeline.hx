@@ -1,10 +1,10 @@
 /******************************************************************************
  * Spine Runtimes Software License
  * Version 2.1
- * 
+ *
  * Copyright (c) 2013, Esoteric Software
  * All rights reserved.
- * 
+ *
  * You are granted a perpetual, non-exclusive, non-sublicensable and
  * non-transferable license to install, execute and perform the Spine Runtimes
  * Software (the "Software") solely for internal use. Without the written
@@ -15,7 +15,7 @@
  * trademark, patent or other intellectual property or proprietary rights
  * notices on or in the Software, including any copy thereof. Redistributions
  * in binary or source form must include this license and terms.
- * 
+ *
  * THIS SOFTWARE IS PROVIDED BY ESOTERIC SOFTWARE "AS IS" AND ANY EXPRESS OR
  * IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF
  * MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO
@@ -32,7 +32,7 @@ package spinehaxe.animation;
 import spinehaxe.Event;
 import spinehaxe.Skeleton;
 import spinehaxe.Slot;
-import openfl.Vector;
+import haxe.ds.Vector;
 
 class ColorTimeline extends CurveTimeline {
 
@@ -41,13 +41,12 @@ class ColorTimeline extends CurveTimeline {
 	static inline var FRAME_G:Int = 2;
 	static inline var FRAME_B:Int = 3;
 	static inline var FRAME_A:Int = 4;
-	
 	public var slotIndex:Int;
 	public var frames:Vector<Float>; // time, r, g, b, a, ...
 
 	public function new(frameCount:Int) {
 		super(frameCount);
-		frames = ArrayUtils.allocFloat(frameCount * 5, true);
+		frames = ArrayUtils.allocFloat(frameCount*5);
 	}
 
 	/** Sets the time and value of the specified keyframe. */
@@ -82,7 +81,7 @@ class ColorTimeline extends CurveTimeline {
 			var frameTime:Float = frames[frameIndex];
 			var percent:Float = 1 - (time - frameTime) / (frames[frameIndex + PREV_FRAME_TIME] - frameTime);
 			percent = getCurvePercent(Std.int(frameIndex / 5 - 1), percent < 0 ? 0 : (percent > 1 ? 1 : percent));
-			
+
 			r = prevFrameR + (frames[frameIndex + FRAME_R] - prevFrameR) * percent;
 			g = prevFrameG + (frames[frameIndex + FRAME_G] - prevFrameG) * percent;
 			b = prevFrameB + (frames[frameIndex + FRAME_B] - prevFrameB) * percent;
@@ -100,5 +99,6 @@ class ColorTimeline extends CurveTimeline {
 			slot.b = b;
 			slot.a = a;
 		}
+
 	}
 }

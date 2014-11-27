@@ -1,10 +1,10 @@
 /******************************************************************************
  * Spine Runtimes Software License
  * Version 2.1
- * 
+ *
  * Copyright (c) 2013, Esoteric Software
  * All rights reserved.
- * 
+ *
  * You are granted a perpetual, non-exclusive, non-sublicensable and
  * non-transferable license to install, execute and perform the Spine Runtimes
  * Software (the "Software") solely for internal use. Without the written
@@ -15,7 +15,7 @@
  * trademark, patent or other intellectual property or proprietary rights
  * notices on or in the Software, including any copy thereof. Redistributions
  * in binary or source form must include this license and terms.
- * 
+ *
  * THIS SOFTWARE IS PROVIDED BY ESOTERIC SOFTWARE "AS IS" AND ANY EXPRESS OR
  * IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF
  * MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO
@@ -32,7 +32,7 @@ package spinehaxe.animation;
 import spinehaxe.Bone;
 import spinehaxe.Event;
 import spinehaxe.Skeleton;
-import openfl.Vector;
+import haxe.ds.Vector;
 
 class RotateTimeline extends CurveTimeline {
 
@@ -43,7 +43,7 @@ class RotateTimeline extends CurveTimeline {
 
 	public function new(frameCount:Int) {
 		super(frameCount);
-		frames = ArrayUtils.allocFloat(frameCount * 2, true);
+		frames = ArrayUtils.allocFloat(frameCount * 2);
 	}
 
 	/** Sets the time and angle of the specified keyframe. */
@@ -62,8 +62,8 @@ class RotateTimeline extends CurveTimeline {
 		if (time >= frames[frames.length - 2]) {
 			// Time is after last frame.
 			amount = bone.data.rotation + frames[frames.length - 1] - bone.rotation;
-			while (amount > 180) amount -= 360;
-			while (amount < -180) amount += 360;
+			while(amount > 180) amount -= 360;
+			while(amount < -180) amount += 360;
 			bone.rotation += amount * alpha;
 			return;
 		}

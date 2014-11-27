@@ -52,7 +52,7 @@ import spinehaxe.attachments.MeshAttachment;
 import spinehaxe.attachments.RegionAttachment;
 import spinehaxe.attachments.SkinnedMeshAttachment;
 import spinehaxe.JsonUtils;
-import openfl.Vector;
+import haxe.ds.Vector;
 using spinehaxe.JsonUtils;
 
 class SkeletonJson {
@@ -82,8 +82,7 @@ class SkeletonJson {
 
 		// Bones.
 		var boneData:BoneData;
-		var bonesArray = root.getNodesArray("bones");
-		for (boneMap in bonesArray) {
+		for (boneMap in root.getNodesArray("bones")) {
 			var parent:BoneData = null;
 			var parentName:String = boneMap.getStr("parent");
 			if (parentName != null) {
@@ -106,8 +105,7 @@ class SkeletonJson {
 
 		// IK constraints.
 		if (root.hasOwnProperty("ik")) {
-			var ikNodesArray = root.getNodesArray("ik");
-			for (ikMap in ikNodesArray) {
+			for (ikMap in root.getNodesArray("ik")) {
 				var ikConstraintData:IkConstraintData = new IkConstraintData(ikMap.getStr("name"));
 
 				for (boneName in ikMap.getNodesArray("bones")) {
@@ -158,9 +156,7 @@ class SkeletonJson {
 				for (attachmentName in slotEntry.fields()) {
 					var attachment:Attachment = readAttachment(skin, attachmentName, slotEntry.getNode(attachmentName));
 					if (attachment != null)
-					{
 						skin.addAttachment(slotIndex, attachmentName, attachment);
-					}
 				}
 			}
 			skeletonData.skins[skeletonData.skins.length] = skin;
@@ -192,11 +188,11 @@ class SkeletonJson {
 	private function readAttachment (skin:Skin, name:String, map:Dynamic) : Attachment {
 		name = map.getStr("name", name);
 
-		var type:AttachmentType = map.getStr("type", "region");
+		var type:AttachmentType = map.getStr("type",  "region");
 		var path:String = map.getStr("path", name);
 
 		var scale:Float = this.scale;
-		var color:String, vertices:Vector<Float>;
+		var color:String, vertices:Array<Float>;
 		switch (type) {
 		case AttachmentType.Region:
 			var region:RegionAttachment = attachmentLoader.newRegionAttachment(skin, name, path);
@@ -229,7 +225,7 @@ class SkeletonJson {
 			mesh.triangles = map.getIntArray("triangles");
 			mesh.regionUVs = map.getFloatArray("uvs", 1);
 			mesh.updateUVs();
-			
+
 			color = map.getStr("color");
 			if (color != null) {
 				mesh.r = toColor(color, 0);
@@ -440,35 +436,36 @@ class SkeletonJson {
 					if (attachment == null) throw "FFD attachment not found: " + meshName;
 					ffdTimeline.slotIndex = slotIndex;
 					ffdTimeline.attachment = attachment;
-					
+
 					var vertexCount:Int = 0;
 					if (Std.is(attachment, MeshAttachment))
 						vertexCount = cast(attachment, MeshAttachment).vertices.length;
 					else
-						vertexCount = Std.int(cast(attachment, SkinnedMeshAttachment).weights.length / 3) * 2;
+						vertexCount = Std.int(cast(attachment, SkinnedMeshAttachment).weights.length / 3 * 2);
 
 					frameIndex = 0;
 					for (valueMap in values) {
-						var vertices:Vector<Float> = null;
+						var vertices:Array<Float>;
 						if (!valueMap.hasOwnProperty("vertices")) {
 							if (Std.is(attachment, MeshAttachment))
 								vertices = cast(attachment, MeshAttachment).vertices;
 							else
-								vertices = ArrayUtils.allocFloat(vertexCount, true);
+								vertices = new Array<Float>();
 						} else {
-							var verticesValue:Vector<Float> = valueMap.getFloatArray("vertices", 1);
+							var verticesValue:Array<Float> = valueMap.getFloatArray("vertices", 1);
 							var start:Int = valueMap.getInt("offset");
 							var n:Int = verticesValue.length;
-							vertices = ArrayUtils.allocFloat(vertexCount, true);
+							vertices = new Array();
+							for (i in 0...vertexCount) { vertices[i] = 0; }
 							if (scale == 1) {
 								for (i in 0 ... n)
 									vertices[i + start] = verticesValue[i];
 							} else {
-								for (i in 0... n)
+								for (i in 0 ... n)
 									vertices[i + start] = verticesValue[i] * scale;
 							}
 							if (Std.is(attachment, MeshAttachment)) {
-								var meshVertices:Vector<Float> = cast(attachment, MeshAttachment).vertices;
+								var meshVertices:Array<Float> = cast(attachment, MeshAttachment).vertices;
 								for (i in 0 ... vertexCount)
 									vertices[i] += meshVertices[i];
 							}
@@ -483,7 +480,7 @@ class SkeletonJson {
 				}
 			}
 		}
-		
+
 		var drawOrderValues:Array<{slot:String, offset: Int}> = map.getNode("drawOrder");
 		if (drawOrderValues == null) drawOrderValues = map.getNode("draworder");
 		if (drawOrderValues != null && drawOrderValues.length > 0) {

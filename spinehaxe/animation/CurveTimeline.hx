@@ -1,10 +1,10 @@
 /******************************************************************************
  * Spine Runtimes Software License
  * Version 2.1
- * 
+ *
  * Copyright (c) 2013, Esoteric Software
  * All rights reserved.
- * 
+ *
  * You are granted a perpetual, non-exclusive, non-sublicensable and
  * non-transferable license to install, execute and perform the Spine Runtimes
  * Software (the "Software") solely for internal use. Without the written
@@ -15,7 +15,7 @@
  * trademark, patent or other intellectual property or proprietary rights
  * notices on or in the Software, including any copy thereof. Redistributions
  * in binary or source form must include this license and terms.
- * 
+ *
  * THIS SOFTWARE IS PROVIDED BY ESOTERIC SOFTWARE "AS IS" AND ANY EXPRESS OR
  * IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF
  * MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO
@@ -31,22 +31,22 @@ package spinehaxe.animation;
 
 import spinehaxe.Event;
 import spinehaxe.Skeleton;
-import openfl.Vector;
+import haxe.ds.Vector;
 
 /** Base class for frames that use an interpolation bezier curve. */
 class CurveTimeline implements Timeline {
+	public var frameCount(get, never):Int;
+
 	static inline var LINEAR:Int = 0;
 	static inline var STEPPED:Int = 1;
 	static inline var BEZIER:Int = 2;
 	static inline var BEZIER_SEGMENTS:Int = 10;
 	static inline var BEZIER_SIZE:Int = BEZIER_SEGMENTS * 2 - 1;
-	
-	public var frameCount(get, never):Int;
-	
+
 	var curves:Vector<Float>; // type, x, y, ...
 
 	public function new(frameCount:Int) {
-		curves = ArrayUtils.allocFloat((frameCount - 1) * BEZIER_SIZE, true);
+		curves = ArrayUtils.allocFloat((frameCount - 1) * BEZIER_SIZE);
 	}
 
 	public function apply(skeleton:Skeleton, lastTime:Float, time:Float, firedEvents:Array<Event>, alpha:Float):Void {

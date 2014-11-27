@@ -58,4 +58,6 @@ class BoundingBoxAttachment extends Attachment {
 			i += 2;
 		}
 	}
+
 }
+

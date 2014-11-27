@@ -1,10 +1,10 @@
 /******************************************************************************
  * Spine Runtimes Software License
  * Version 2.1
- * 
+ *
  * Copyright (c) 2013, Esoteric Software
  * All rights reserved.
- * 
+ *
  * You are granted a perpetual, non-exclusive, non-sublicensable and
  * non-transferable license to install, execute and perform the Spine Runtimes
  * Software (the "Software") solely for internal use. Without the written
@@ -15,7 +15,7 @@
  * trademark, patent or other intellectual property or proprietary rights
  * notices on or in the Software, including any copy thereof. Redistributions
  * in binary or source form must include this license and terms.
- * 
+ *
  * THIS SOFTWARE IS PROVIDED BY ESOTERIC SOFTWARE "AS IS" AND ANY EXPRESS OR
  * IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF
  * MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO
@@ -44,7 +44,7 @@ class AnimationState {
 	public var onComplete:Listeners;
 	public var onEvent:Listeners;
 	public var timeScale:Float = 1;
-	
+
 	public function new(data:AnimationStateData) {
 		tracks = new Array<TrackEntry>();
 		events = new Array<Event>();
@@ -60,12 +60,10 @@ class AnimationState {
 
 	public function update(delta:Float):Void {
 		delta *= timeScale;
-		var n:Int = tracks.length;
-		for (i in 0...n) {
+		for (i in 0...tracks.length) {
 			var current:TrackEntry = tracks[i];
-			if (current == null) {
+			if (current == null)
 				continue;
-			}
 
 			current.time += delta * current.timeScale;
 			if (current.previous != null) {
@@ -85,17 +83,15 @@ class AnimationState {
 			}
 		}
 	}
-	
+
 	public function apply(skeleton:Skeleton):Void {
-		var n:Int = tracks.length;
-		for (i in 0...n) {
+		for (i in 0...tracks.length) {
 			var current:TrackEntry = tracks[i];
-			if (current == null) {
+			if (current == null)
 				continue;
-			}
-			
+
 			events.splice(0, events.length);
-			
+
 			var time:Float = current.time;
 			var lastTime:Float = current.lastTime;
 			var endTime:Float = current.endTime;
@@ -135,7 +131,7 @@ class AnimationState {
 					current.onComplete(i, count);
 				onComplete.invoke(i, count);
 			}
-			
+
 			current.lastTime = current.time;
 		}
 	}
@@ -157,7 +153,6 @@ class AnimationState {
 		if (current.onEnd != null)
 			current.onEnd(trackIndex);
 		onEnd.invoke(trackIndex);
-		
 		tracks[trackIndex] = null;
 	}
 
@@ -209,7 +204,7 @@ class AnimationState {
 		setCurrent(trackIndex, entry);
 		return entry;
 	}
-	
+
 	public function addAnimationByName(trackIndex:Int, animationName:String, loop:Bool, delay:Float):TrackEntry {
 		var animation:Animation = data.skeletonData.findAnimation(animationName);
 		if (animation == null)
@@ -230,7 +225,7 @@ class AnimationState {
 			last.next = entry;
 		}
 		else tracks[trackIndex] = entry;
-		
+
 		if (delay <= 0) {
 			if (last != null)
 				delay += last.endTime - data.getMix(last.animation, animation)

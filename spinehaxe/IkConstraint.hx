@@ -31,12 +31,12 @@
 package spinehaxe;
 
 import spinehaxe.Exception.IllegalArgumentException;
-import openfl.Vector;
+import haxe.ds.Vector;
 
 class IkConstraint {
 	static var tempPosition:Vector<Float> = new Vector<Float>(2);
 	static var radDeg:Float = 180 / Math.PI;
-	
+
 	public var data:IkConstraintData;
 	public var bones:Array<Bone>;
 	public var target:Bone;

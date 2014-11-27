@@ -1,10 +1,10 @@
 /******************************************************************************
  * Spine Runtimes Software License
  * Version 2.1
- * 
+ *
  * Copyright (c) 2013, Esoteric Software
  * All rights reserved.
- * 
+ *
  * You are granted a perpetual, non-exclusive, non-sublicensable and
  * non-transferable license to install, execute and perform the Spine Runtimes
  * Software (the "Software") solely for internal use. Without the written
@@ -15,7 +15,7 @@
  * trademark, patent or other intellectual property or proprietary rights
  * notices on or in the Software, including any copy thereof. Redistributions
  * in binary or source form must include this license and terms.
- * 
+ *
  * THIS SOFTWARE IS PROVIDED BY ESOTERIC SOFTWARE "AS IS" AND ANY EXPRESS OR
  * IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF
  * MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO
@@ -32,7 +32,7 @@ package spinehaxe.animation;
 import spinehaxe.Event;
 import spinehaxe.Skeleton;
 import spinehaxe.Slot;
-import openfl.Vector;
+import haxe.ds.Vector;
 
 class EventTimeline implements Timeline {
 	public var frameCount(get, never):Int;
@@ -41,8 +41,8 @@ class EventTimeline implements Timeline {
 	public var events:Vector<Event>;
 
 	public function new(frameCount:Int) {
-		frames = ArrayUtils.allocFloat(frameCount, true);
-		events = new Vector<Event>(frameCount, true);
+		frames = ArrayUtils.allocFloat(frameCount);
+		events = new Vector<Event>(frameCount);
 	}
 
 	public function get_frameCount():Int {
@@ -64,8 +64,9 @@ class EventTimeline implements Timeline {
 			apply(skeleton, lastTime, 32767, firedEvents, alpha);
 			lastTime = -1;
 		}
+
 		else if (lastTime >= frames[frameCount - 1])
-			return;	// Last time is after last frame.
+			return; // Last time is after last frame.
 		if (time < frames[0])
 			return;
 		// Time is before first frame.
@@ -81,8 +82,9 @@ class EventTimeline implements Timeline {
 					break;
 				frameIndex--;
 			}
+
 		}
-		
+
 		while(frameIndex < frameCount && time >= frames[frameIndex]) {
 			firedEvents.push(events[frameIndex]);
 			frameIndex++;
