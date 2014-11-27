@@ -241,7 +241,7 @@ class SkeletonSprite extends Sprite {
 				{
 					bitmapData = cast atlasRegion.page.rendererObject;
 					graphics.beginBitmapFill(bitmapData, null, false, true);
-					
+					#if flash
 					worldVertices.splice(0, worldVertices.length);
 					for (i in 0...verticesLength)
 					{
@@ -249,6 +249,9 @@ class SkeletonSprite extends Sprite {
 					}
 					
 					graphics.drawTriangles(worldVertices, triangles, uvs);
+					#else
+					graphics.drawTriangles(_tempVerticesArray, triangles, uvs);
+					#end
 					graphics.endFill();
 				}
 			}
