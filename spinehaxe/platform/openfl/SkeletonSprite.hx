@@ -62,7 +62,11 @@ class SkeletonSprite extends Sprite {
 	
 	private var _tempVertices:Vector<Float>;
 	private var _tempVerticesArray:Array<Float>;
+	#if flash
 	private var _quadTriangles:Vector<Int>;
+	#else
+	private var _quadTriangles:Array<Int>;
+	#end
 	
 	public function new (skeletonData:SkeletonData, renderMeshes:Bool = false) {
 		super();
@@ -74,7 +78,11 @@ class SkeletonSprite extends Sprite {
 			_tempVertices = ArrayUtils.allocFloat(8);
 			_tempVertices.fixed = false;
 			_tempVerticesArray = new Array<Float>();
+			#if flash
 			_quadTriangles = new Vector<Int>();
+			#else
+			_quadTriangles = new Vector<Int>();
+			#end
 			_quadTriangles[0] = 0;// = Vector.fromArray([0, 1, 2, 2, 3, 0]);
 			_quadTriangles[1] = 1;
 			_quadTriangles[2] = 2;
@@ -187,8 +195,13 @@ class SkeletonSprite extends Sprite {
 		var drawOrder:Array<Slot> = skeleton.drawOrder;
 		var n:Int = drawOrder.length;
 		var worldVertices:Vector<Float> = _tempVertices;
+		#if flash
 		var triangles:Vector<Int> = null;
 		var uvs:Vector<Float> = null;
+		#else
+		var triangles:Array<Int> = null;
+		var uvs:Array<Float> = null;
+		#end
 		var verticesLength:Int = 0;
 		var atlasRegion:AtlasRegion;
 		var bitmapData:BitmapData = null;
