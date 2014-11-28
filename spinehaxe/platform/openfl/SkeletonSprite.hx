@@ -71,6 +71,26 @@ class SkeletonSprite extends Sprite {
 	public function new (skeletonData:SkeletonData, renderMeshes:Bool = false) {
 		super();
 		
+		Bone.yDown = true;
+
+		skeleton = new Skeleton(skeletonData);
+		skeleton.updateWorldTransform();
+		
+		var drawOrder:Array<Slot> = skeleton.drawOrder;
+		for (slot in drawOrder) 
+		{
+			if (slot.attachment == null)
+			{
+				continue;
+			}
+			
+			if (Std.is(slot.attachment, MeshAttachment) || Std.is(slot.attachment, SkinnedMeshAttachment))
+			{
+				renderMeshes = true;
+				break;
+			}
+		}
+		
 		this.renderMeshes = renderMeshes;
 		
 		if (renderMeshes)
@@ -90,12 +110,7 @@ class SkeletonSprite extends Sprite {
 			_quadTriangles[4] = 3;
 			_quadTriangles[5] = 0;
 		}
-
-		Bone.yDown = true;
-
-		skeleton = new Skeleton(skeletonData);
-		skeleton.updateWorldTransform();
-
+		
 		addEventListener(Event.ENTER_FRAME, enterFrame);
 	}
 
