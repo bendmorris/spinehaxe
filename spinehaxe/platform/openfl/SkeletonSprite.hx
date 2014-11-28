@@ -101,7 +101,7 @@ class SkeletonSprite extends Sprite {
 			#if flash
 			_quadTriangles = new Vector<Int>();
 			#else
-			_quadTriangles = new Vector<Int>();
+			_quadTriangles = new Array<Int>();
 			#end
 			_quadTriangles[0] = 0;// = Vector.fromArray([0, 1, 2, 2, 3, 0]);
 			_quadTriangles[1] = 1;
