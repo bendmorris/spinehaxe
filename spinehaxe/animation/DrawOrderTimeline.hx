@@ -32,7 +32,7 @@ package spinehaxe.animation;
 import spinehaxe.Event;
 import spinehaxe.Skeleton;
 import spinehaxe.Slot;
-import openfl.Vector;
+import haxe.ds.Vector;
 
 class DrawOrderTimeline implements Timeline {
 	public var frameCount(get, never):Int;
@@ -41,8 +41,8 @@ class DrawOrderTimeline implements Timeline {
 	public var drawOrders:Vector<Vector<Int>>;
 
 	public function new(frameCount:Int) {
-		frames = ArrayUtils.allocFloat(frameCount, true);
-		drawOrders = new Vector<Vector<Int>>(frameCount, true);
+		frames = ArrayUtils.allocFloat(frameCount);
+		drawOrders = new Vector<Vector<Int>>(frameCount);
 	}
 
 	public function get_frameCount():Int {
@@ -54,7 +54,7 @@ class DrawOrderTimeline implements Timeline {
 		frames[frameIndex] = time;
 		drawOrders[frameIndex] = drawOrder;
 	}
-	
+
 	public function apply(skeleton:Skeleton, lastTime:Float, time:Float, firedEvents:Array<Event>, alpha:Float):Void {
 		if (time < frames[0])
 			return;
@@ -73,9 +73,13 @@ class DrawOrderTimeline implements Timeline {
 			for (slot in skeleton.slots)
 				drawOrder[i++] = slot;
 		}
+
 		else  {
 			for (setupIndex in drawOrderToSetupIndex)
 				drawOrder[i++] = skeleton.slots[setupIndex];
 		}
+
 	}
+
 }
+

@@ -32,7 +32,8 @@ package spinehaxe.atlas;
 
 import spinehaxe.atlas.Format;
 import spinehaxe.Exception.IllegalArgumentException;
-import openfl.Vector;
+import haxe.ds.Vector;
+
 
 class Atlas {
 	private var pages:Array<AtlasPage> = new Array<AtlasPage>();
@@ -50,7 +51,7 @@ class Atlas {
 		this.textureLoader = textureLoader;
 
 		var reader:Reader = new Reader(atlasText);
-		var tuple:Array<String> = new Array<String>();
+		var tuple:Array<String> = new Array();
 		var page:AtlasPage = null;
 		while (true) {
 			var line:String = reader.readLine();

@@ -51,8 +51,8 @@ class Skeleton {
 	public var time:Float = 0;
 	public var flipX:Bool = false;
 	public var flipY:Bool = false;
-	public var x:Float = 0;
-	public var y:Float = 0;
+	public var x(default, set):Float = 0;
+	public var y(default, set):Float = 0;
 
 	public function new(data:SkeletonData) {
 		if (data == null)
@@ -61,7 +61,7 @@ class Skeleton {
 
 		bones = new Array<Bone>();
 		for (boneData in data.bones) {
-			var parent:Bone = (boneData.parent == null) ? null : bones[data.bones.indexOf(boneData.parent)];
+			var parent:Bone = boneData.parent == (null) ? null : bones[data.bones.indexOf(boneData.parent)];
 			bones[bones.length] = new Bone(boneData, this, parent);
 		}
 
@@ -249,6 +249,16 @@ class Skeleton {
 		}
 		return skin = newSkin;
 	}
+	
+	private function set_x(value:Float):Float
+	{
+		return x = value;
+	}
+	
+	private function set_y(value:Float):Float
+	{
+		return y = value;
+	}
 
 	/** @return May be null. */
 	public function getAttachmentForSlotName(slotName:String, attachmentName:String):Attachment {
@@ -306,4 +316,6 @@ class Skeleton {
 	public function toString():String {
 		return (data.name != null) ? data.name : ("" + this);
 	}
+
 }
+

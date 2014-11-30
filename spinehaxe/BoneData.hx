@@ -61,4 +61,6 @@ class BoneData {
 	public function toString():String {
 		return name;
 	}
+
 }
+

@@ -66,6 +66,9 @@ class AnimationStateData {
 		var key = from.name + ":" + to.name;
 		if (!animationToMixTime.exists(key))
 			return defaultMix;
+		
 		return animationToMixTime[key];
 	}
+
 }
+

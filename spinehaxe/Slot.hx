@@ -29,7 +29,7 @@
  *****************************************************************************/
 package spinehaxe;
 
-import openfl.Vector;
+import haxe.ds.Vector;
 import spinehaxe.attachments.Attachment;
 import spinehaxe.Exception;
 using Lambda;
@@ -46,7 +46,7 @@ class Slot {
 	public var b:Float = 0;
 	public var a:Float = 0;
 	var _attachmentTime:Float = 0;
-	public var attachmentVertices:Vector<Float> = new Vector<Float>();
+	public var attachmentVertices:Array<Float> = new Array();
 
 	public function new(data:SlotData, bone:Bone) {
 		if (data == null) throw new IllegalArgumentException("data cannot be null.");
@@ -91,4 +91,6 @@ class Slot {
 	public function toString():String {
 		return data.name;
 	}
+
 }
+

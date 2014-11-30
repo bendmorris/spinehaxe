@@ -32,7 +32,7 @@ package spinehaxe.animation;
 import spinehaxe.Event;
 import spinehaxe.Skeleton;
 import spinehaxe.Slot;
-import openfl.Vector;
+import haxe.ds.Vector;
 
 class EventTimeline implements Timeline {
 	public var frameCount(get, never):Int;
@@ -41,8 +41,8 @@ class EventTimeline implements Timeline {
 	public var events:Vector<Event>;
 
 	public function new(frameCount:Int) {
-		frames = ArrayUtils.allocFloat(frameCount, true);
-		events = new Vector<Event>(frameCount, true);
+		frames = ArrayUtils.allocFloat(frameCount);
+		events = new Vector<Event>(frameCount);
 	}
 
 	public function get_frameCount():Int {
@@ -64,8 +64,9 @@ class EventTimeline implements Timeline {
 			apply(skeleton, lastTime, 32767, firedEvents, alpha);
 			lastTime = -1;
 		}
+
 		else if (lastTime >= frames[frameCount - 1])
-			return;	// Last time is after last frame.
+			return; // Last time is after last frame.
 		if (time < frames[0])
 			return;
 		// Time is before first frame.
@@ -81,11 +82,14 @@ class EventTimeline implements Timeline {
 					break;
 				frameIndex--;
 			}
+
 		}
-		
+
 		while(frameIndex < frameCount && time >= frames[frameIndex]) {
 			firedEvents.push(events[frameIndex]);
 			frameIndex++;
 		}
 	}
+
 }
+

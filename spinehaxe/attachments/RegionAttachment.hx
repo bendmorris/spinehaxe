@@ -31,7 +31,7 @@
 package spinehaxe.attachments;
 
 import spinehaxe.Bone;
-import openfl.Vector;
+import haxe.ds.Vector;
 
 class RegionAttachment extends Attachment implements Dynamic<Dynamic> {
 	public static inline var X1:Int = 0;
@@ -65,12 +65,13 @@ class RegionAttachment extends Attachment implements Dynamic<Dynamic> {
 	public var regionOriginalHeight:Float = 0;
 
 	public var offset:Vector<Float>;
-	public var uvs:Vector<Float>;
+	public var uvs:Array<Float>;
 
 	public function new (name:String) {
 		super(name);
 		offset = ArrayUtils.allocFloat(8);
-		uvs = ArrayUtils.allocFloat(8);
+		uvs = new Array();
+		for (i in 0...8) { uvs[i] = 0; }
 	}
 
 	public function setUVs (u:Float, v:Float, u2:Float, v2:Float, rotate:Bool) : Void {
@@ -123,7 +124,7 @@ class RegionAttachment extends Attachment implements Dynamic<Dynamic> {
 		offset[Y4] = localYCos + localX2Sin;
 	}
 
-	public function computeWorldVertices (x:Float, y:Float, bone:Bone, worldVertices:Vector<Float>) : Void {
+	public function computeWorldVertices (x:Float, y:Float, bone:Bone, worldVertices:Array<Float>) : Void {
 		x += bone.worldX;
 		y += bone.worldY;
 		var m00:Float = bone.m00;
@@ -138,7 +139,6 @@ class RegionAttachment extends Attachment implements Dynamic<Dynamic> {
 		var y3:Float = offset[Y3];
 		var x4:Float = offset[X4];
 		var y4:Float = offset[Y4];
-		
 		worldVertices[X1] = x1 * m00 + y1 * m01 + x;
 		worldVertices[Y1] = x1 * m10 + y1 * m11 + y;
 		worldVertices[X2] = x2 * m00 + y2 * m01 + x;

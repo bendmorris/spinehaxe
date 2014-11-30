@@ -32,13 +32,14 @@ package spinehaxe.attachments;
 
 import spinehaxe.Slot;
 import spinehaxe.Bone;
-import openfl.Vector;
+
+import haxe.ds.Vector;
 
 class MeshAttachment extends Attachment {
-	public var vertices:Vector<Float>;
-	public var uvs:Vector<Float>;
-	public var regionUVs:Vector<Float>;
-	public var triangles:Vector<Int>;
+	public var vertices:Array<Float>;
+	public var uvs:Array<Float>;
+	public var regionUVs:Array<Float>;
+	public var triangles:Array<Int>;
 	public var hullLength:Int = 0;
 	public var r:Float = 1;
 	public var g:Float = 1;
@@ -71,7 +72,7 @@ class MeshAttachment extends Attachment {
 	public function updateUVs () : Void {
 		var width:Float = regionU2 - regionU, height:Float = regionV2 - regionV;
 		var n:Int = regionUVs.length;
-		if (uvs == null || uvs.length != n) uvs = ArrayUtils.allocFloat(n, true);
+		if (uvs == null || uvs.length != n) uvs = new Array<Float>();
 		if (regionRotate) {
 			var i = 0;
 			while (i < n) {
@@ -89,7 +90,7 @@ class MeshAttachment extends Attachment {
 		}
 	}
 
-	public function computeWorldVertices (x:Float, y:Float, slot:Slot, worldVertices:Vector<Float>) : Void {
+	public function computeWorldVertices (x:Float, y:Float, slot:Slot, worldVertices:Array<Float>) : Void {
 		var bone:Bone = slot.bone;
 		x += bone.worldX;
 		y += bone.worldY;
@@ -97,7 +98,7 @@ class MeshAttachment extends Attachment {
 		var m01:Float = bone.m01;
 		var m10:Float = bone.m10;
 		var m11:Float = bone.m11;
-		var vertices:Vector<Float> = this.vertices;
+		var vertices:Array<Float> = this.vertices;
 		var verticesCount:Int = vertices.length;
 		if (slot.attachmentVertices.length == verticesCount) vertices = slot.attachmentVertices;
 		var i = 0, ii = 0;

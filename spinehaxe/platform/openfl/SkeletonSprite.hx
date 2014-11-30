@@ -30,10 +30,12 @@
 
 package spinehaxe.platform.openfl;
 
+import openfl.display.TriangleCulling;
 import openfl.display.Bitmap;
 import openfl.display.BitmapData;
 import openfl.display.BlendMode;
 import openfl.display.Sprite;
+import openfl.display.Tilesheet;
 import openfl.events.Event;
 import openfl.geom.ColorTransform;
 import openfl.geom.Matrix;
@@ -61,30 +63,55 @@ class SkeletonSprite extends Sprite {
 	public var renderMeshes(default, set):Bool;
 	
 	private var _tempVertices:Vector<Float>;
+	private var _tempVerticesArray:Array<Float>;
+	#if flash
 	private var _quadTriangles:Vector<Int>;
+	#else
+	private var _quadTriangles:Array<Int>;
+	private var _colors:Array<Int>;
+	#end
 	
 	public function new (skeletonData:SkeletonData, renderMeshes:Bool = false) {
 		super();
 		
-		this.renderMeshes = renderMeshes;
-		
-		if (renderMeshes)
-		{
-			_tempVertices = new Vector<Float>(8);		
-			_quadTriangles = new Vector<Int>();
-			_quadTriangles[0] = 0;// = Vector.fromArray([0, 1, 2, 2, 3, 0]);
-			_quadTriangles[1] = 1;
-			_quadTriangles[2] = 2;
-			_quadTriangles[3] = 2;
-			_quadTriangles[4] = 3;
-			_quadTriangles[5] = 0;
-		}
-
 		Bone.yDown = true;
 
 		skeleton = new Skeleton(skeletonData);
 		skeleton.updateWorldTransform();
-
+		
+		var drawOrder:Array<Slot> = skeleton.drawOrder;
+		for (slot in drawOrder) 
+		{
+			if (slot.attachment == null)
+			{
+				continue;
+			}
+			
+			if (Std.is(slot.attachment, MeshAttachment) || Std.is(slot.attachment, SkinnedMeshAttachment))
+			{
+				renderMeshes = true;
+				break;
+			}
+		}
+		
+		this.renderMeshes = renderMeshes;
+		
+		_tempVertices = ArrayUtils.allocFloat(8);
+		_tempVertices.fixed = false;
+		_tempVerticesArray = new Array<Float>();
+		#if flash
+		_quadTriangles = new Vector<Int>();
+		#else
+		_quadTriangles = new Array<Int>();
+		_colors = new Array<Int>();
+		#end
+		_quadTriangles[0] = 0;// = Vector.fromArray([0, 1, 2, 2, 3, 0]);
+		_quadTriangles[1] = 1;
+		_quadTriangles[2] = 2;
+		_quadTriangles[3] = 2;
+		_quadTriangles[4] = 3;
+		_quadTriangles[5] = 0;
+		
 		addEventListener(Event.ENTER_FRAME, enterFrame);
 	}
 
@@ -184,12 +211,21 @@ class SkeletonSprite extends Sprite {
 		var drawOrder:Array<Slot> = skeleton.drawOrder;
 		var n:Int = drawOrder.length;
 		var worldVertices:Vector<Float> = _tempVertices;
+		#if flash
 		var triangles:Vector<Int> = null;
 		var uvs:Vector<Float> = null;
-		var verticesLength:Int;
+		#else
+		var triangles:Array<Int> = null;
+		var uvs:Array<Float> = null;
+		#end
+		var verticesLength:Int = 0;
+		var numVertices:Int;
 		var atlasRegion:AtlasRegion;
 		var bitmapData:BitmapData = null;
 		var slot:Slot;
+		var r:Float = 0, g:Float = 0, b:Float = 0, a:Float = 0;
+		var color:Int;
+		var blend:Int;
 		
 		graphics.clear();
 		
@@ -208,37 +244,76 @@ class SkeletonSprite extends Sprite {
 					var region:RegionAttachment = cast slot.attachment;
 					verticesLength = 8;
 					if (worldVertices.length < verticesLength) worldVertices.length = verticesLength;
-					region.computeWorldVertices(0, 0, slot.bone, worldVertices);
+					region.computeWorldVertices(0, 0, slot.bone, _tempVerticesArray);
 					uvs = region.uvs;
 					triangles = _quadTriangles;
 					atlasRegion = cast(region.rendererObject, AtlasRegion);
+					
+					r = region.r;
+					g = region.g;
+					b = region.b;
+					a = region.a;
 				}
 				else if (Std.is(slot.attachment, MeshAttachment)) 
 				{
 					var mesh:MeshAttachment = cast(slot.attachment, MeshAttachment);
 					verticesLength = mesh.vertices.length;
 					if (worldVertices.length < verticesLength) worldVertices.length = verticesLength;
-					mesh.computeWorldVertices(0, 0, slot, worldVertices);
+					mesh.computeWorldVertices(0, 0, slot, _tempVerticesArray);
 					uvs = mesh.uvs;
 					triangles = mesh.triangles;
 					atlasRegion = cast(mesh.rendererObject, AtlasRegion);
+					
+					r = mesh.r;
+					g = mesh.g;
+					b = mesh.b;
+					a = mesh.a;
 				}
 				else if (Std.is(slot.attachment, SkinnedMeshAttachment))
 				{
 					var skinnedMesh:SkinnedMeshAttachment = cast(slot.attachment, SkinnedMeshAttachment);
 					verticesLength = skinnedMesh.uvs.length;
 					if (worldVertices.length < verticesLength) worldVertices.length = verticesLength;
-					skinnedMesh.computeWorldVertices(0, 0, slot, worldVertices);
+					skinnedMesh.computeWorldVertices(0, 0, slot, _tempVerticesArray);
 					uvs = skinnedMesh.uvs;
 					triangles = skinnedMesh.triangles;
 					atlasRegion = cast(skinnedMesh.rendererObject, AtlasRegion);
+					
+					r = skinnedMesh.r;
+					g = skinnedMesh.g;
+					b = skinnedMesh.b;
+					a = skinnedMesh.a;
 				}
 				
 				if (atlasRegion != null)
 				{
 					bitmapData = cast atlasRegion.page.rendererObject;
 					graphics.beginBitmapFill(bitmapData, null, false, true);
+					#if flash
+					worldVertices.splice(0, worldVertices.length);
+					for (i in 0...verticesLength)
+					{
+						worldVertices[i] = _tempVerticesArray[i];
+					}
+					
 					graphics.drawTriangles(worldVertices, triangles, uvs);
+					#else
+					color = Std.int(skeleton.a * slot.a * a * 255) << 24 | Std.int(skeleton.r * slot.r * r * 255) << 16 | Std.int(skeleton.g * slot.g * g * 255) << 8 | Std.int(skeleton.b * slot.b * b * 255);
+					numVertices = Std.int(verticesLength / 2);
+					for (i in 0...numVertices)
+					{
+						_colors[i] = color;
+					}
+					
+					if (_colors.length - numVertices > 0)
+					{
+						_colors.splice(numVertices, _colors.length - numVertices);
+					}
+					
+					blend = slot.data.additiveBlending ? Tilesheet.TILE_BLEND_ADD : Tilesheet.TILE_BLEND_NORMAL;
+					
+					graphics.drawTriangles(_tempVerticesArray, triangles, uvs, TriangleCulling.NONE, _colors, blend);
+					#end
 					graphics.endFill();
 				}
 			}

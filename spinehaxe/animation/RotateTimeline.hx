@@ -32,7 +32,7 @@ package spinehaxe.animation;
 import spinehaxe.Bone;
 import spinehaxe.Event;
 import spinehaxe.Skeleton;
-import openfl.Vector;
+import haxe.ds.Vector;
 
 class RotateTimeline extends CurveTimeline {
 
@@ -43,7 +43,7 @@ class RotateTimeline extends CurveTimeline {
 
 	public function new(frameCount:Int) {
 		super(frameCount);
-		frames = ArrayUtils.allocFloat(frameCount * 2, true);
+		frames = ArrayUtils.allocFloat(frameCount * 2);
 	}
 
 	/** Sets the time and angle of the specified keyframe. */
@@ -62,8 +62,8 @@ class RotateTimeline extends CurveTimeline {
 		if (time >= frames[frames.length - 2]) {
 			// Time is after last frame.
 			amount = bone.data.rotation + frames[frames.length - 1] - bone.rotation;
-			while (amount > 180) amount -= 360;
-			while (amount < -180) amount += 360;
+			while(amount > 180) amount -= 360;
+			while(amount < -180) amount += 360;
 			bone.rotation += amount * alpha;
 			return;
 		}
@@ -81,4 +81,6 @@ class RotateTimeline extends CurveTimeline {
 		while(amount < -180)amount += 360;
 		bone.rotation += amount * alpha;
 	}
+
 }
+
