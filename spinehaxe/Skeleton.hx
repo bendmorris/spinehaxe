@@ -51,8 +51,8 @@ class Skeleton {
 	public var time:Float = 0;
 	public var flipX:Bool = false;
 	public var flipY:Bool = false;
-	public var x:Float = 0;
-	public var y:Float = 0;
+	public var x(default, set):Float = 0;
+	public var y(default, set):Float = 0;
 
 	public function new(data:SkeletonData) {
 		if (data == null)
@@ -248,6 +248,16 @@ class Skeleton {
 			}
 		}
 		return skin = newSkin;
+	}
+	
+	private function set_x(value:Float):Float
+	{
+		return x = value;
+	}
+	
+	private function set_y(value:Float):Float
+	{
+		return y = value;
 	}
 
 	/** @return May be null. */
