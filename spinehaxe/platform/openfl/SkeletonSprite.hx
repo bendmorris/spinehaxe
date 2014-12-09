@@ -298,6 +298,11 @@ class SkeletonSprite extends Sprite {
 
 					graphics.drawTriangles(worldVertices, triangles, uvs);
 					#else
+					if (_tempVerticesArray.length - verticesLength > 0)
+					{
+						_tempVerticesArray.splice(verticesLength, _tempVerticesArray.length - verticesLength);
+					}
+					
 					color = Std.int(skeleton.a * slot.a * a * 255) << 24 | Std.int(skeleton.r * slot.r * r * 255) << 16 | Std.int(skeleton.g * slot.g * g * 255) << 8 | Std.int(skeleton.b * slot.b * b * 255);
 					numVertices = Std.int(verticesLength / 2);
 					for (i in 0...numVertices)
