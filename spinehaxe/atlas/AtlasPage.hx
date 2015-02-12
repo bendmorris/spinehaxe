@@ -42,4 +42,6 @@ class AtlasPage {
 	public var rendererObject:Dynamic;
 	public var width:Int = 0;
 	public var height:Int = 0;
+
+	public function new() {}
 }

@@ -65,7 +65,7 @@ class Skin {
 			var slotAttachment:Attachment = slot.attachment;
 			if (slotAttachment != null && slotIndex < oldSkin.attachments.length) {
 				var dictionary:Map<String, Attachment> = oldSkin.attachments[slotIndex];
-				for (name in dictionary.keys()) {
+				if (dictionary != null) for (name in dictionary.keys()) {
 					var skinAttachment:Attachment = dictionary[name];
 					if (slotAttachment == skinAttachment) {
 						var attachment:Attachment = getAttachment(slotIndex, name);

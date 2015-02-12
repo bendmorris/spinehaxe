@@ -282,7 +282,8 @@ class SkeletonJson {
 			return skinnedMesh;
 		case AttachmentType.BoundingBox:
 			var box:BoundingBoxAttachment = attachmentLoader.newBoundingBoxAttachment(skin, name);
-			for (point in map.getFloatArray("vertices", 1)) {
+			var vertices:Array<Float> = map.getFloatArray("vertices", 1);
+			for (point in vertices) {
 				box.vertices.push(point * scale);
       }
 			return box;

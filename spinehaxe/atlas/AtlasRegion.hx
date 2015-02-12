@@ -50,4 +50,6 @@ class AtlasRegion {
 	public var splits:Array<Int>;
 	public var pads:Array<Int>;
 	public var rendererObject:Dynamic;
+
+	public function new() {}
 }
