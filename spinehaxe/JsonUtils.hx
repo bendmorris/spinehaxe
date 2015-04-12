@@ -54,8 +54,8 @@ class JsonUtils {
 		return cast value;
 	}
 
-	static private function getFloatArray (map:JsonNode, name:String, scale:Float) : Array<Float> {
-		var values:Array<Float> = getDynamic(map, name);
+	public static function getFloatArray (map:JsonNode, name:String, scale:Float) : Array<Float> {
+		var values:Array<Float> = cast getDynamic(map, name);
 		if (scale != 1) {
 			for (i in 0 ... values.length)
 				values[i] *= scale;
@@ -63,11 +63,11 @@ class JsonUtils {
 		return values;
 	}
 
-	static private function getIntArray (map:JsonNode, name:String) : Array<Int> {
+	public static function getIntArray (map:JsonNode, name:String) : Array<Int> {
 		return cast getDynamic(map, name);
 	}
 
-	static private function getUintArray (map:JsonNode, name:String) : Array<UInt> {
+	public static function getUintArray (map:JsonNode, name:String) : Array<UInt> {
 		return cast getDynamic(map, name);
 	}
 
