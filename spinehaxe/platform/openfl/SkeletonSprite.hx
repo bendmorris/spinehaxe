@@ -114,6 +114,24 @@ class SkeletonSprite extends Sprite {
 
 		addEventListener(Event.ENTER_FRAME, enterFrame);
 	}
+	
+	public function destroy():Void {
+		removeEventListener(Event.ENTER_FRAME, enterFrame);
+		removeChildren();
+		graphics.clear();
+	}
+	
+	public function start():Void {
+		if (!hasEventListener(Event.ENTER_FRAME)) {
+			addEventListener(Event.ENTER_FRAME, enterFrame);
+		}
+	}
+
+	public function stop():Void {
+		if (hasEventListener(Event.ENTER_FRAME)) {
+			removeEventListener(Event.ENTER_FRAME, enterFrame);
+		}
+	}
 
 	private function enterFrame (event:Event) : Void {
 		var time:Int = Std.int(haxe.Timer.stamp() * 1000);
