@@ -77,6 +77,7 @@ class SkeletonBounds {
 			else polygon = new Polygon();
 
 			polygons.push(polygon);
+			polygon.vertices.splice(boundingBox.vertices.length, polygon.vertices.length - boundingBox.vertices.length);
 			boundingBox.computeWorldVertices(x, y, slot.bone, polygon.vertices);
 		}
 		if (updateAabb)
