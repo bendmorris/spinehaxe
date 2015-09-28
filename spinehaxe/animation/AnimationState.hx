@@ -137,11 +137,11 @@ class AnimationState {
 	}
 
 	public function clearTracks():Void {
-		var n:Int = tracks.length;
-		for (i in 0...n) {
+		for (i in 0 ... tracks.length) {
 			clearTrack(i);
 		}
-		tracks = new Array();
+		while (tracks.length > 0)
+			tracks.pop();
 	}
 
 	public function clearTrack(trackIndex:Int):Void {
@@ -159,7 +159,7 @@ class AnimationState {
 	function expandToIndex(index:Int):TrackEntry {
 		if (index < tracks.length)
 			return tracks[index];
-		while(index >= tracks.length)tracks[tracks.length] = null;
+		while (index >= tracks.length) tracks[tracks.length] = null;
 		return null;
 	}
 
@@ -221,7 +221,7 @@ class AnimationState {
 		entry.endTime = animation.duration;
 		var last:TrackEntry = expandToIndex(trackIndex);
 		if (last != null) {
-			while(last.next != null)last = last.next;
+			while (last.next != null) last = last.next;
 			last.next = entry;
 		}
 		else tracks[trackIndex] = entry;
