@@ -55,7 +55,7 @@ class SkeletonData {
 	public function addBone(bone:BoneData):Void {
 		if (bone == null)
 			throw new IllegalArgumentException("bone cannot be null.");
-		bones[bones.length] = bone;
+		bones.push(bone);
 	}
 
 	/** @return May be null. */

@@ -52,7 +52,7 @@ class IkConstraint {
 
 		bones = new Array<Bone>();
 		for (boneData in data.bones)
-			bones[bones.length] = skeleton.findBone(boneData.name);
+			bones.push(skeleton.findBone(boneData.name));
 		target = skeleton.findBone(data.target.name);
 	}
 

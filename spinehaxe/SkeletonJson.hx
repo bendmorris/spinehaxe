@@ -51,9 +51,8 @@ import spinehaxe.attachments.BoundingBoxAttachment;
 import spinehaxe.attachments.MeshAttachment;
 import spinehaxe.attachments.RegionAttachment;
 import spinehaxe.attachments.SkinnedMeshAttachment;
-import spinehaxe.JsonUtils;
 import haxe.ds.Vector;
-using spinehaxe.JsonUtils;
+
 
 class SkeletonJson {
 	public var attachmentLoader:AttachmentLoader;
@@ -66,14 +65,14 @@ class SkeletonJson {
 	public function readSkeletonData (object:String, name:String = null) : SkeletonData {
 		if (object == null) throw new IllegalArgumentException("object cannot be null.");
 
-		var root:Dynamic = JsonUtils.parse(object);
+		var root:JsonNode = JsonNode.parse(object);
 
 		var skeletonData:SkeletonData = new SkeletonData();
 		skeletonData.name = name;
 
 		// Skeleton.
 		if (root.hasOwnProperty("skeleton")) {
-			var skeletonMap:Dynamic = root.skeleton;
+			var skeletonMap:JsonNode = root.getNode("skeleton");
 			skeletonData.hash = skeletonMap.getStr("hash");
 			skeletonData.version = skeletonMap.getStr("spine");
 			skeletonData.width = skeletonMap.getFloat('width');
@@ -81,7 +80,6 @@ class SkeletonJson {
 		}
 
 		// Bones.
-		var boneData:BoneData;
 		for (boneMap in root.getNodesArray("bones")) {
 			var parent:BoneData = null;
 			var parentName:String = boneMap.getStr("parent");
@@ -89,7 +87,7 @@ class SkeletonJson {
 				parent = skeletonData.findBone(parentName);
 				if (parent == null) throw "Parent bone not found: " + parentName;
 			}
-			boneData = new BoneData(boneMap.name, parent);
+			var boneData = new BoneData(boneMap.getStr("name"), parent);
 			boneData.length = boneMap.getFloat("length", 0) * scale;
 			boneData.x = boneMap.getFloat("x") * scale;
 			boneData.y = boneMap.getFloat("y") * scale;
@@ -100,7 +98,7 @@ class SkeletonJson {
 			boneData.flipY = boneMap.getBool("flipY", false);
 			boneData.inheritScale = boneMap.getBool("inheritScale", true);
 			boneData.inheritRotation = boneMap.getBool("inheritRotation", true);
-			skeletonData.bones[skeletonData.bones.length] = boneData;
+			skeletonData.bones.push(boneData);
 		}
 
 		// IK constraints.
@@ -108,10 +106,10 @@ class SkeletonJson {
 			for (ikMap in root.getNodesArray("ik")) {
 				var ikConstraintData:IkConstraintData = new IkConstraintData(ikMap.getStr("name"));
 
-				for (boneName in ikMap.getNodesArray("bones")) {
+				for (boneName in ikMap.getStrArray("bones")) {
 					var bone:BoneData = skeletonData.findBone(boneName);
 					if (bone == null) throw "IK bone not found: " + boneName;
-					ikConstraintData.bones[ikConstraintData.bones.length] = bone;
+					ikConstraintData.bones.push(bone);
 				}
 
 				ikConstraintData.target = skeletonData.findBone(ikMap.getStr("target"));
@@ -120,14 +118,14 @@ class SkeletonJson {
 				ikConstraintData.bendDirection = ikMap.getBool("bendPositive", true) ? 1 : -1;
 				ikConstraintData.mix = ikMap.getFloat("mix", 1);
 
-				skeletonData.ikConstraints[skeletonData.ikConstraints.length] = ikConstraintData;
+				skeletonData.ikConstraints.push(ikConstraintData);
 			}
 		}
 
 		// Slots.
 		for (slotMap in root.getNodesArray("slots")) {
 			var boneName = slotMap.getStr("bone");
-			boneData = skeletonData.findBone(boneName);
+			var boneData = skeletonData.findBone(boneName);
 			if (boneData == null) throw "Slot bone not found: " + boneName;
 			var slotData:SlotData = new SlotData(slotMap.getStr("name"), boneData);
 
@@ -142,7 +140,7 @@ class SkeletonJson {
 			slotData.attachmentName = slotMap.getStr("attachment");
 			slotData.additiveBlending = slotMap.getBool("additive");
 
-			skeletonData.slots[skeletonData.slots.length] = slotData;
+			skeletonData.slots.push(slotData);
 		}
 
 		// Skins.
@@ -152,14 +150,14 @@ class SkeletonJson {
 			var skin:Skin = new Skin(skinName);
 			for (slotName in skinMap.fields()) {
 				var slotIndex:Int = skeletonData.findSlotIndex(slotName);
-				var slotEntry:Dynamic = skinMap.getNode(slotName);
+				var slotEntry:JsonNode = skinMap.getNode(slotName);
 				for (attachmentName in slotEntry.fields()) {
 					var attachment:Attachment = readAttachment(skin, attachmentName, slotEntry.getNode(attachmentName));
 					if (attachment != null)
 						skin.addAttachment(slotIndex, attachmentName, attachment);
 				}
 			}
-			skeletonData.skins[skeletonData.skins.length] = skin;
+			skeletonData.skins.push(skin);
 			if (skin.name == "default")
 				skeletonData.defaultSkin = skin;
 		}
@@ -173,7 +171,7 @@ class SkeletonJson {
 				eventData.intValue = eventMap.getInt("int");
 				eventData.floatValue = eventMap.getFloat("float");
 				eventData.stringValue = eventMap.getStr("string");
-				skeletonData.events[skeletonData.events.length] = eventData;
+				skeletonData.events.push(eventData);
 			}
 		}
 
@@ -185,7 +183,7 @@ class SkeletonJson {
 		return skeletonData;
 	}
 
-	private function readAttachment (skin:Skin, name:String, map:Dynamic) : Attachment {
+	private function readAttachment(skin:Skin, name:String, map:JsonNode) : Attachment {
 		name = map.getStr("name", name);
 
 		var type:AttachmentType = map.getStr("type",  "region");
@@ -234,7 +232,7 @@ class SkeletonJson {
 				mesh.a = toColor(color, 3);
 			}
 
-			mesh.hullLength = map.getInt("hull") * 2;
+			mesh.hullLength = Std.int(map.getInt("hull") * 2);
 			if (map.hasOwnProperty("edges")) mesh.edges = map.getIntArray("edges");
 			mesh.width = map.getFloat("width") * scale;
 			mesh.height = map.getFloat("height") * scale;
@@ -251,13 +249,13 @@ class SkeletonJson {
 			var i:Int = 0, n:Int = vertices.length;
 			while (i < n) {
 				var boneCount:Int = Std.int(vertices[i++]);
-				bones[bones.length] = boneCount;
+				bones.push(boneCount);
 				var nn:Int = i + boneCount * 4;
 				while (i < nn) {
-					bones[bones.length] = Std.int(vertices[i]);
-					weights[weights.length] = vertices[i + 1] * scale;
-					weights[weights.length] = vertices[i + 2] * scale;
-					weights[weights.length] = vertices[i + 3];
+					bones.push(Std.int(vertices[i]));
+					weights.push(vertices[i + 1] * scale);
+					weights.push(vertices[i + 2] * scale);
+					weights.push(vertices[i + 3]);
 					i += 4;
 				}
 			}
@@ -275,7 +273,7 @@ class SkeletonJson {
 				skinnedMesh.a = toColor(color, 3);
 			}
 			
-			skinnedMesh.hullLength = map.getInt("hull") * 2;
+			skinnedMesh.hullLength = Std.int(map.getInt("hull") * 2);
 			if (map.hasOwnProperty("edges")) skinnedMesh.edges = map.getIntArray("edges");
 			skinnedMesh.width = map.getFloat("width") * scale;
 			skinnedMesh.height = map.getFloat("height") * scale;
@@ -325,7 +323,7 @@ class SkeletonJson {
 						readCurve(colorTimeline, frameIndex, valueMap);
 						frameIndex++;
 					}
-					timelines[timelines.length] = colorTimeline;
+					timelines.push(colorTimeline);
 					duration = Math.max(duration, colorTimeline.frames[colorTimeline.frameCount * 5 - 5]);
 					
 				} else if (timelineName == "attachment") {
@@ -335,7 +333,7 @@ class SkeletonJson {
 					frameIndex = 0;
 					for (valueMap in values)
 						attachmentTimeline.setFrame(frameIndex++, valueMap.getFloat("time"), valueMap.getStr("name"));
-					timelines[timelines.length] = attachmentTimeline;
+					timelines.push(attachmentTimeline);
 					duration = Math.max(duration, attachmentTimeline.frames[attachmentTimeline.frameCount - 1]);
 
 				} else
@@ -361,7 +359,7 @@ class SkeletonJson {
 						readCurve(rotateTimeline, frameIndex, valueMap);
 						frameIndex++;
 					}
-					timelines[timelines.length] = rotateTimeline;
+					timelines.push(rotateTimeline);
 					duration = Math.max(duration, rotateTimeline.frames[rotateTimeline.frameCount * 2 - 2]);
 
 				} else if (timelineName == "translate" || timelineName == "scale") {
@@ -383,7 +381,7 @@ class SkeletonJson {
 						readCurve(timeline, frameIndex, valueMap);
 						frameIndex++;
 					}
-					timelines[timelines.length] = timeline;
+					timelines.push(timeline);
 					duration = Math.max(duration, timeline.frames[timeline.frameCount * 3 - 3]);
 
 				} else if (timelineName == "flipX" || timelineName == "flipY") {
@@ -397,7 +395,7 @@ class SkeletonJson {
 						flipTimeline.setFrame(frameIndex, valueMap.getFloat("time"), valueMap.getBool(field, false));
 						frameIndex++;
 					}
-					timelines[timelines.length] = flipTimeline;
+					timelines.push(flipTimeline);
 					duration = Math.max(duration, flipTimeline.frames[flipTimeline.frameCount * 3 - 3]);
 
 				} else
@@ -419,7 +417,7 @@ class SkeletonJson {
 				readCurve(ikTimeline, frameIndex, valueMap);
 				frameIndex++;
 			}
-			timelines[timelines.length] = ikTimeline;
+			timelines.push(ikTimeline);
 			duration = Math.max(duration, ikTimeline.frames[ikTimeline.frameCount * 3 - 3]);
 		}
 
@@ -476,14 +474,14 @@ class SkeletonJson {
 						readCurve(ffdTimeline, frameIndex, valueMap);
 						frameIndex++;
 					}
-					timelines[timelines.length] = ffdTimeline;
+					timelines.push(ffdTimeline);
 					duration = Math.max(duration, ffdTimeline.frames[ffdTimeline.frameCount - 1]);
 				}
 			}
 		}
 
-		var drawOrderValues:Array<{slot:String, offset: Int}> = map.getNode("drawOrder");
-		if (drawOrderValues == null) drawOrderValues = map.getNode("draworder");
+		var drawOrderValues:Array<JsonNode> = cast map.getNodesArray("drawOrder");
+		if (drawOrderValues == null) drawOrderValues = map.getNodesArray("draworder");
 		if (drawOrderValues != null && drawOrderValues.length > 0) {
 			var drawOrderTimeline:DrawOrderTimeline = new DrawOrderTimeline(drawOrderValues.length);
 			var slotCount:Int = skeletonData.slots.length;
@@ -519,15 +517,15 @@ class SkeletonJson {
 				}
 				drawOrderTimeline.setFrame(frameIndex++, drawOrderMap.getFloat("time"), drawOrder);
 			}
-			timelines[timelines.length] = drawOrderTimeline;
+			timelines.push(drawOrderTimeline);
 			duration = Math.max(duration, drawOrderTimeline.frames[drawOrderTimeline.frameCount - 1]);
 		}
 
-		var eventsMap:JsonNode = map.getNode("events");
+		var eventsMap:Array<JsonNode> = map.getNodesArray("events");
 		if (eventsMap != null && eventsMap.length > 0) {
 			var eventTimeline:EventTimeline = new EventTimeline(eventsMap.length);
 			frameIndex = 0;
-			for (eventMap in cast(eventsMap, Array<JsonNode>)) {
+			for (eventMap in eventsMap) {
 				var eventData:EventData = skeletonData.findEvent(eventMap.getStr("name"));
 				if (eventData == null) throw "Event not found: " + eventMap.getStr("name");
 				var event:Event = new Event(eventData);
@@ -536,20 +534,22 @@ class SkeletonJson {
 				event.stringValue = eventMap.getStr("string", eventData.stringValue);
 				eventTimeline.setFrame(frameIndex++, eventMap.getFloat("time"), event);
 			}
-			timelines[timelines.length] = eventTimeline;
+			timelines.push(eventTimeline);
 			duration = Math.max(duration, eventTimeline.frames[eventTimeline.frameCount - 1]);
 		}
 
-		skeletonData.animations[skeletonData.animations.length] = new Animation(name, timelines, duration);
+		skeletonData.animations.push(new Animation(name, timelines, duration));
 	}
 
 	static private function readCurve (timeline:CurveTimeline, frameIndex:Int, valueMap:JsonNode) : Void {
-		var curve:JsonNode = valueMap.getNode("curve");
+		var curve:Dynamic = valueMap.getDynamic("curve");
 		if (curve == null) return;
 		if (Std.is(curve, String) && cast(curve, String) == "stepped")
 			timeline.setStepped(frameIndex);
-		else if (Std.is(curve, Array))
-			timeline.setCurve(frameIndex, curve[0], curve[1], curve[2], curve[3]);
+		else if (Std.is(curve, Array)) {
+			var curveValues:Array<Float> = cast curve;
+			timeline.setCurve(frameIndex, curveValues[0], curveValues[1], curveValues[2], curveValues[3]);
+		}
 	}
 
 	static private function toColor (hexString:String, colorIndex:Int) : Float {

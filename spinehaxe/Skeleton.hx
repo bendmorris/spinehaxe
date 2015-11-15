@@ -62,7 +62,7 @@ class Skeleton {
 		bones = new Array<Bone>();
 		for (boneData in data.bones) {
 			var parent:Bone = boneData.parent == (null) ? null : bones[data.bones.indexOf(boneData.parent)];
-			bones[bones.length] = new Bone(boneData, this, parent);
+			bones.push(new Bone(boneData, this, parent));
 		}
 
 		slots = new Array<Slot>();
@@ -70,14 +70,14 @@ class Skeleton {
 		for (slotData in data.slots) {
 			var bone:Bone = bones[data.bones.indexOf(slotData.boneData)];
 			var slot:Slot = new Slot(slotData, bone);
-			slots[slots.length] = slot;
-			drawOrder[drawOrder.length] = slot;
+			slots.push(slot);
+			drawOrder.push(slot);
 		}
 
 		ikConstraints = new Array<IkConstraint>();
 		for (ikConstraintData in data.ikConstraints)
 		{
-			ikConstraints[ikConstraints.length] = new IkConstraint(ikConstraintData, this);
+			ikConstraints.push(new IkConstraint(ikConstraintData, this));
 		}
 
 		updateCache();
@@ -92,7 +92,7 @@ class Skeleton {
 		for (cachedBones in _boneCache)
 			cachedBones.splice(0, cachedBones.length);
 		while (_boneCache.length < arrayCount)
-			_boneCache[_boneCache.length] = new Array<Bone>();
+			_boneCache.push(new Array<Bone>());
 
 		var nonIkBones:Array<Bone> = _boneCache[0];
 
@@ -125,7 +125,7 @@ class Skeleton {
 				continueOuter = false;
 				continue;
 			}
-			nonIkBones[nonIkBones.length] = bone;
+			nonIkBones.push(bone);
 		}
 	}
 

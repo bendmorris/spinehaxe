@@ -85,7 +85,7 @@ class AnimationState {
 	}
 
 	public function apply(skeleton:Skeleton):Void {
-		for (i in 0...tracks.length) {
+		for (i in 0 ... tracks.length) {
 			var current:TrackEntry = tracks[i];
 			if (current == null)
 				continue;
@@ -159,7 +159,7 @@ class AnimationState {
 	function expandToIndex(index:Int):TrackEntry {
 		if (index < tracks.length)
 			return tracks[index];
-		while (index >= tracks.length) tracks[tracks.length] = null;
+		while (index >= tracks.length) tracks.push(null);
 		return null;
 	}
 

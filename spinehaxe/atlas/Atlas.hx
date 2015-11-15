@@ -87,7 +87,7 @@ class Atlas {
 
 				textureLoader.loadPage(page, line);
 
-				pages[pages.length] = page;
+				pages.push(page);
 
 			} else {
 				var region:AtlasRegion = new AtlasRegion();
@@ -138,7 +138,7 @@ class Atlas {
 				region.index = Std.parseInt(reader.readValue());
 
 				textureLoader.loadRegion(region);
-				regions[regions.length] = region;
+				regions.push(region);
 			}
 		}
 	}
