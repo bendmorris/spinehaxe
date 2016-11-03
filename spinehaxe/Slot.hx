@@ -65,7 +65,7 @@ class Slot {
 	public function set_attachment(attachment:Attachment):Attachment {
 		this.attachment = attachment;
 		_attachmentTime = skeleton.time;
-		attachmentVertices.splice(0, attachmentVertices.length);
+		ArrayUtils.clearArray(attachmentVertices);
 		return attachment;
 	}
 

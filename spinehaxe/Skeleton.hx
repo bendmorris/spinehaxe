@@ -90,7 +90,7 @@ class Skeleton {
 		var arrayCount:Int = ikConstraintsCount + 1;
 		if (_boneCache.length > arrayCount) _boneCache.splice(arrayCount, _boneCache.length - arrayCount);
 		for (cachedBones in _boneCache)
-			cachedBones.splice(0, cachedBones.length);
+			ArrayUtils.clearArray(cachedBones);
 		while (_boneCache.length < arrayCount)
 			_boneCache.push(new Array<Bone>());
 
@@ -161,7 +161,7 @@ class Skeleton {
 
 	public function setSlotsToSetupPose():Void {
 		var i:Int = 0;
-		drawOrder.splice(0, drawOrder.length);
+		ArrayUtils.clearArray(drawOrder);
 		for (slot in slots) {
 			drawOrder[i++] = slot;
 			slot.setToSetupPose();

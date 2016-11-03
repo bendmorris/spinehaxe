@@ -90,7 +90,7 @@ class AnimationState {
 			if (current == null)
 				continue;
 
-			events.splice(0, events.length);
+			ArrayUtils.clearArray(events);
 
 			var time:Float = current.time;
 			var lastTime:Float = current.lastTime;
