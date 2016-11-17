@@ -35,7 +35,6 @@ import openfl.display.Bitmap;
 import openfl.display.BitmapData;
 import openfl.display.BlendMode;
 import openfl.display.Sprite;
-import openfl.display.Tilesheet;
 import openfl.events.Event;
 import openfl.geom.ColorTransform;
 import openfl.geom.Matrix;
@@ -64,7 +63,7 @@ class SkeletonSprite extends Sprite {
 
 	private var _tempVertices:Vector<Float>;
 	private var _tempVerticesArray:Array<Float>;
-	#if flash
+	#if (flash && !nme)
 	private var _quadTriangles:Vector<Int>;
 	#else
 	private var _quadTriangles:Array<Int>;
@@ -96,7 +95,7 @@ class SkeletonSprite extends Sprite {
 
 		this.renderMeshes = renderMeshes;
 
-		_tempVertices = ArrayUtils.allocFloat(8);
+		_tempVertices = new Vector(8);
 		_tempVertices.fixed = false;
 		_tempVerticesArray = new Array<Float>();
 		#if flash
@@ -229,7 +228,7 @@ class SkeletonSprite extends Sprite {
 		var drawOrder:Array<Slot> = skeleton.drawOrder;
 		var n:Int = drawOrder.length;
 		var worldVertices:Vector<Float> = _tempVertices;
-		#if flash
+		#if (flash || !nme)
 		var triangles:Vector<Int> = null;
 		var uvs:Vector<Float> = null;
 		#else
@@ -263,8 +262,8 @@ class SkeletonSprite extends Sprite {
 					verticesLength = 8;
 					if (worldVertices.length < verticesLength) worldVertices.length = verticesLength;
 					region.computeWorldVertices(0, 0, slot.bone, _tempVerticesArray);
-					uvs = region.uvs;
-					triangles = _quadTriangles;
+					uvs = cast region.uvs;
+					triangles = cast _quadTriangles;
 					atlasRegion = cast(region.rendererObject, AtlasRegion);
 
 					r = region.r;
@@ -278,8 +277,8 @@ class SkeletonSprite extends Sprite {
 					verticesLength = mesh.vertices.length;
 					if (worldVertices.length < verticesLength) worldVertices.length = verticesLength;
 					mesh.computeWorldVertices(0, 0, slot, _tempVerticesArray);
-					uvs = mesh.uvs;
-					triangles = mesh.triangles;
+					uvs = cast mesh.uvs;
+					triangles = cast mesh.triangles;
 					atlasRegion = cast(mesh.rendererObject, AtlasRegion);
 
 					r = mesh.r;
@@ -293,8 +292,8 @@ class SkeletonSprite extends Sprite {
 					verticesLength = skinnedMesh.uvs.length;
 					if (worldVertices.length < verticesLength) worldVertices.length = verticesLength;
 					skinnedMesh.computeWorldVertices(0, 0, slot, _tempVerticesArray);
-					uvs = skinnedMesh.uvs;
-					triangles = skinnedMesh.triangles;
+					uvs = cast skinnedMesh.uvs;
+					triangles = cast skinnedMesh.triangles;
 					atlasRegion = cast(skinnedMesh.rendererObject, AtlasRegion);
 
 					r = skinnedMesh.r;
@@ -307,12 +306,12 @@ class SkeletonSprite extends Sprite {
 				{
 					bitmapData = cast atlasRegion.page.rendererObject;
 					graphics.beginBitmapFill(bitmapData, null, false, true);
-					#if flash
-					worldVertices.splice(0, worldVertices.length);
+					#if (flash || !nme)
 					for (i in 0...verticesLength)
 					{
 						worldVertices[i] = _tempVerticesArray[i];
 					}
+					worldVertices.splice(verticesLength, worldVertices.length);
 
 					graphics.drawTriangles(worldVertices, triangles, uvs);
 					#else
@@ -333,7 +332,7 @@ class SkeletonSprite extends Sprite {
 						_colors.splice(numVertices, _colors.length - numVertices);
 					}
 
-					blend = slot.data.additiveBlending ? Tilesheet.TILE_BLEND_ADD : Tilesheet.TILE_BLEND_NORMAL;
+					blend = slot.data.additiveBlending ? openfl.display.Tilesheet.TILE_BLEND_ADD : openfl.display.Tilesheet.TILE_BLEND_NORMAL;
 
 					graphics.drawTriangles(_tempVerticesArray, triangles, uvs, TriangleCulling.NONE, _colors, blend);
 					#end
