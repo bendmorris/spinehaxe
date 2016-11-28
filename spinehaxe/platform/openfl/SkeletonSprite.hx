@@ -228,7 +228,7 @@ class SkeletonSprite extends Sprite {
 		var drawOrder:Array<Slot> = skeleton.drawOrder;
 		var n:Int = drawOrder.length;
 		var worldVertices:Vector<Float> = _tempVertices;
-		#if (flash || !nme)
+		#if flash 
 		var triangles:Vector<Int> = null;
 		var uvs:Vector<Float> = null;
 		#else
