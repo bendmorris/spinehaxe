@@ -63,9 +63,15 @@ abstract JsonNode(Dynamic) from Dynamic to Dynamic {
 		return values;
 	}
 
+	#if flash
+	public inline function getIntArray (field:String):Vector<Int> {
+		return Vector.fromArrayCopy(cast getDynamic(field));
+	}
+	#else
 	public inline function getIntArray (field:String):Array<Int> {
 		return cast getDynamic(field);
 	}
+	#end
 
 	public inline function getUintArray (field:String):Array<UInt> {
 		return cast getDynamic(field);

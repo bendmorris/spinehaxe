@@ -39,7 +39,11 @@ class MeshAttachment extends Attachment {
 	public var vertices:Array<Float>;
 	public var uvs:Array<Float>;
 	public var regionUVs:Array<Float>;
+	#if flash
+	public var triangles:Vector<Int>;
+	#else
 	public var triangles:Array<Int>;
+	#end
 	public var hullLength:Int = 0;
 	public var r:Float = 1;
 	public var g:Float = 1;
@@ -61,7 +65,11 @@ class MeshAttachment extends Attachment {
 	public var regionOriginalHeight:Float = 0;
 
 	// Nonessential.
+	#if flash
+	public var edges:Vector<Int>;
+	#else
 	public var edges:Array<Int>;
+	#end
 	public var width:Float = 0;
 	public var height:Float = 0;
 
