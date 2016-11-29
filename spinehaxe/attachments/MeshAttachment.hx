@@ -37,9 +37,14 @@ import haxe.ds.Vector;
 
 class MeshAttachment extends Attachment {
 	public var vertices:Array<Float>;
-	public var uvs:Array<Float>;
 	public var regionUVs:Array<Float>;
+	#if flash
+	public var uvs:Vector<Float>;
+	public var triangles:Vector<Int>;
+	#else
+	public var uvs:Array<Float>;
 	public var triangles:Array<Int>;
+	#end
 	public var hullLength:Int = 0;
 	public var r:Float = 1;
 	public var g:Float = 1;
@@ -61,7 +66,11 @@ class MeshAttachment extends Attachment {
 	public var regionOriginalHeight:Float = 0;
 
 	// Nonessential.
+	#if flash
+	public var edges:Vector<Int>;
+	#else
 	public var edges:Array<Int>;
+	#end
 	public var width:Float = 0;
 	public var height:Float = 0;
 
@@ -72,7 +81,12 @@ class MeshAttachment extends Attachment {
 	public function updateUVs () : Void {
 		var width:Float = regionU2 - regionU, height:Float = regionV2 - regionV;
 		var n:Int = regionUVs.length;
-		if (uvs == null || uvs.length != n) uvs = new Array<Float>();
+		if (uvs == null || uvs.length != n)
+			#if flash
+			uvs = new Vector(n);
+			#else
+			uvs = new Array();
+			#end
 		if (regionRotate) {
 			var i = 0;
 			while (i < n) {

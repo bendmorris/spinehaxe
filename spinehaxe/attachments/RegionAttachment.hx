@@ -65,12 +65,20 @@ class RegionAttachment extends Attachment implements Dynamic<Dynamic> {
 	public var regionOriginalHeight:Float = 0;
 
 	public var offset:Vector<Float>;
+	#if flash
+	public var uvs:Vector<Float>;
+	#else
 	public var uvs:Array<Float>;
+	#end
 
 	public function new (name:String) {
 		super(name);
 		offset = ArrayUtils.allocFloat(8);
+		#if flash
+		uvs = new Vector(8);
+		#else
 		uvs = new Array();
+		#end
 		for (i in 0...8) { uvs[i] = 0; }
 	}
 
