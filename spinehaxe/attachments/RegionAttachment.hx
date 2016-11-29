@@ -74,7 +74,7 @@ class RegionAttachment extends Attachment implements Dynamic<Dynamic> {
 		for (i in 0...8) { uvs[i] = 0; }
 	}
 
-	public function setUVs (u:Float, v:Float, u2:Float, v2:Float, rotate:Bool) : Void {
+	public function setUVs (u:Float, v:Float, u2:Float, v2:Float, rotate:Bool):Void {
 		if (rotate) {
 			uvs[X2] = u;
 			uvs[Y2] = v2;
@@ -96,7 +96,7 @@ class RegionAttachment extends Attachment implements Dynamic<Dynamic> {
 		}
 	}
 
-	public function updateOffset () : Void {
+	public function updateOffset ():Void {
 		var regionScaleX:Float = width / regionOriginalWidth * scaleX;
 		var regionScaleY:Float = height / regionOriginalHeight * scaleY;
 		var localX:Float = -width / 2 * scaleX + regionOffsetX * regionScaleX;
@@ -124,13 +124,13 @@ class RegionAttachment extends Attachment implements Dynamic<Dynamic> {
 		offset[Y4] = localYCos + localX2Sin;
 	}
 
-	public function computeWorldVertices (x:Float, y:Float, bone:Bone, worldVertices:Array<Float>) : Void {
+	public function computeWorldVertices (x:Float, y:Float, bone:Bone, worldVertices:Array<Float>):Void {
 		x += bone.worldX;
 		y += bone.worldY;
-		var m00:Float = bone.m00;
-		var m01:Float = bone.m01;
-		var m10:Float = bone.m10;
-		var m11:Float = bone.m11;
+		var m00:Float = bone.a;
+		var m01:Float = bone.b;
+		var m10:Float = bone.c;
+		var m11:Float = bone.d;
 		var x1:Float = offset[X1];
 		var y1:Float = offset[Y1];
 		var x2:Float = offset[X2];

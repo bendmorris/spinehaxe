@@ -32,16 +32,21 @@ package spinehaxe;
 import spinehaxe.Exception;
 
 class Event {
-	public var data:EventData;
-
+	var _data:EventData;
+	public var data(get, never):EventData;
+	public var time:Float;
 	public var intValue:Int;
 	public var floatValue:Float;
 	public var stringValue:String;
-	public function new(data:EventData) {
+
+	public function new(time:Float, data:EventData) {
 		if (data == null)
 			throw new IllegalArgumentException("data cannot be null.");
-		this.data = data;
+		this.time = time;
+		_data = data;
 	}
+
+	inline function get_data():EventData return _data;
 
 	public function toString():String {
 		return data.name;

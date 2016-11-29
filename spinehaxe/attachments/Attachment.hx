@@ -26,6 +26,7 @@
 package spinehaxe.attachments;
 
 import spinehaxe.Exception;
+
 class Attachment {
 	public var name:String;
 
@@ -34,7 +35,7 @@ class Attachment {
 		this.name = name;
 	}
 
-	public function toString ():String {
+	public function toString():String {
 		return name;
 	}
 }

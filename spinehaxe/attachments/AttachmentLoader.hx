@@ -27,14 +27,14 @@ package spinehaxe.attachments;
 
 interface AttachmentLoader {
 	/** @return May be null to not load an attachment. */
-	function newRegionAttachment (skin:Skin, name:String, path:String) : RegionAttachment;
+	function newRegionAttachment(skin:Skin, name:String, path:String):RegionAttachment;
 
 	/** @return May be null to not load an attachment. */
-	function newMeshAttachment (skin:Skin, name:String, path:String) : MeshAttachment;
+	function newMeshAttachment(skin:Skin, name:String, path:String):MeshAttachment;
 
 	/** @return May be null to not load an attachment. */
-	function newSkinnedMeshAttachment (skin:Skin, name:String, path:String) : SkinnedMeshAttachment;
+	function newBoundingBoxAttachment(skin:Skin, name:String):BoundingBoxAttachment;
 
-	/** @return May be null to not load an attachment. */
-	function newBoundingBoxAttachment (skin:Skin, name:String) : BoundingBoxAttachment;
+	/** @return May be null to not load an attachment */
+	function newPathAttachment(skin:Skin, name:String):PathAttachment;
 }

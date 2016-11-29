@@ -36,16 +36,16 @@ import haxe.ds.Vector;
 
 
 class Atlas {
-	private var pages:Array<AtlasPage> = new Array<AtlasPage>();
-	private var regions:Array<AtlasRegion> = new Array<AtlasRegion>();
-	private var textureLoader:TextureLoader;
+	var pages:Array<AtlasPage> = new Array<AtlasPage>();
+	var regions:Array<AtlasRegion> = new Array<AtlasRegion>();
+	var textureLoader:TextureLoader;
 
 	/** @param object A String or ByteArray. */
 	public function new (object:String, textureLoader:TextureLoader) {
 		load(object, textureLoader);
 	}
 
-	function load (atlasText:String, textureLoader:TextureLoader) : Void {
+	function load (atlasText:String, textureLoader:TextureLoader):Void {
 		if (textureLoader == null)
 			throw new IllegalArgumentException("textureLoader cannot be null.");
 		this.textureLoader = textureLoader;
@@ -146,39 +146,39 @@ class Atlas {
 	/** Returns the first region found with the specified name. This method uses string comparison to find the region, so the result
 	 * should be cached rather than calling this method multiple times.
 	 * @return The region, or null. */
-	public function findRegion (name:String) : AtlasRegion {
+	public function findRegion (name:String):AtlasRegion {
 		for (i in 0 ... regions.length)
 			if (regions[i].name == name)
 				return regions[i];
 		return null;
 	}
 
-	public function dispose () : Void {
+	public function dispose ():Void {
 		for (i in 0 ... pages.length)
 			textureLoader.unloadPage(pages[i]);
 	}
 }
 
 class Reader {
-	private var lines:Array<String>;
-	private var index:Int = 0;
+	var lines:Array<String>;
+	var index:Int = 0;
 
 	public function new (text:String) {
 		var regex:EReg = new EReg("[ \t]*((\r\n)|\r|\n)[ \t]*", "g");
 		lines = regex.split(text);
 	}
 
-	public function trim (value:String) : String {
+	public function trim (value:String):String {
 		return StringTools.trim(value);
 	}
 
-	public function readLine () : String {
+	public function readLine ():String {
 		if (index >= lines.length)
 			return null;
 		return lines[index++];
 	}
 
-	public function readValue () : String {
+	public function readValue ():String {
 		var line:String = readLine();
 		var colon:Int = line.indexOf(":");
 		if (colon == -1)
@@ -187,7 +187,7 @@ class Reader {
 	}
 
 	/** Returns the number of tuple values read (1, 2 or 4). */
-	public function readTuple (tuple:Array<String>) : Int {
+	public function readTuple (tuple:Array<String>):Int {
 		var line:String = readLine();
 		var colon:Int = line.indexOf(":");
 		if (colon == -1)

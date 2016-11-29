@@ -33,18 +33,22 @@ package spinehaxe;
 import spinehaxe.Exception.IllegalArgumentException;
 
 class IkConstraintData {
-	public var name:String;
+	@:allow(spinehaxe) var _name:String;
+	public var name(get, never):String;
+	public var order:Float;
 	public var bones:Array<BoneData> = new Array<BoneData>();
 	public var target:BoneData;
 	public var bendDirection:Int = 1;
 	public var mix:Float = 1;
 
-	public function new (name:String) {
+	public function new(name:String) {
 		if (name == null) throw new IllegalArgumentException("name cannot be null.");
-		this.name = name;
+		_name = name;
 	}
 
-	public function toString () : String {
+	inline function get_name():String return _name;
+
+	public function toString():String {
 		return name;
 	}
 }

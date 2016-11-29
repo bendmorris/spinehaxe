@@ -32,8 +32,12 @@ package spinehaxe;
 import spinehaxe.Exception;
 
 class BoneData {
-	public var name:String;
-	public var parent:BoneData;
+	var _index:Int;
+	var _name:String;
+	var _parent:BoneData;
+	public var index(get, never):Int;
+	public var name(get, never):String;
+	public var parent(get, never):BoneData;
 
 	public var length:Float = 0;
 	public var x:Float = 0;
@@ -41,22 +45,24 @@ class BoneData {
 	public var rotation:Float = 0;
 	public var scaleX:Float = 1;
 	public var scaleY:Float = 1;
-	public var inheritScale:Bool = false;
-	public var inheritRotation:Bool = false;
-	public var flipX:Bool = false;
-	public var flipY:Bool = false;
+	public var shearX:Float = 0;
+	public var shearY:Float = 0;
+	public var transformMode:TransformMode = TransformMode.normal;
 
 	/** @param parent May be null. */
-	public function new(name:String, parent:BoneData) {
-		scaleX = 1;
-		scaleY = 1;
-		inheritScale = true;
-		inheritRotation = true;
-		if (name == null)
-			throw new IllegalArgumentException("name cannot be null.");
-		this.name = name;
-		this.parent = parent;
+	public function new(index:Int, name:String, parent:BoneData) {
+		if (index < 0) throw "index must be >= 0";
+		if (name == null) throw "name cannot be null.";
+		_index = index;
+		_name = name;
+		_parent = parent;
 	}
+
+	inline function get_index():Int return _index;
+
+	inline function get_name():String return _name;
+
+	inline function get_parent():BoneData return _parent;
 
 	public function toString():String {
 		return name;

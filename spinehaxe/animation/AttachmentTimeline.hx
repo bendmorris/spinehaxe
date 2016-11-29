@@ -29,9 +29,10 @@
  *****************************************************************************/
 package spinehaxe.animation;
 
+import haxe.ds.Vector;
+import spinehaxe.Slot;
 import spinehaxe.Event;
 import spinehaxe.Skeleton;
-import haxe.ds.Vector;
 
 class AttachmentTimeline implements Timeline {
 	public var frameCount(get, never):Int;
@@ -49,24 +50,39 @@ class AttachmentTimeline implements Timeline {
 		return frames.length;
 	}
 
+	public function getPropertyId():Int {
+		return (TimelineType.attachment << 24) + slotIndex;
+	}
+
 	/** Sets the time and value of the specified keyframe. */
 	public function setFrame(frameIndex:Int, time:Float, attachmentName:String):Void {
 		frames[frameIndex] = time;
 		attachmentNames[frameIndex] = attachmentName;
 	}
 
-	public function apply(skeleton:Skeleton, lastTime:Float, time:Float, firedEvents:Array<Event>, alpha:Float):Void {
-		if (time < frames[0]) {
-			if (lastTime > time) apply(skeleton, lastTime, spinehaxe.MathUtils.MAX_INT, null, 0);
+	public function apply(skeleton:Skeleton, lastTime:Float, time:Float, firedEvents:Array<Event>, alpha:Float, setupPose:Bool, mixingOut:Bool):Void {
+		var attachmentName:String;
+		var slot:Slot = skeleton.slots[slotIndex];
+		if (mixingOut && setupPose) {
+			attachmentName = slot.data.attachmentName;
+			slot.attachment = attachmentName == null ? null : skeleton.getAttachmentForSlotIndex(slotIndex, attachmentName);
 			return;
-		} else if (lastTime > time) {
-			lastTime = -1;
+		}
+		if (time < frames[0]) {
+			if (setupPose) {
+				attachmentName = slot.data.attachmentName;
+				slot.attachment = attachmentName == null ? null : skeleton.getAttachmentForSlotIndex(slotIndex, attachmentName);
+			}
+			return;
 		}
 
-		var frameIndex:Int = time >= frames[frames.length - 1] ? frames.length - 1 : Animation.binarySearch1(frames, time) - 1;
-		if (frames[frameIndex] < lastTime) return;
+		var frameIndex:Int;
+		if (time >= frames[frames.length - 1]) // Time is after last frame.
+			frameIndex = frames.length - 1;
+		else
+			frameIndex = Animation.binarySearch(frames, time, 1) - 1;
 
-		var attachmentName:String = attachmentNames[frameIndex];
-		skeleton.slots[slotIndex].attachment = (attachmentName == null) ? null:skeleton.getAttachmentForSlotIndex(slotIndex, attachmentName);
+		attachmentName = attachmentNames[frameIndex];
+		skeleton.slots[slotIndex].attachment = attachmentName == null ? null : skeleton.getAttachmentForSlotIndex(slotIndex, attachmentName);
 	}
 }

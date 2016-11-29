@@ -38,27 +38,21 @@ class SkeletonBounds {
 	public var width(get, never):Float;
 	public var height(get, never):Float;
 
-	public var boundingBoxes:Array<BoundingBoxAttachment>;
-	public var polygons:Array<Polygon>;
+	public var boundingBoxes:Array<BoundingBoxAttachment> = new Array<BoundingBoxAttachment>();
+	public var polygons:Array<Polygon> = new Array<Polygon>();
 
 	public var minX:Float;
 	public var minY:Float;
 	public var maxX:Float;
 	public var maxY:Float;
 
-	private var polygonPool:Array<Polygon>;
+	var polygonPool:Array<Polygon> = new Array<Polygon>();
 
-	public function new() {
-		polygonPool = new Array<Polygon>();
-		boundingBoxes = new Array<BoundingBoxAttachment>();
-		polygons = new Array<Polygon>();
-	}
+	public function new() {}
 
 	public function update(skeleton:Skeleton, updateAabb:Bool):Void {
 		var slots:Array<Slot> = skeleton.slots;
 		var slotCount:Int = slots.length;
-		var x:Float = skeleton.x;
-		var y:Float = skeleton.y;
 		boundingBoxes = new Array<BoundingBoxAttachment>();
 		for (polygon in polygons)
 			polygonPool.push(polygon);
@@ -77,18 +71,24 @@ class SkeletonBounds {
 			else polygon = new Polygon();
 
 			polygons.push(polygon);
-			polygon.vertices.splice(boundingBox.vertices.length, polygon.vertices.length - boundingBox.vertices.length);
-			boundingBox.computeWorldVertices(x, y, slot.bone, polygon.vertices);
+			ArrayUtils.setLength(polygon.vertices, boundingBox.worldVerticesLength);
+			boundingBox.computeWorldVertices(slot, polygon.vertices);
 		}
 		if (updateAabb)
 			aabbCompute();
+		else {
+			minX = MathUtils.MIN_INT;
+			minY = MathUtils.MIN_INT;
+			maxX = MathUtils.MAX_INT;
+			maxY = MathUtils.MAX_INT;
+		}
 	}
 
 	function aabbCompute():Void {
-		var minX:Float = spinehaxe.MathUtils.MAX_INT;
-		var minY:Float = spinehaxe.MathUtils.MAX_INT;
-		var maxX:Float = spinehaxe.MathUtils.MIN_INT;
-		var maxY:Float = spinehaxe.MathUtils.MIN_INT;
+		var minX:Float = MathUtils.MAX_INT;
+		var minY:Float = MathUtils.MAX_INT;
+		var maxX:Float = MathUtils.MIN_INT;
+		var maxY:Float = MathUtils.MIN_INT;
 		var i:Int = 0;
 		var n:Int = polygons.length;
 		while(i < n) {
@@ -174,11 +174,11 @@ class SkeletonBounds {
 		return index == -(1) ? null:polygons[index];
 	}
 
-	private function get_width():Float {
+	function get_width():Float {
 		return maxX - minX;
 	}
 
-	private function get_height():Float {
+	function get_height():Float {
 		return maxY - minY;
 	}
 }

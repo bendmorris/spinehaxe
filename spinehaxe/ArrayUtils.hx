@@ -14,9 +14,18 @@ class ArrayUtils {
 
 	@:generic public static inline function clearArray<T>(array:Array<T>):Void
 	{
-		while (array.length > 0)
+		setLength(array, 0);
+	}
+
+	@:generic public static inline function setLength<T>(array:Array<T>, length:Int):Void
+	{
+#if flash
+		untyped array.length = length;
+#else
+		while (array.length > length)
 		{
 			array.pop();
 		}
+#end
 	}
 }

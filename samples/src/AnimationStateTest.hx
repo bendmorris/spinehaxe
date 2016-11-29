@@ -17,7 +17,6 @@ import openfl.Assets;
 import openfl.display.FPS;
 
 class AnimationStateTest extends Sprite {
-
 	var renderer:SkeletonAnimation;
 
 	var atlas:Atlas;
@@ -48,7 +47,7 @@ class AnimationStateTest extends Sprite {
 
 		renderer = new SkeletonAnimation(skeletonData);
 		skeleton = renderer.skeleton;
-		skeleton.flipX = true;
+		skeleton.flipX = false;
 		renderer.x = 150;
 		renderer.y = 450;
 
@@ -67,6 +66,7 @@ class AnimationStateTest extends Sprite {
 		this.mouseChildren = false;
 		stage.addEventListener(MouseEvent.CLICK, onClick);
 	}
+
 	public function onClick(e:Event):Void {
 		state.setAnimationByName(0, "jump", false);
 		state.addAnimationByName(0, "walk", true, 0.5);
@@ -78,11 +78,11 @@ class AnimationStateTest extends Sprite {
 		state.update(delta);
 		state.apply(skeleton);
 		var anim = state.getCurrent(0);
-		if (anim.toString() == "walk") {
+		if (anim.animation.name == "walk") {
 			// After one second, change the current animation. Mixing is done by AnimationState for you.
-			if (anim.time > 2) state.setAnimationByName(0, "jump", false);
+			if (anim.getAnimationTime() > 2) state.setAnimationByName(0, "jump", false);
 		} else {
-			if (anim.time > 1) state.setAnimationByName(0, "walk", true);
+			if (anim.getAnimationTime() > 1) state.setAnimationByName(0, "walk", true);
 		}
 
 		skeleton.updateWorldTransform();

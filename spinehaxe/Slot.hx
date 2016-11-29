@@ -35,10 +35,13 @@ import spinehaxe.Exception;
 using Lambda;
 
 class Slot {
-	public var data:SlotData;
+	var _data:SlotData;
+	var _bone:Bone;
+	var _attachment:Attachment;
+	public var data(get, never):SlotData;
+	public var bone(get, never):Bone;
 	public var skeleton(get, never):Skeleton;
-	public var bone:Bone;
-	public var attachment(default, set):Attachment;
+	public var attachment(get, set):Attachment;
 	public var attachmentTime(get, set):Float;
 
 	public var r:Float = 0;
@@ -51,19 +54,24 @@ class Slot {
 	public function new(data:SlotData, bone:Bone) {
 		if (data == null) throw new IllegalArgumentException("data cannot be null.");
 		if (bone == null) throw new IllegalArgumentException("bone cannot be null.");
-		this.data = data;
-		this.bone = bone;
+		_data = data;
+		_bone = bone;
 		setToSetupPose();
 	}
 
-	public inline function get_skeleton() {
-		return bone.skeleton;
-	}
+	inline function get_data():SlotData return _data;
+
+	inline function get_bone():Bone return _bone;
+
+	inline function get_skeleton():Skeleton return _bone.skeleton;
+
+	inline function get_attachment():Attachment return _attachment;
 
 	/** Sets the attachment and resets {@link #getAttachmentTime()}.
 	 * @param attachment May be null. */
-	public function set_attachment(attachment:Attachment):Attachment {
-		this.attachment = attachment;
+	inline function set_attachment(attachment:Attachment):Attachment {
+		if (_attachment == attachment) return _attachment;
+		_attachment = attachment;
 		_attachmentTime = skeleton.time;
 		ArrayUtils.clearArray(attachmentVertices);
 		return attachment;
@@ -80,12 +88,16 @@ class Slot {
 	}
 
 	public function setToSetupPose():Void {
-		var slotIndex:Int = skeleton.data.slots.indexOf(data);
 		r = data.r;
 		g = data.g;
 		b = data.b;
 		a = data.a;
-		attachment = data.attachmentName == (null) ? null : skeleton.getAttachmentForSlotIndex(slotIndex, data.attachmentName);
+		if (data.attachmentName == null)
+			_attachment = null;
+		else {
+			_attachment = null;
+			attachment = _bone._skeleton.getAttachmentForSlotIndex(data.index, data.attachmentName);
+		}
 	}
 
 	public function toString():String {

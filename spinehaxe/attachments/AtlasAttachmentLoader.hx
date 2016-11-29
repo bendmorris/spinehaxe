@@ -36,15 +36,15 @@ import spinehaxe.atlas.Atlas;
 import spinehaxe.atlas.AtlasRegion;
 
 class AtlasAttachmentLoader implements AttachmentLoader {
-	private var atlas:Atlas;
+	var atlas:Atlas;
 
-	public function new (atlas:Atlas) {
+	public function new(atlas:Atlas) {
 		if (atlas == null)
 			throw new IllegalArgumentException("atlas cannot be null.");
 		this.atlas = atlas;
 	}
 	
-	public function newRegionAttachment (skin:Skin, name:String, path:String) : RegionAttachment {
+	public function newRegionAttachment(skin:Skin, name:String, path:String):RegionAttachment {
 		var region:AtlasRegion = atlas.findRegion(path);
 		if (region == null)
 			throw "Region not found in atlas: " + path + " (region attachment: " + name + ")";
@@ -62,7 +62,7 @@ class AtlasAttachmentLoader implements AttachmentLoader {
 		return attachment;
 	}
 	
-	public function newMeshAttachment (skin:Skin, name:String, path:String) : MeshAttachment {
+	public function newMeshAttachment(skin:Skin, name:String, path:String):MeshAttachment {
 		var region:AtlasRegion = atlas.findRegion(path);
 		if (region == null)
 			throw "Region not found in atlas: " + path + " (mesh attachment: " + name + ")";
@@ -83,34 +83,16 @@ class AtlasAttachmentLoader implements AttachmentLoader {
 		attachment.regionOriginalHeight = region.originalHeight;
 		return attachment;
 	}
-	
-	public function newSkinnedMeshAttachment (skin:Skin, name:String, path:String) : SkinnedMeshAttachment {
-		var region:AtlasRegion = atlas.findRegion(path);
-		if (region == null)
-			throw "Region not found in atlas: " + path + " (skinned mesh attachment: " + name + ")";
-		var attachment:SkinnedMeshAttachment = new SkinnedMeshAttachment(name);
-		attachment.rendererObject = region;
-		var scaleX:Float = region.page.width / nextPOT(region.page.width);
-		var scaleY:Float = region.page.height / nextPOT(region.page.height);
-		attachment.regionU = region.u * scaleX;
-		attachment.regionV = region.v * scaleY;
-		attachment.regionU2 = region.u2 * scaleX;
-		attachment.regionV2 = region.v2 * scaleY;
-		attachment.regionRotate = region.rotate;
-		attachment.regionOffsetX = region.offsetX;
-		attachment.regionOffsetY = region.offsetY;
-		attachment.regionWidth = region.width;
-		attachment.regionHeight = region.height;
-		attachment.regionOriginalWidth = region.originalWidth;
-		attachment.regionOriginalHeight = region.originalHeight;
-		return attachment;
-	}
 
-	public function newBoundingBoxAttachment (skin:Skin, name:String) : BoundingBoxAttachment {
+	public function newBoundingBoxAttachment(skin:Skin, name:String):BoundingBoxAttachment {
 		return new BoundingBoxAttachment(name);
 	}
 
-	static public function nextPOT (value:Int) : Int {
+	public function newPathAttachment(skin:Skin, name:String):PathAttachment {
+		return new PathAttachment(name);
+	}
+
+	static public function nextPOT (value:Int):Int {
 		value--;
 		value |= value >> 1;
 		value |= value >> 2;

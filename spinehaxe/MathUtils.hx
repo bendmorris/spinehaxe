@@ -4,12 +4,15 @@ class MathUtils {
 	public inline static var MAX_INT = 2147483647; // 2**31 - 1
 	public inline static var MIN_INT = -2147483648;
 
+	public static var radDeg:Float = 180 / Math.PI;
+	public static var degRad:Float = Math.PI / 180;
+
 	/**
 	 * Converts specified angle in radians to degrees.
 	 * @return angle in degrees (not normalized to 0...360)
 	 */
 	public inline static function radToDeg(rad:Float):Float {
-		return 180 / Math.PI * rad;
+		return radDeg * rad;
 	}
 
 	/**
@@ -17,7 +20,15 @@ class MathUtils {
 	 * @return angle in radians (not normalized to 0...Math.PI*2)
 	 */
 	public inline static function degToRad(deg:Float):Float {
-		return Math.PI / 180 * deg;
+		return degRad * deg;
+	}
+
+	public inline static function cosDeg(degrees:Float):Float {
+		return Math.cos(degToRad(degrees));
+	}
+
+	public inline static function sinDeg(degrees:Float):Float {
+		return Math.sin(degToRad(degrees));
 	}
 
 	/**
@@ -34,6 +45,10 @@ class MathUtils {
 			return max;
 		else
 			return value;
+	}
+
+	public inline static function signum(value:Float):Int {
+		return (value > 0) ? 1 : (value < 0) ? -1 : 0;
 	}
 
 	public inline static function random(max:Int):Int {

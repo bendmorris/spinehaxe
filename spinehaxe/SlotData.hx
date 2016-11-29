@@ -32,25 +32,34 @@ package spinehaxe;
 import spinehaxe.Exception;
 
 class SlotData {
-	public var name:String;
-	public var boneData:BoneData;
+	var _index:Int;
+	var _name:String;
+	var _boneData:BoneData;
+	public var index(get, never):Int;
+	public var name(get, never):String;
+	public var boneData(get, never):BoneData;
 
-	public var r:Float;
-	public var g:Float;
-	public var b:Float;
-	public var a:Float;
+	public var r:Float = 1;
+	public var g:Float = 1;
+	public var b:Float = 1;
+	public var a:Float = 1;
 	public var attachmentName:String;
-	public var additiveBlending:Bool;
-	public function new(name:String, boneData:BoneData) {
-		r = 1;
-		g = 1;
-		b = 1;
-		a = 1;
+	public var blendMode:BlendMode;
+
+	public function new(index:Int, name:String, boneData:BoneData) {
+		if (index < 0) throw "index must be >= 0.";
 		if (name == null) throw new IllegalArgumentException("name cannot be null.");
 		if (boneData == null) throw new IllegalArgumentException("boneData cannot be null.");
-		this.name = name;
-		this.boneData = boneData;
+		_index = index;
+		_name = name;
+		_boneData = boneData;
 	}
+
+	inline function get_index() return _index;
+
+	inline function get_name() return _name;
+
+	inline function get_boneData() return _boneData;
 
 	public function toString():String {
 		return name;

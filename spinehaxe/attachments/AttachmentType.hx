@@ -31,5 +31,6 @@ abstract AttachmentType(String) from String to String {
 	var RegionSequence = "regionsequence";
 	var BoundingBox = "boundingbox";
 	var Mesh = "mesh";
-	var SkinnedMesh = "skinnedmesh";
+	var LinkedMesh = "linkedmesh";
+	var Path = "path";
 }

@@ -3,7 +3,6 @@ package spinehaxe.platform.openfl;
 import spinehaxe.Exception.IllegalArgumentException;
 import spinehaxe.atlas.AtlasPage;
 import spinehaxe.atlas.AtlasRegion;
-import spinehaxe.atlas.Texture;
 import spinehaxe.atlas.TextureLoader;
 import flash.display.BitmapData;
 import openfl.Assets;
@@ -15,7 +14,7 @@ class BitmapDataTextureLoader implements TextureLoader {
 		this.prefix = prefix;
 	}
 
-	public function loadPage (page:AtlasPage, path:String) : Void {
+	public function loadPage (page:AtlasPage, path:String):Void {
 		var bitmapData:BitmapData = Assets.getBitmapData(prefix + path);
 		if (bitmapData == null)
 			throw new IllegalArgumentException("BitmapData not found with name: " + prefix + path);
@@ -24,14 +23,10 @@ class BitmapDataTextureLoader implements TextureLoader {
 		page.height = bitmapData.height;
 	}
 
-	public function loadRegion (region:AtlasRegion) : Void {
+	public function loadRegion (region:AtlasRegion):Void {
 	}
 
-	public function unloadPage (page:AtlasPage) : Void {
+	public function unloadPage (page:AtlasPage):Void {
 		page.rendererObject.dispose();
-	}
-
-	public function loadTexture(textureFile:String, format, useMipMaps):Texture {
-		 return new BitmapDataTexture(prefix + textureFile);
 	}
 }

@@ -41,41 +41,25 @@ class Animation {
 	public var duration:Float = 0;
 	public function new(name:String, timelines:Array<Timeline>, duration:Float) {
 		if (name == null)
-			throw new IllegalArgumentException("name cannot be null.");
+			throw "name cannot be null.";
 		if (timelines == null)
-			throw new IllegalArgumentException("timelines cannot be null.");
+			throw "timelines cannot be null.";
 		this.name = name;
 		this.timelines = timelines;
 		this.duration = duration;
 	}
 
 	/** Poses the skeleton at the specified time for this animation. */
-	public function apply(skeleton:Skeleton, lastTime:Float, time:Float, loop:Bool, events:Array<Event>):Void {
+	public function apply(skeleton:Skeleton, lastTime:Float, time:Float, loop:Bool, events:Array<Event>, alpha:Float, setupPose:Bool, mixingOut:Bool):Void {
 		if (skeleton == null)
-			throw new IllegalArgumentException("skeleton cannot be null.");
+			throw "skeleton cannot be null.";
 		if (loop && duration != 0) {
 			time %= duration;
-			lastTime %= duration;
+			if (lastTime > 0) lastTime %= duration;
 		}
 		var n:Int = timelines.length;
-		for(i in 0...n) {
-			timelines[i].apply(skeleton, lastTime, time, events, 1);
-		}
-	}
-
-	/** Poses the skeleton at the specified time for this animation mixed with the current pose.
-	 * @param alpha The amount of this animation that affects the current pose. */
-	public function mix(skeleton:Skeleton, lastTime:Float, time:Float, loop:Bool, events:Array<Event>, alpha:Float):Void {
-		if (skeleton == null)
-			throw new IllegalArgumentException("skeleton cannot be null.");
-		if (loop && duration != 0) {
-			time %= duration;
-			lastTime %= duration;
-		}
-		var n:Int = timelines.length;
-		for (i in 0...n) {
-			timelines[i].apply(skeleton, lastTime, time, events, alpha);
-		}
+		for (i in 0...n)
+			timelines[i].apply(skeleton, lastTime, time, events, alpha, setupPose, mixingOut);
 	}
 
 	public function toString():String {
@@ -102,7 +86,7 @@ class Animation {
 	}
 
 	/** @param target After the first and before the last entry. */
-	static public function binarySearch1 (values:Vector<Float>, target:Float):Int {
+	static public function binarySearch1(values:Vector<Float>, target:Float):Int {
 		var low:Int = 0;
 		var high:Int = values.length - 2;
 		if (high == 0)

@@ -34,27 +34,34 @@ using Lambda;
 typedef Function = Dynamic;
 
 class Listeners {
-	public var listeners:Array<Function>;
+	@:allow(spinehaxe.animation.AnimationState)
+	var _listeners:Array<Function> = new Array();
 
-	public function add(listener : Function) : Void {
+	public function new() {}
+
+	public function add(listener:Function):Void {
 		if (listener == null)
 			throw new IllegalArgumentException("listener cannot be null.");
-		listeners.push(listener);
+		var indexOf:Int = _listeners.indexOf(listener);
+		if (indexOf == -1)
+			_listeners.push(listener);
 	}
 
-	public function remove(listener : Function) : Void {
+	public function remove(listener:Function):Void {
 		if (listener == null)
 			throw new IllegalArgumentException("listener cannot be null.");
-		listeners.remove(listener);
+		var indexOf:Int = _listeners.indexOf(listener);
+		if (indexOf != -1)
+			_listeners.splice(indexOf, 1);
 	}
 
-
-	public function new() {
-		listeners = new Array<Function>();
+	public function invoke1(entry:TrackEntry) {
+		for (listener in _listeners)
+			listener(entry);
 	}
 
-	public function invoke (i:Int, ?arg:Dynamic=null) {
-		for (listener in listeners)
-			listener(i, arg);
+	public function invoke2(entry:TrackEntry, event:Event) {
+		for (listener in _listeners)
+			listener(entry, event);
 	}
 }

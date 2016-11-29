@@ -30,21 +30,23 @@
 
 package spinehaxe.attachments;
 
+import haxe.ds.Vector;
 import spinehaxe.Slot;
 import spinehaxe.Bone;
 
-import haxe.ds.Vector;
-
-class MeshAttachment extends Attachment {
-	public var vertices:Array<Float>;
+class MeshAttachment extends VertexAttachment {
+	@:allow(spinehaxe) var _parentMesh:MeshAttachment;
+	public var worldVertices:Array<Float>;
 	public var uvs:Array<Float>;
 	public var regionUVs:Array<Float>;
 	public var triangles:Array<Int>;
-	public var hullLength:Int = 0;
 	public var r:Float = 1;
 	public var g:Float = 1;
 	public var b:Float = 1;
 	public var a:Float = 1;
+	public var hullLength:Int = 0;
+	public var parentMesh(get, set):MeshAttachment;
+	public var inheritDeform:Bool;
 
 	public var path:String;
 	public var rendererObject:Dynamic;
@@ -65,11 +67,11 @@ class MeshAttachment extends Attachment {
 	public var width:Float = 0;
 	public var height:Float = 0;
 
-	public function new (name:String) {
+	public function new(name:String) {
 		super(name);
 	}
 
-	public function updateUVs () : Void {
+	public function updateUVs():Void {
 		var width:Float = regionU2 - regionU, height:Float = regionV2 - regionV;
 		var n:Int = regionUVs.length;
 		if (uvs == null || uvs.length != n) uvs = new Array<Float>();
@@ -90,25 +92,24 @@ class MeshAttachment extends Attachment {
 		}
 	}
 
-	public function computeWorldVertices (x:Float, y:Float, slot:Slot, worldVertices:Array<Float>) : Void {
-		var bone:Bone = slot.bone;
-		x += bone.worldX;
-		y += bone.worldY;
-		var m00:Float = bone.m00;
-		var m01:Float = bone.m01;
-		var m10:Float = bone.m10;
-		var m11:Float = bone.m11;
-		var vertices:Array<Float> = this.vertices;
-		var verticesCount:Int = vertices.length;
-		if (slot.attachmentVertices.length == verticesCount) vertices = slot.attachmentVertices;
-		var i = 0, ii = 0;
-		while (i < verticesCount) {
-			var vx:Float = vertices[i];
-			var vy:Float = vertices[i + 1];
-			worldVertices[ii] = vx * m00 + vy * m01 + x;
-			worldVertices[ii + 1] = vx * m10 + vy * m11 + y;
-			i += 2;
-			ii += 2;
+	public function applyFFD(sourceAttachment:Attachment):Bool {
+		return this == sourceAttachment || (inheritDeform && _parentMesh == sourceAttachment);
+	}
+
+	inline function get_parentMesh() return _parentMesh;
+
+	inline function set_parentMesh(parentMesh:MeshAttachment) {
+		if (parentMesh != null) {
+			bones = parentMesh.bones;
+			vertices = parentMesh.vertices;
+			worldVerticesLength = parentMesh.worldVerticesLength;
+			regionUVs = parentMesh.regionUVs;
+			triangles = parentMesh.triangles;
+			hullLength = parentMesh.hullLength;
+			edges = parentMesh.edges;
+			width = parentMesh.width;
+			height = parentMesh.height;
 		}
+		return _parentMesh = parentMesh;
 	}
 }

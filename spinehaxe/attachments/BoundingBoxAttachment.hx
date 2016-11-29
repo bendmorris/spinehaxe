@@ -31,33 +31,9 @@ package spinehaxe.attachments;
 
 import spinehaxe.Bone;
 
-class BoundingBoxAttachment extends Attachment {
-
-	public var vertices:Array<Float>;
-
+class BoundingBoxAttachment extends VertexAttachment {
 	public function new(name:String) {
 		super(name);
-		vertices = new Array<Float>();
 	}
-
-	public function computeWorldVertices(x:Float, y:Float, bone:Bone, worldVertices:Array<Float>):Void {
-		x += bone.worldX;
-		y += bone.worldY;
-		var m00:Float = bone.m00;
-		var m01:Float = bone.m01;
-		var m10:Float = bone.m10;
-		var m11:Float = bone.m11;
-		var i:Int = 0;
-		var n:Int = vertices.length;
-		while(i < n) {
-			var ii:Int = i + 1;
-			var px:Float = vertices[i];
-			var py:Float = vertices[ii];
-			worldVertices[i] = px * m00 + py * m01 + x;
-			worldVertices[ii] = px * m10 + py * m11 + y;
-			i += 2;
-		}
-	}
-
 }
 

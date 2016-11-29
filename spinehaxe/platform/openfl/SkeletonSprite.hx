@@ -30,19 +30,18 @@
 
 package spinehaxe.platform.openfl;
 
-import openfl.display.TriangleCulling;
-import openfl.display.Bitmap;
-import openfl.display.BitmapData;
-import openfl.display.BlendMode;
-import openfl.display.Sprite;
-import openfl.events.Event;
-import openfl.geom.ColorTransform;
-import openfl.geom.Matrix;
-import openfl.geom.Point;
-import openfl.geom.Rectangle;
-import openfl.Vector;
+import flash.display.TriangleCulling;
+import flash.display.Bitmap;
+import flash.display.BitmapData;
+import flash.display.BlendMode;
+import flash.display.Sprite;
+import flash.events.Event;
+import flash.geom.ColorTransform;
+import flash.geom.Matrix;
+import flash.geom.Point;
+import flash.geom.Rectangle;
+import flash.Vector;
 import spinehaxe.attachments.MeshAttachment;
-import spinehaxe.attachments.SkinnedMeshAttachment;
 
 import spinehaxe.Bone;
 import spinehaxe.Skeleton;
@@ -52,25 +51,23 @@ import spinehaxe.atlas.AtlasRegion;
 import spinehaxe.attachments.RegionAttachment;
 
 class SkeletonSprite extends Sprite {
-	static private var tempPoint:Point = new Point();
-	static private var tempMatrix:Matrix = new Matrix();
+	static var tempPoint:Point = new Point();
+	static var tempMatrix:Matrix = new Matrix();
 
 	public var skeleton:Skeleton;
 	public var timeScale:Float = 1;
-	private var lastTime:Int = 0;
+	var lastTime:Int = 0;
 
 	public var renderMeshes(default, set):Bool;
 
-	private var _tempVertices:Vector<Float>;
-	private var _tempVerticesArray:Array<Float>;
-	#if (flash && !nme)
-	private var _quadTriangles:Vector<Int>;
-	#else
-	private var _quadTriangles:Array<Int>;
-	private var _colors:Array<Int>;
+	var _tempVertices:Vector<Float>;
+	var _tempVerticesArray:Array<Float>;
+	var _quadTriangles:Array<Int>;
+	#if (nme && !flash)
+	var _colors:Array<Int>;
 	#end
 
-	public function new (skeletonData:SkeletonData, renderMeshes:Bool = false) {
+	public function new(skeletonData:SkeletonData, renderMeshes:Bool = false) {
 		super();
 
 		Bone.yDown = true;
@@ -86,7 +83,7 @@ class SkeletonSprite extends Sprite {
 				continue;
 			}
 
-			if (Std.is(slot.attachment, MeshAttachment) || Std.is(slot.attachment, SkinnedMeshAttachment))
+			if (Std.is(slot.attachment, MeshAttachment))
 			{
 				renderMeshes = true;
 				break;
@@ -98,18 +95,16 @@ class SkeletonSprite extends Sprite {
 		_tempVertices = new Vector(8);
 		_tempVertices.fixed = false;
 		_tempVerticesArray = new Array<Float>();
-		#if flash
-		_quadTriangles = new Vector<Int>();
-		#else
 		_quadTriangles = new Array<Int>();
-		_colors = new Array<Int>();
-		#end
-		_quadTriangles[0] = 0;// = Vector.fromArray([0, 1, 2, 2, 3, 0]);
+		_quadTriangles[0] = 0;
 		_quadTriangles[1] = 1;
 		_quadTriangles[2] = 2;
 		_quadTriangles[3] = 2;
 		_quadTriangles[4] = 3;
 		_quadTriangles[5] = 0;
+		#if (nme && !flash)
+		_colors = new Array<Int>();
+		#end
 
 		addEventListener(Event.ENTER_FRAME, enterFrame);
 	}
@@ -132,13 +127,13 @@ class SkeletonSprite extends Sprite {
 		}
 	}
 
-	private function enterFrame (event:Event) : Void {
+	function enterFrame (event:Event):Void {
 		var time:Int = Std.int(haxe.Timer.stamp() * 1000);
 		advanceTime((time - lastTime) / 1000);
 		lastTime = time;
 	}
 
-	public function advanceTime (delta:Float) : Void {
+	public function advanceTime (delta:Float):Void {
 		skeleton.update(delta * timeScale);
 
 		if (!renderMeshes)
@@ -151,14 +146,14 @@ class SkeletonSprite extends Sprite {
 		}
 	}
 
-	private function renderRegions():Void
+	function renderRegions():Void
 	{
 		removeChildren();
 		var drawOrder:Array<Slot> = skeleton.drawOrder;
 		for (i in 0 ... drawOrder.length) {
 			var slot:Slot = drawOrder[i];
 			if (slot.attachment == null || !Std.is(slot.attachment, RegionAttachment)) continue;
-			var regionAttachment:RegionAttachment = cast(slot.attachment, RegionAttachment);
+			var regionAttachment:RegionAttachment = cast slot.attachment;
 			if (regionAttachment != null) {
 				var wrapper:Sprite = regionAttachment.wrapper;
 				var region:AtlasRegion = cast regionAttachment.rendererObject;
@@ -176,7 +171,6 @@ class SkeletonSprite extends Sprite {
 					bitmap.rotation = -regionAttachment.rotation;
 					bitmap.scaleX = regionAttachment.scaleX * (regionAttachment.width / region.width);
 					bitmap.scaleY = regionAttachment.scaleY * (regionAttachment.height / region.height);
-
 
 					// Position using attachment translation, shifted as if scale and rotation were at image center.
 					var radians:Float = -regionAttachment.rotation * Math.PI / 180;
@@ -198,7 +192,7 @@ class SkeletonSprite extends Sprite {
 					regionAttachment.wrapper = wrapper;
 				}
 
-				wrapper.blendMode = slot.data.additiveBlending ? BlendMode.ADD : BlendMode.NORMAL;
+				wrapper.blendMode = (slot.data.blendMode == spinehaxe.BlendMode.additive) ? BlendMode.ADD : BlendMode.NORMAL;
 
 				var colorTransform:ColorTransform = wrapper.transform.colorTransform;
 				colorTransform.redMultiplier = skeleton.r * slot.r * regionAttachment.r;
@@ -210,12 +204,10 @@ class SkeletonSprite extends Sprite {
 				var bone:Bone = slot.bone;
 				var flipX:Int = skeleton.flipX ? -1 : 1;
 				var flipY:Int = skeleton.flipY ? -1 : 1;
-				if (bone.flipX) flipX = -flipX;
-				if (bone.flipY) flipY = -flipY;
 
 				wrapper.x = bone.worldX;
 				wrapper.y = bone.worldY;
-				wrapper.rotation = -bone.worldRotation * flipX * flipY;
+				wrapper.rotation = bone.worldRotationX * flipX * flipY;
 				wrapper.scaleX = bone.worldScaleX * flipX;
 				wrapper.scaleY = bone.worldScaleY * flipY;
 				addChild(wrapper);
@@ -223,18 +215,13 @@ class SkeletonSprite extends Sprite {
 		}
 	}
 
-	private function renderTriangles():Void
+	function renderTriangles():Void
 	{
 		var drawOrder:Array<Slot> = skeleton.drawOrder;
 		var n:Int = drawOrder.length;
 		var worldVertices:Vector<Float> = _tempVertices;
-		#if (flash || !nme)
-		var triangles:Vector<Int> = null;
-		var uvs:Vector<Float> = null;
-		#else
 		var triangles:Array<Int> = null;
 		var uvs:Array<Float> = null;
-		#end
 		var verticesLength:Int = 0;
 		var numVertices:Int;
 		var atlasRegion:AtlasRegion;
@@ -246,7 +233,7 @@ class SkeletonSprite extends Sprite {
 
 		graphics.clear();
 
-		for (i in 0...n)
+		for (i in 0 ... n)
 		{
 			slot = drawOrder[i];
 			triangles = null;
@@ -262,9 +249,9 @@ class SkeletonSprite extends Sprite {
 					verticesLength = 8;
 					if (worldVertices.length < verticesLength) worldVertices.length = verticesLength;
 					region.computeWorldVertices(0, 0, slot.bone, _tempVerticesArray);
-					uvs = cast region.uvs;
-					triangles = cast _quadTriangles;
-					atlasRegion = cast(region.rendererObject, AtlasRegion);
+					uvs = region.uvs;
+					triangles = _quadTriangles;
+					atlasRegion = cast region.rendererObject;
 
 					r = region.r;
 					g = region.g;
@@ -273,33 +260,18 @@ class SkeletonSprite extends Sprite {
 				}
 				else if (Std.is(slot.attachment, MeshAttachment))
 				{
-					var mesh:MeshAttachment = cast(slot.attachment, MeshAttachment);
+					var mesh:MeshAttachment = cast slot.attachment;
 					verticesLength = mesh.vertices.length;
 					if (worldVertices.length < verticesLength) worldVertices.length = verticesLength;
-					mesh.computeWorldVertices(0, 0, slot, _tempVerticesArray);
-					uvs = cast mesh.uvs;
-					triangles = cast mesh.triangles;
-					atlasRegion = cast(mesh.rendererObject, AtlasRegion);
+					mesh.computeWorldVertices(slot, _tempVerticesArray);
+					uvs = mesh.uvs;
+					triangles = mesh.triangles;
+					atlasRegion = mesh.rendererObject;
 
 					r = mesh.r;
 					g = mesh.g;
 					b = mesh.b;
 					a = mesh.a;
-				}
-				else if (Std.is(slot.attachment, SkinnedMeshAttachment))
-				{
-					var skinnedMesh:SkinnedMeshAttachment = cast(slot.attachment, SkinnedMeshAttachment);
-					verticesLength = skinnedMesh.uvs.length;
-					if (worldVertices.length < verticesLength) worldVertices.length = verticesLength;
-					skinnedMesh.computeWorldVertices(0, 0, slot, _tempVerticesArray);
-					uvs = cast skinnedMesh.uvs;
-					triangles = cast skinnedMesh.triangles;
-					atlasRegion = cast(skinnedMesh.rendererObject, AtlasRegion);
-
-					r = skinnedMesh.r;
-					g = skinnedMesh.g;
-					b = skinnedMesh.b;
-					a = skinnedMesh.a;
 				}
 
 				if (atlasRegion != null)
@@ -313,7 +285,11 @@ class SkeletonSprite extends Sprite {
 					}
 					worldVertices.splice(verticesLength, worldVertices.length);
 
+					#if nme
+					graphics.drawTriangles(cast worldVertices, cast triangles, cast uvs);
+					#else
 					graphics.drawTriangles(worldVertices, triangles, uvs);
+					#end
 					#else
 					if (_tempVerticesArray.length - verticesLength > 0)
 					{
@@ -332,7 +308,7 @@ class SkeletonSprite extends Sprite {
 						_colors.splice(numVertices, _colors.length - numVertices);
 					}
 
-					blend = slot.data.additiveBlending ? openfl.display.Tilesheet.TILE_BLEND_ADD : openfl.display.Tilesheet.TILE_BLEND_NORMAL;
+					blend = (slot.data.blendMode == spinehaxe.BlendMode.additive) ? openfl.display.Tilesheet.TILE_BLEND_ADD : openfl.display.Tilesheet.TILE_BLEND_NORMAL;
 
 					graphics.drawTriangles(_tempVerticesArray, triangles, uvs, TriangleCulling.NONE, _colors, blend);
 					#end
@@ -342,7 +318,7 @@ class SkeletonSprite extends Sprite {
 		}
 	}
 
-	private function set_renderMeshes(value:Bool):Bool
+	function set_renderMeshes(value:Bool):Bool
 	{
 		removeChildren();
 		graphics.clear();

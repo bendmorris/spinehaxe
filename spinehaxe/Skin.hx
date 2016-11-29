@@ -59,7 +59,7 @@ class Skin {
 	}
 
 	/** Attach each attachment in this skin if the corresponding attachment in the old skin is currently attached. */
-	public function attachAll (skeleton:Skeleton, oldSkin:Skin) : Void {
+	public function attachAll (skeleton:Skeleton, oldSkin:Skin):Void {
 		var slotIndex:Int = 0;
 		for (slot in skeleton.slots) {
 			var slotAttachment:Attachment = slot.attachment;
