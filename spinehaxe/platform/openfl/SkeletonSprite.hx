@@ -75,6 +75,8 @@ class SkeletonSprite extends Sprite {
 		skeleton = new Skeleton(skeletonData);
 		skeleton.updateWorldTransform();
 
+		renderMeshes = true;
+
 		var drawOrder:Array<Slot> = skeleton.drawOrder;
 		for (slot in drawOrder)
 		{
@@ -127,7 +129,7 @@ class SkeletonSprite extends Sprite {
 		}
 	}
 
-	function enterFrame (event:Event):Void {
+	function enterFrame(event:Event):Void {
 		var time:Int = Std.int(haxe.Timer.stamp() * 1000);
 		advanceTime((time - lastTime) / 1000);
 		lastTime = time;
@@ -285,8 +287,8 @@ class SkeletonSprite extends Sprite {
 					}
 					worldVertices.splice(verticesLength, worldVertices.length);
 
-					#if nme
-					graphics.drawTriangles(cast worldVertices, cast triangles, cast uvs);
+					#if (nme || openfl >= "4.0.0")
+					graphics.drawTriangles(worldVertices, Vector.ofArray(triangles), Vector.ofArray(uvs));
 					#else
 					graphics.drawTriangles(worldVertices, triangles, uvs);
 					#end
