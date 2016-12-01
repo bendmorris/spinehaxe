@@ -12,12 +12,12 @@ class ArrayUtils {
 		return new Vector<String>(n);
 	}
 
-	@:generic public static inline function clearArray<T>(array:Array<T>):Void
+	public static inline function clearArray<T>(array:Array<T>):Void
 	{
 		setLength(array, 0);
 	}
 
-	@:generic public static inline function setLength<T>(array:Array<T>, length:Int):Void
+	public static inline function setLength<T>(array:Array<T>, length:Int):Void
 	{
 #if flash
 		untyped array.length = length;
