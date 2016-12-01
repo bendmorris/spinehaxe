@@ -122,7 +122,14 @@ class IkConstraint implements Constraint {
 			os2 = 180;
 		} else
 			os2 = 0;
-		var cx:Float = child.ax, cy:Float, cwx:Float, cwy:Float, a:Float = parent.a, b:Float = parent.b, c:Float = parent.c, d:Float = parent.d;
+		var cx:Float = child.ax,
+			cy:Float = 0,
+			cwx:Float = 0,
+			cwy:Float = 0,
+			a:Float = parent.a,
+			b:Float = parent.b,
+			c:Float = parent.c,
+			d:Float = parent.d;
 		var u:Bool = Math.abs(psx - psy) <= 0.0001;
 		if (!u) {
 			cy = 0;
@@ -143,7 +150,7 @@ class IkConstraint implements Constraint {
 		x = cwx - pp.worldX;
 		y = cwy - pp.worldY;
 		var dx:Float = (x * d - y * b) * id - px, dy:Float = (y * a - x * c) * id - py;
-		var l1:Float = Math.sqrt(dx * dx + dy * dy), l2:Float = child.data.length * csx, a1:Float, a2:Float;
+		var l1:Float = Math.sqrt(dx * dx + dy * dy), l2:Float = child.data.length * csx, a1:Float = 0, a2:Float = 0;
 
 		var breakOuter:Bool = false;
 		if (u) {
