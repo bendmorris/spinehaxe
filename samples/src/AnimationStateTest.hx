@@ -39,19 +39,37 @@ class AnimationStateTest extends Sprite {
 		// Define mixing between animations.
 		var stateData = new AnimationStateData(skeletonData);
 		stateData.setMixByName("walk", "jump", 0.2);
+		stateData.setMixByName("jump", "run", 0.4);
 		stateData.setMixByName("jump", "walk", 0.4);
 		stateData.setMixByName("jump", "jump", 0.2);
 
-		state = new AnimationState(stateData);
-		state.setAnimationByName(0, "walk", true);
-
-		renderer = new SkeletonAnimation(skeletonData);
+		renderer = new SkeletonAnimation(skeletonData, stateData);
 		skeleton = renderer.skeleton;
+		trace(skeleton);
 		skeleton.flipX = false;
+		#if mesh
+		renderer.renderMeshes = true;
+		#end
 		renderer.x = 150;
 		renderer.y = 450;
 
-		skeleton.updateWorldTransform();
+		state = renderer.state;
+		state.onStart.add(function (trackEntry) {
+			trace(trackEntry.trackIndex + " fuu start");
+		});
+		state.onEnd.add(function (trackEntry) {
+			trace(trackEntry.trackIndex + " end");
+		});
+		state.onComplete.add(function (trackEntry) {
+			trace(trackEntry.trackIndex + " complete");
+		});
+		state.onEvent.add(function (trackEntry, event) {
+			trace(trackEntry.trackIndex + " event: " + event.data + ": " + event.intValue + ", " + event.floatValue + ", " + event.stringValue);
+		});
+
+		state.setAnimationByName(0, "walk", true);
+		state.addAnimationByName(0, "jump", false, 3);
+		state.addAnimationByName(0, "run", true, 0);
 
 		lastTime = haxe.Timer.stamp();
 
@@ -73,20 +91,12 @@ class AnimationStateTest extends Sprite {
 	}
 
 	public function render(e:Event):Void {
-		var delta = (haxe.Timer.stamp() - lastTime) / 3;
-		lastTime = haxe.Timer.stamp();
+		var t = haxe.Timer.stamp(),
+			delta = (t - lastTime) / 3;
+		lastTime = t;
 		state.update(delta);
 		state.apply(skeleton);
-		var anim = state.getCurrent(0);
-		if (anim.animation.name == "walk") {
-			// After one second, change the current animation. Mixing is done by AnimationState for you.
-			if (anim.getAnimationTime() > 2) state.setAnimationByName(0, "jump", false);
-		} else {
-			if (anim.getAnimationTime() > 1) state.setAnimationByName(0, "walk", true);
-		}
-
 		skeleton.updateWorldTransform();
-
 		renderer.visible = true;
 	}
 
@@ -96,5 +106,4 @@ class AnimationStateTest extends Sprite {
 
 		Lib.current.addChild(main);
 	}
-
 }
