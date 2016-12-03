@@ -1,11 +1,11 @@
 {
     "name": "spinehaxe",
     "url": "https://github.com/bendmorris/spinehaxe",
-    "license": "Spine Runtimes Software License",
+    "license": "BSD",
     "tags": [ "spine", "animation", "cross", "neko", "flash", "js", "cpp"],
     "description": "Spine runtime for Haxe.",
     "version": "3.5.0",
-    "releasenote": "Compatible with Spine 3.5",
+    "releasenote": "Compatible with Spine 3.5. Spine runtimes are under the Spine Runtimes Software License (included)",
     "contributors": [ "bendmorris" ],
     "dependencies": {}
 }
