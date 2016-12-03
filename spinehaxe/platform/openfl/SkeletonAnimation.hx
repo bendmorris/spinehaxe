@@ -37,12 +37,12 @@ import spinehaxe.animation.AnimationStateData;
 class SkeletonAnimation extends SkeletonSprite {
 	public var state:AnimationState;
 
-	public function new (skeletonData:SkeletonData, stateData:AnimationStateData = null, renderMeshes:Bool = false) {
+	public function new(skeletonData:SkeletonData, stateData:AnimationStateData = null, renderMeshes:Bool = false) {
 		super(skeletonData, renderMeshes);
 		state = new AnimationState(stateData == null ? new AnimationStateData(skeletonData):stateData);
 	}
 
-	override public function advanceTime (time:Float):Void {
+	override public function advanceTime(time:Float):Void {
 		state.update(time * timeScale);
 		state.apply(skeleton);
 		skeleton.updateWorldTransform();

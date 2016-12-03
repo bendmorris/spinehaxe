@@ -31,6 +31,7 @@
 package spinehaxe.animation;
 
 import spinehaxe.Poolable;
+import spinehaxe.animation.Listeners;
 
 class TrackEntry implements Poolable {
 	public var animation:Animation;
@@ -41,7 +42,7 @@ class TrackEntry implements Poolable {
 	public var onEnd:Listeners = new Listeners();
 	public var onDispose:Listeners = new Listeners();
 	public var onComplete:Listeners = new Listeners();
-	public var onEvent:Listeners = new Listeners();
+	public var onEvent:EventListeners = new EventListeners();
 	public var trackIndex:Int;
 	public var loop:Bool;
 	public var eventThreshold:Float;

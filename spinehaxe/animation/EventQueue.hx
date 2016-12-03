@@ -86,28 +86,28 @@ class EventQueue {
 			var entry:TrackEntry = entries[i];
 			switch (type) {
 				case EventType.start:
-					entry.onStart.invoke1(entry);
-					animationState.onStart.invoke1(entry);
+					entry.onStart.invoke(entry);
+					animationState.onStart.invoke(entry);
 				case EventType.interrupt:
-					entry.onInterrupt.invoke1(entry);
-					animationState.onInterrupt.invoke1(entry);
+					entry.onInterrupt.invoke(entry);
+					animationState.onInterrupt.invoke(entry);
 				case EventType.end:
-					entry.onEnd.invoke1(entry);
-					animationState.onEnd.invoke1(entry);
-					entry.onDispose.invoke1(entry);
-					animationState.onDispose.invoke1(entry);
+					entry.onEnd.invoke(entry);
+					animationState.onEnd.invoke(entry);
+					entry.onDispose.invoke(entry);
+					animationState.onDispose.invoke(entry);
 					animationState.trackEntryPool.free(entry);
 				case EventType.dispose:
-					entry.onDispose.invoke1(entry);
-					animationState.onDispose.invoke1(entry);
+					entry.onDispose.invoke(entry);
+					animationState.onDispose.invoke(entry);
 					animationState.trackEntryPool.free(entry);
 				case EventType.complete:
-					entry.onComplete.invoke1(entry);
-					animationState.onComplete.invoke1(entry);
+					entry.onComplete.invoke(entry);
+					animationState.onComplete.invoke(entry);
 				case EventType.event:
 					var event:Event = events[eventIndex++];
-					entry.onEvent.invoke2(entry, event);
-					animationState.onEvent.invoke2(entry, event);
+					entry.onEvent.invoke(entry, event);
+					animationState.onEvent.invoke(entry, event);
 			}
 		}
 		clear();
