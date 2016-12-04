@@ -100,7 +100,7 @@ class AnimationStateTest extends Sprite {
 		renderer.visible = true;
 	}
 
-	static function main()
+	public static function main()
 	{
 		var main = new AnimationStateTest();
 
