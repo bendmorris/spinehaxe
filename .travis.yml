@@ -16,6 +16,7 @@ env:
 sudo: false
 
 install:
+  - yes | haxelib install hxcpp > log.txt || cat log.txt
   - if [[ $LIME ]]; then yes | haxelib install lime $LIME > log.txt || cat log.txt; fi
   - if [[ $OPENFL ]]; then yes | haxelib install openfl $OPENFL > log.txt || cat log.txt; fi
   - if [[ $NME ]]; then yes | haxelib install nme $NME > log.txt || cat log.txt; fi
