@@ -582,7 +582,7 @@ class SkeletonJson {
 		for (skinName in deformMap.fields()) {
 			var skin:Skin = skeletonData.findSkin(skinName);
 			slotMap = deformMap.getNode(skinName);
-			for (slotName in slotMap) {
+			for (slotName in slotMap.fields()) {
 				slotIndex = skeletonData.findSlotIndex(slotName);
 				var timelineMap:JsonNode = slotMap.getNode(slotName);
 				for (timelineName in timelineMap.fields()) {
@@ -608,8 +608,13 @@ class SkeletonJson {
 							deform = new Array();
 							var start:Int = valueMap.getInt("offset", 0);
 							var temp:Array<Float> = valueMap.getFloatArray("vertices", 1);
+							for (i in 0 ... start)
+								deform[i] = 0;
 							for (i in 0 ... temp.length) {
 								deform[start + i] = temp[i];
+							}
+							for (i in deform.length ... deformLength) {
+								deform[i] = 0;
 							}
 							if (scale != 1) {
 								var n:Int;
