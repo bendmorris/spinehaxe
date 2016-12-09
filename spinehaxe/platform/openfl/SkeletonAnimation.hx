@@ -39,7 +39,7 @@ class SkeletonAnimation extends SkeletonSprite {
 
 	public function new(skeletonData:SkeletonData, stateData:AnimationStateData = null, renderMeshes:Bool = false) {
 		super(skeletonData, renderMeshes);
-		state = new AnimationState(stateData == null ? new AnimationStateData(skeletonData):stateData);
+		state = new AnimationState(stateData == null ? new AnimationStateData(skeletonData) : stateData);
 	}
 
 	override public function advanceTime(time:Float):Void {

@@ -75,8 +75,6 @@ class SkeletonSprite extends Sprite {
 		skeleton = new Skeleton(skeletonData);
 		skeleton.updateWorldTransform();
 
-		renderMeshes = true;
-
 		var drawOrder:Array<Slot> = skeleton.drawOrder;
 		for (slot in drawOrder)
 		{
@@ -209,10 +207,8 @@ class SkeletonSprite extends Sprite {
 
 				wrapper.x = bone.worldX;
 				wrapper.y = bone.worldY;
-				
 				wrapper.rotation = bone.worldRotationX;
 				if (skeleton.flipX) wrapper.rotation += 180;
-				
 				wrapper.scaleX = bone.worldScaleX * flipX;
 				wrapper.scaleY = bone.worldScaleY * flipY;
 				addChild(wrapper);

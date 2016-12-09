@@ -92,7 +92,7 @@ class AtlasAttachmentLoader implements AttachmentLoader {
 		return new PathAttachment(name);
 	}
 
-	static public function nextPOT (value:Int):Int {
+	static public function nextPOT(value:Int):Int {
 		value--;
 		value |= value >> 1;
 		value |= value >> 2;

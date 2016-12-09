@@ -14,7 +14,7 @@ class BitmapDataTextureLoader implements TextureLoader {
 		this.prefix = prefix;
 	}
 
-	public function loadPage (page:AtlasPage, path:String):Void {
+	public function loadPage(page:AtlasPage, path:String):Void {
 		var bitmapData:BitmapData = Assets.getBitmapData(prefix + path);
 		if (bitmapData == null)
 			throw new IllegalArgumentException("BitmapData not found with name: " + prefix + path);
@@ -23,7 +23,7 @@ class BitmapDataTextureLoader implements TextureLoader {
 		page.height = bitmapData.height;
 	}
 
-	public function loadRegion (region:AtlasRegion):Void {
+	public function loadRegion(region:AtlasRegion):Void {
 	}
 
 	public function unloadPage (page:AtlasPage):Void {
