@@ -46,7 +46,7 @@ class MeshAttachment extends VertexAttachment {
 	public var a:Float = 1;
 	public var hullLength:Int = 0;
 	public var parentMesh(get, set):MeshAttachment;
-	public var inheritDeform:Bool;
+	public var inheritDeform:Bool = true;
 
 	public var path:String;
 	public var rendererObject:Dynamic;
@@ -92,7 +92,7 @@ class MeshAttachment extends VertexAttachment {
 		}
 	}
 
-	public function applyFFD(sourceAttachment:Attachment):Bool {
+	override public function applyDeform(sourceAttachment:Attachment):Bool {
 		return this == sourceAttachment || (inheritDeform && _parentMesh == sourceAttachment);
 	}
 
