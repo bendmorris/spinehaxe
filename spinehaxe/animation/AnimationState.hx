@@ -302,7 +302,10 @@ class AnimationState {
 		while (i < n) {
 			event = events[i];
 			if (event.time < trackLastWrapped) break;
-			if (event.time > animationEnd) continue; // Discard events outside animation start/end.
+			if (event.time > animationEnd) {
+				i++;
+				continue; // Discard events outside animation start/end.
+			}
 			queue.event(entry, event);
 			i++;
 		}
@@ -316,7 +319,10 @@ class AnimationState {
 		// Queue events after complete.
 		while (i < n) {
 			event = events[i];
-			if (event.time < animationStart) continue; // Discard events outside animation start/end.
+			if (event.time < animationStart) {
+				i++;
+				continue; // Discard events outside animation start/end.
+			}
 			queue.event(entry, events[i]);
 			i++;
 		}
