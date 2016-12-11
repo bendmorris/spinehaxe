@@ -691,7 +691,7 @@ class SkeletonJson {
 				eventTimeline.setFrame(frameIndex++, event);
 			}
 			timelines[timelines.length] = eventTimeline;
-			duration = Std.int(Math.max(duration, eventTimeline.frames[eventTimeline.frameCount - 1]));
+			duration = Math.max(duration, eventTimeline.frames[eventTimeline.frameCount - 1]);
 		}
 
 		skeletonData.animations[skeletonData.animations.length] = new Animation(name, timelines, duration);
