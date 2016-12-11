@@ -44,34 +44,34 @@ class EventQueue {
 	}
 
 	public function start(entry:TrackEntry):Void {
-		eventTypes.push(EventType.start);
+		eventTypes.push(EventType.Start);
 		entries.push(entry);
 		animationState.animationsChanged = true;
 	}
 
 	public function interrupt(entry:TrackEntry):Void {
-		eventTypes.push(EventType.interrupt);
+		eventTypes.push(EventType.Interrupt);
 		entries.push(entry);
 	}
 
 	public function end(entry:TrackEntry):Void {
-		eventTypes.push(EventType.end);
+		eventTypes.push(EventType.End);
 		entries.push(entry);
 		animationState.animationsChanged = true;
 	}
 
 	public function dispose(entry:TrackEntry):Void {
-		eventTypes.push(EventType.dispose);
+		eventTypes.push(EventType.Dispose);
 		entries.push(entry);
 	}
 
 	public function complete(entry:TrackEntry):Void {
-		eventTypes.push(EventType.complete);
+		eventTypes.push(EventType.Complete);
 		entries.push(entry);
 	}
 
 	public function event(entry:TrackEntry, event:Event):Void {
-		eventTypes.push(EventType.event);
+		eventTypes.push(EventType.Event);
 		entries.push(entry);
 		events.push(event);
 	}
@@ -85,26 +85,26 @@ class EventQueue {
 			var type:EventType = eventTypes[i];
 			var entry:TrackEntry = entries[i];
 			switch (type) {
-				case EventType.start:
+				case EventType.Start:
 					entry.onStart.invoke(entry);
 					animationState.onStart.invoke(entry);
-				case EventType.interrupt:
+				case EventType.Interrupt:
 					entry.onInterrupt.invoke(entry);
 					animationState.onInterrupt.invoke(entry);
-				case EventType.end:
+				case EventType.End:
 					entry.onEnd.invoke(entry);
 					animationState.onEnd.invoke(entry);
 					entry.onDispose.invoke(entry);
 					animationState.onDispose.invoke(entry);
 					animationState.trackEntryPool.free(entry);
-				case EventType.dispose:
+				case EventType.Dispose:
 					entry.onDispose.invoke(entry);
 					animationState.onDispose.invoke(entry);
 					animationState.trackEntryPool.free(entry);
-				case EventType.complete:
+				case EventType.Complete:
 					entry.onComplete.invoke(entry);
 					animationState.onComplete.invoke(entry);
-				case EventType.event:
+				case EventType.Event:
 					var event:Event = events[eventIndex++];
 					entry.onEvent.invoke(entry, event);
 					animationState.onEvent.invoke(entry, event);

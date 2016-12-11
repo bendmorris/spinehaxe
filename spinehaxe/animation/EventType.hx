@@ -32,10 +32,10 @@ package spinehaxe.animation;
 
 @:enum
 abstract EventType(Int) {
-	var start = 1;
-	var interrupt = 2;
-	var end = 3;
-	var dispose = 4;
-	var complete = 5;
-	var event = 6;
+	var Start = 1;
+	var Interrupt = 2;
+	var End = 3;
+	var Dispose = 4;
+	var Complete = 5;
+	var Event = 6;
 }
