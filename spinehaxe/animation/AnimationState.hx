@@ -157,7 +157,7 @@ class AnimationState {
 					timelines[ii].apply(skeleton, animationLast, animationTime, events, 1, true, false);
 			} else {
 				var firstFrame:Bool = current.timelinesRotation.length == 0;
-				if (firstFrame) ArrayUtils.setLength(current.timelinesRotation, timelineCount << 1);
+				if (firstFrame) ArrayUtils.setLength(current.timelinesRotation, timelineCount << 1, 0);
 				var timelinesRotation:Array<Float> = current.timelinesRotation;
 
 				var timelinesFirst:Array<Bool> = current.timelinesFirst;
@@ -199,7 +199,7 @@ class AnimationState {
 		var alpha:Float = _from.alpha * entry.mixAlpha * (1 - mix);
 
 		var firstFrame:Bool = _from.timelinesRotation.length == 0;
-		if (firstFrame) ArrayUtils.setLength(_from.timelinesRotation, timelineCount << 1);
+		if (firstFrame) ArrayUtils.setLength(_from.timelinesRotation, timelineCount << 1, 0);
 		var timelinesRotation:Array<Float> = _from.timelinesRotation;
 
 		for (i in 0 ... timelineCount) {
@@ -257,7 +257,7 @@ class AnimationState {
 
 		// Mix between rotations using the direction of the shortest route on the first frame while detecting crosses.
 		var r1:Float = setupPose ? bone.data.rotation : bone.rotation;
-		var total:Float, diff:Float = r2 - r1;
+		var total:Float = 0, diff:Float = r2 - r1;
 		if (diff == 0) {
 			if (firstFrame) {
 				timelinesRotation[i] = 0;
