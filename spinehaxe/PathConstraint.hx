@@ -88,12 +88,12 @@ class PathConstraint implements Constraint {
 		var tangents:Bool = rotateMode == RotateMode.tangent, scale:Bool = rotateMode == RotateMode.chainScale;
 		var boneCount:Int = this._bones.length, spacesCount:Int = tangents ? boneCount : boneCount + 1;
 		var bones:Array<Bone> = this._bones;
-		ArrayUtils.setLength(this._spaces, spacesCount);
+		ArrayUtils.setLength(this._spaces, spacesCount, 0);
 		var spaces:Array<Float> = this._spaces, lengths:Array<Float> = null;
 		var spacing:Float = this.spacing;
 		if (scale || lengthSpacing) {
 			if (scale) {
-				ArrayUtils.setLength(this._lengths, boneCount);
+				ArrayUtils.setLength(this._lengths, boneCount, 0);
 				lengths = this._lengths;
 			}
 			for (i in 0 ... spacesCount - 1) {
@@ -178,7 +178,7 @@ class PathConstraint implements Constraint {
 		var target:Slot = this.target;
 		var position:Float = this.position;
 		var spaces:Array<Float> = this._spaces;
-		ArrayUtils.setLength(this._positions, spacesCount * 3 + 2);
+		ArrayUtils.setLength(this._positions, spacesCount * 3 + 2, 0);
 		var out:Array<Float> = this._positions, world:Array<Float>;
 		var closed:Bool = path.closed;
 		var verticesLength:Int = path.worldVerticesLength, curveCount:Int = Std.int(verticesLength / 6), prevCurve:Int = NONE;
@@ -192,7 +192,7 @@ class PathConstraint implements Constraint {
 				for (i in 0 ... spacesCount)
 					spaces[i] *= pathLength;
 			}
-			ArrayUtils.setLength(this._world, 8);
+			ArrayUtils.setLength(this._world, 8, 0);
 			world = this._world;
 			var i = 0, o = 0, curve = 0;
 			while (i < spacesCount) {
@@ -258,7 +258,7 @@ class PathConstraint implements Constraint {
 		// World vertices.
 		if (closed) {
 			verticesLength += 2;
-			ArrayUtils.setLength(this._world, verticesLength);
+			ArrayUtils.setLength(this._world, verticesLength, 0);
 			world = this._world;
 			path.computeWorldVertices2(target, 2, verticesLength - 4, world, 0);
 			path.computeWorldVertices2(target, 0, 2, world, verticesLength - 4);
@@ -267,13 +267,13 @@ class PathConstraint implements Constraint {
 		} else {
 			curveCount--;
 			verticesLength -= 4;
-			ArrayUtils.setLength(this._world, verticesLength);
+			ArrayUtils.setLength(this._world, verticesLength, 0);
 			world = this._world;
 			path.computeWorldVertices2(target, 2, verticesLength, world, 0);
 		}
 
 		// Curve lengths.
-		ArrayUtils.setLength(this._curves, curveCount);
+		ArrayUtils.setLength(this._curves, curveCount, 0);
 		var curves:Array<Float> = this._curves;
 		var pathLength:Float = 0;
 		var x1:Float = world[0], y1:Float = world[1], cx1:Float = 0, cy1:Float = 0, cx2:Float = 0, cy2:Float = 0, x2:Float = 0, y2:Float = 0;

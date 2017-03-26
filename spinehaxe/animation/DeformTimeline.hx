@@ -48,7 +48,7 @@ class DeformTimeline extends CurveTimeline {
 		frames = ArrayUtils.allocFloat(frameCount);
 		frameVertices = new Vector<Array<Float>>(frameCount);
 	}
-	
+
 	override public function getPropertyId():Int {
 		return (TimelineType.deform << 24) + slotIndex;
 	}
@@ -72,9 +72,9 @@ class DeformTimeline extends CurveTimeline {
 
 		var frameVertices:Vector<Array<Float>> = this.frameVertices;
 		var vertexCount:Int = frameVertices[0].length;
-		
+
 		if (verticesArray.length != vertexCount) alpha = 1; // Don't mix from uninitialized slot vertices.
-		ArrayUtils.setLength(verticesArray, vertexCount);
+		ArrayUtils.setLength(verticesArray, vertexCount, 0);
 		var vertices:Array<Float> = verticesArray;
 
 		var i:Int, n:Int;

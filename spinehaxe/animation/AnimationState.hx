@@ -547,7 +547,7 @@ class AnimationState {
 		var timelines:Array<Timeline> = entry.animation.timelines;
 		var n:Int = timelines.length;
 		var usage:Array<Bool> = entry.timelinesFirst;
-		ArrayUtils.setLength(usage, n);
+		ArrayUtils.setLength(usage, n, false);
 		for (i in 0 ... n) {
 			var id:String = Std.string(timelines[i].getPropertyId());
 			propertyIDs[id] = id;
@@ -565,7 +565,7 @@ class AnimationState {
 		var timelines:Array<Timeline> = entry.animation.timelines;
 		var n:Int = timelines.length;
 		var usage:Array<Bool> = usageArray;
-		ArrayUtils.setLength(usageArray, n);
+		ArrayUtils.setLength(usageArray, n, false);
 		for (i in 0 ... n) {
 			var id:String = Std.string(timelines[i].getPropertyId());
 			usage[i] = !propertyIDs.exists(id);
