@@ -1,3 +1,9 @@
+# Update
+
+In true Haxe spirit, @jeremyfa has created a cool system to keep the Spine runtimes up to date *automatically*: <https://github.com/jeremyfa/spine-hx>
+
+You should check it out! (If you prefer spinehaxe, using `import spine.*` instead of `import spinehaxe.*` will keep your code compatible with both.)
+
 [![Build Status](https://img.shields.io/travis/bendmorris/spinehaxe/dev.svg?style=flat)](https://travis-ci.org/bendmorris/spinehaxe)
 
 This is an attempt to build a current Haxe runtime for 
