@@ -175,6 +175,6 @@ class SkeletonData {
 	// ---
 
 	public function toString():String {
-		return name != null ? name : Std.string(this);
+		return name != null ? name : "";
 	}
 }
