@@ -46,8 +46,9 @@ class AtlasAttachmentLoader implements AttachmentLoader {
 	
 	public function newRegionAttachment(skin:Skin, name:String, path:String):RegionAttachment {
 		var region:AtlasRegion = atlas.findRegion(path);
-		if (region == null)
-			throw "Region not found in atlas: " + path + " (region attachment: " + name + ")";
+		if (region == null) {
+			return null;
+		}
 		var attachment:RegionAttachment = new RegionAttachment(name);
 		attachment.rendererObject = region;
 		var scaleX:Float = region.page.width / nextPOT(region.page.width);
