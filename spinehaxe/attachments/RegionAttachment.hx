@@ -33,7 +33,7 @@ package spinehaxe.attachments;
 import spinehaxe.Bone;
 import haxe.ds.Vector;
 
-class RegionAttachment extends Attachment #if (haxe_ver >= "4.0.0") implements Dynamic<Dynamic> #end {
+class RegionAttachment extends Attachment #if (haxe_ver < "4.0.0") implements Dynamic<Dynamic> #end {
 	public static inline var X1:Int = 0;
 	public static inline var Y1:Int = 1;
 	public static inline var X2:Int = 2;
