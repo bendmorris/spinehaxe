@@ -62,7 +62,7 @@ class DeformTimeline extends CurveTimeline {
 	override public function apply (skeleton:Skeleton, lastTime:Float, time:Float, firedEvents:Array<Event>, alpha:Float, setupPose:Bool, mixingOut:Bool):Void {
 		var slot:Slot = skeleton.slots[slotIndex];
 		var slotAttachment:Attachment = slot.attachment;
-		if (!Std.is(slotAttachment, VertexAttachment) || !(cast(slotAttachment, VertexAttachment).applyDeform(attachment))) return;
+		if (!(slotAttachment is VertexAttachment) || !(cast(slotAttachment, VertexAttachment).applyDeform(attachment))) return;
 
 		var verticesArray:Array<Float> = slot.attachmentVertices;
 		if (time < frames[0]) {

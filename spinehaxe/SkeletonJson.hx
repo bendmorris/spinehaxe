@@ -700,9 +700,9 @@ class SkeletonJson {
 	static private function readCurve(map:JsonNode, timeline:CurveTimeline, frameIndex:Int) : Void {
 		var curve:Dynamic = map.getDynamic("curve");
 		if (curve == null) return;
-		if (Std.is(curve, String) && cast(curve, String) == "stepped")
+		if ((curve is String) && cast(curve, String) == "stepped")
 			timeline.setStepped(frameIndex);
-		else if (Std.is(curve, Array)) {
+		else if ((curve is Array)) {
 			var curveValues:Array<Float> = cast curve;
 			timeline.setCurve(frameIndex, curveValues[0], curveValues[1], curveValues[2], curveValues[3]);
 		}
