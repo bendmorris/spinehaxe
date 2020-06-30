@@ -83,7 +83,7 @@ class SkeletonSprite extends Sprite {
 				continue;
 			}
 
-			if (Std.is(slot.attachment, MeshAttachment))
+			if ((slot.attachment is MeshAttachment))
 			{
 				renderMeshes = true;
 				break;
@@ -152,7 +152,7 @@ class SkeletonSprite extends Sprite {
 		var drawOrder:Array<Slot> = skeleton.drawOrder;
 		for (i in 0 ... drawOrder.length) {
 			var slot:Slot = drawOrder[i];
-			if (slot.attachment == null || !Std.is(slot.attachment, RegionAttachment)) continue;
+			if (slot.attachment == null || !(slot.attachment is RegionAttachment)) continue;
 			var regionAttachment:RegionAttachment = cast slot.attachment;
 			if (regionAttachment != null) {
 				var wrapper:Sprite = regionAttachment.wrapper;
@@ -244,7 +244,7 @@ class SkeletonSprite extends Sprite {
 
 			if (slot.attachment != null)
 			{
-				if (Std.is(slot.attachment, RegionAttachment))
+				if ((slot.attachment is RegionAttachment))
 				{
 					var region:RegionAttachment = cast slot.attachment;
 					verticesLength = 8;
@@ -259,7 +259,7 @@ class SkeletonSprite extends Sprite {
 					b = region.b;
 					a = region.a;
 				}
-				else if (Std.is(slot.attachment, MeshAttachment))
+				else if ((slot.attachment is MeshAttachment))
 				{
 					var mesh:MeshAttachment = cast slot.attachment;
 					verticesLength = mesh.vertices.length;

@@ -163,7 +163,7 @@ class AnimationState {
 				var timelinesFirst:Array<Bool> = current.timelinesFirst;
 				for (ii in 0 ... timelineCount) {
 					var timeline:Timeline = timelines[ii];
-					if (Std.is(timeline, RotateTimeline)) {
+					if ((timeline is RotateTimeline)) {
 						applyRotateTimeline(timeline, skeleton, animationTime, mix, timelinesFirst[ii], timelinesRotation, ii << 1,
 							firstFrame);
 					} else
@@ -205,12 +205,12 @@ class AnimationState {
 		for (i in 0 ... timelineCount) {
 			var timeline:Timeline = timelines[i];
 			var setupPose:Bool = timelinesFirst[i];
-			if (Std.is(timeline, RotateTimeline))
+			if ((timeline is RotateTimeline))
 				applyRotateTimeline(timeline, skeleton, animationTime, alpha, setupPose, timelinesRotation, i << 1, firstFrame);
 			else {
 				if (!setupPose) {
-					if (!attachments && Std.is(timeline, AttachmentTimeline)) continue;
-					if (!drawOrder && Std.is(timeline, DrawOrderTimeline)) continue;
+					if (!attachments && (timeline is AttachmentTimeline)) continue;
+					if (!drawOrder && (timeline is DrawOrderTimeline)) continue;
 				}
 				timeline.apply(skeleton, animationLast, animationTime, events, alpha, setupPose, true);
 			}

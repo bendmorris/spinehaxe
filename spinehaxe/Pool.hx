@@ -43,7 +43,7 @@ package spinehaxe;
 	}
 	
 	public function free(item:T):Void {
-		if (Std.is(item, Poolable)) cast(item, Poolable).reset();
+		if ((item is Poolable)) cast(item, Poolable).reset();
 		items.push(item);
 	}
 	

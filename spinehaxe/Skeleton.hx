@@ -183,7 +183,7 @@ class Skeleton {
 			sortPathConstraintAttachment(data.skins[ii], slotIndex, slotBone);
 
 		var attachment:Attachment = slot.attachment;
-		if (Std.is(attachment, PathAttachment)) sortPathConstraintAttachment2(attachment, slotBone);
+		if ((attachment is PathAttachment)) sortPathConstraintAttachment2(attachment, slotBone);
 
 		var constrained:Array<Bone> = constraint.bones;
 		var boneCount:Int = constrained.length;
