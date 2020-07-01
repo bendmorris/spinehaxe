@@ -33,8 +33,8 @@ package spinehaxe;
 @:enum
 abstract TransformMode(String) from String to String {
 	var normal = "normal";
-	var onlyTranslation = "onlytranslation";
-	var noRotationOrReflection = "norotationorreflection";
-	var noScale = "noscale";
-	var noScaleOrReflection = "noscaleorreflection";
+	var onlyTranslation = "onlyTranslation";
+	var noRotationOrReflection = "noRotationOrReflection";
+	var noScale = "noScale";
+	var noScaleOrReflection = "noScaleOrReflection";
 }

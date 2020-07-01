@@ -279,7 +279,7 @@ class SkeletonJson {
 		var weights:Array<Float> = new Array<Float>();
 		var bones:Array<Int> = new Array<Int>();
 		var i = 0, n = vertices.length;
-		/*while (i < n) {
+		while (i < n) {
 			var boneCount:Int = Std.int(vertices[i++]);
 			bones.push(boneCount);
 			var nn:Int = i + boneCount * 4;
@@ -290,7 +290,7 @@ class SkeletonJson {
 				weights.push(vertices[i + 3]);
 				i += 4;
 			}
-		}*/
+		}
 		attachment.bones = bones;
 		attachment.vertices = weights;
 	}
