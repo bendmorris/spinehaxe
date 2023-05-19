@@ -30,7 +30,7 @@
 
 package spinehaxe;
 
-@:enum
+#if haxe4 enum #else @:enum #end
 abstract PositionMode(String) from String to String {
 	var fixed = "fixed";
 	var percent = "percent";

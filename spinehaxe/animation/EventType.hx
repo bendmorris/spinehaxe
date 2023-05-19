@@ -30,7 +30,7 @@
 
 package spinehaxe.animation;
 
-@:enum
+#if haxe4 enum #else @:enum #end
 abstract EventType(Int) {
 	var Start = 1;
 	var Interrupt = 2;

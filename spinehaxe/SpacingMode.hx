@@ -30,7 +30,7 @@
 
 package spinehaxe;
 
-@:enum
+#if haxe4 enum #else @:enum #end
 abstract SpacingMode(String) from String to String {
 	var length = "length";
 	var fixed = "fixed";

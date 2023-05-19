@@ -25,7 +25,7 @@
 
 package spinehaxe.attachments;
 
-@:enum
+#if haxe4 enum #else @:enum #end
 abstract AttachmentType(String) from String to String {
 	var Region = "region";
 	var RegionSequence = "regionsequence";

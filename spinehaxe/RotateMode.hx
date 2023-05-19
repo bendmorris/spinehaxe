@@ -30,7 +30,7 @@
 
 package spinehaxe;
 
-@:enum
+#if haxe4 enum #else @:enum #end
 abstract RotateMode(String) from String to String {
 	var tangent = "tangent";
 	var chain = "chain";
