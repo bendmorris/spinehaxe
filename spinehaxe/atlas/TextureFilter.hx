@@ -30,7 +30,7 @@
 
 package spinehaxe.atlas;
 
-@:enum
+#if haxe4 enum #else @:enum #end
 abstract TextureFilter(String) from String to String {
 	var Nearest = "nearest";
 	var Linear = "linear";

@@ -30,7 +30,7 @@
 
 package spinehaxe.atlas;
 
-@:enum
+#if haxe4 enum #else @:enum #end
 abstract TextureWrap(String) from String to String {
 	var MirroredRepeat = "mirroredRepeat";
 	var ClampToEdge = "clampToEdge";

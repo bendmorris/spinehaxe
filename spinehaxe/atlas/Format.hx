@@ -30,7 +30,7 @@
 
 package spinehaxe.atlas;
 
-@:enum
+#if haxe4 enum #else @:enum #end
 abstract Format(String) from String to String {
 	var Alpha = "alpha";
 	var Intensity = "intensity";

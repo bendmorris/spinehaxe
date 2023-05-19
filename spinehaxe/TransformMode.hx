@@ -30,7 +30,7 @@
 
 package spinehaxe;
 
-@:enum
+#if haxe4 enum #else @:enum #end
 abstract TransformMode(String) from String to String {
 	var normal = "normal";
 	var onlyTranslation = "onlytranslation";

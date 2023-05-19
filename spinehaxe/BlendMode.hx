@@ -30,7 +30,7 @@
 
 package spinehaxe;
 
-@:enum
+#if haxe4 enum #else @:enum #end
 abstract BlendMode(String) from String to String {
 	var normal = "normal";
 	var additive = "additive";

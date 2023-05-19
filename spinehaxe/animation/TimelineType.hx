@@ -30,7 +30,7 @@
 
 package spinehaxe.animation;
 
-@:enum
+#if haxe4 enum #else @:enum #end
 abstract TimelineType(Int) from Int to Int {
 	var rotate = 0;
 	var translate = 1;
